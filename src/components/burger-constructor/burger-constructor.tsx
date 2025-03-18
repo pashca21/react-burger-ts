@@ -1,4 +1,3 @@
-import { Key } from 'react';
 import {
 	ConstructorElement,
 	Button,
@@ -6,10 +5,12 @@ import {
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import data from '@utils/data';
+import { Ingredient } from '@utils/types';
+import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = () => {
-	const bun_id = '60666c42cc7b410027a1a9b1';
-	const ingredients_ids = [
+	const bunId = '60666c42cc7b410027a1a9b1';
+	const ingredientsIds = [
 		'60666c42cc7b410027a1a9b9',
 		'60666c42cc7b410027a1a9b4',
 		'60666c42cc7b410027a1a9bc',
@@ -19,54 +20,38 @@ export const BurgerConstructor = () => {
 
 	const renderTopBun = () => {
 		return data
-			.filter((ingredient: { _id: string }) => ingredient._id === bun_id)
-			.map(
-				(ingredient: {
-					_id: Key | null | undefined;
-					name: string;
-					type: string;
-					image: string;
-					price: number;
-				}) => (
-					<ConstructorElement
-						key={ingredient._id}
-						type='top'
-						isLocked={true}
-						text={ingredient.name + ' (верх)'}
-						price={ingredient.price}
-						thumbnail={ingredient.image}
-						extraClass={'ml-10 mt-4 mr-4'}
-					/>
-				)
-			);
+			.filter((ingredient: { _id: string }) => ingredient._id === bunId)
+			.map((ingredient: Ingredient) => (
+				<ConstructorElement
+					key={ingredient._id + '_top'}
+					type='top'
+					isLocked={true}
+					text={ingredient.name + ' (верх)'}
+					price={ingredient.price}
+					thumbnail={ingredient.image}
+					extraClass={'ml-10 mt-4 mr-4'}
+				/>
+			));
 	};
 
 	const renderBottomBun = () => {
 		return data
-			.filter((ingredient: { _id: string }) => ingredient._id === bun_id)
-			.map(
-				(ingredient: {
-					_id: Key | null | undefined;
-					name: string;
-					type: string;
-					image: string;
-					price: number;
-				}) => (
-					<ConstructorElement
-						key={ingredient._id}
-						type='bottom'
-						isLocked={true}
-						text={ingredient.name + ' (низ)'}
-						price={ingredient.price}
-						thumbnail={ingredient.image}
-						extraClass={'ml-10 mt-4 mr-4'}
-					/>
-				)
-			);
+			.filter((ingredient: { _id: string }) => ingredient._id === bunId)
+			.map((ingredient: Ingredient) => (
+				<ConstructorElement
+					key={ingredient._id + '_bottom'}
+					type='bottom'
+					isLocked={true}
+					text={ingredient.name + ' (низ)'}
+					price={ingredient.price}
+					thumbnail={ingredient.image}
+					extraClass={'ml-10 mt-4 mr-4'}
+				/>
+			));
 	};
 
 	const renderIngredients = () => {
-		return ingredients_ids.map((id) => {
+		return ingredientsIds.map((id, index) => {
 			const ingredient = data.find(
 				(ingredient: { _id: string }) => ingredient._id === id
 			);
@@ -74,12 +59,8 @@ export const BurgerConstructor = () => {
 
 			return (
 				<div
-					key={ingredient._id}
-					style={{
-						display: 'flex',
-						justifyContent: 'start',
-						alignItems: 'center',
-					}}>
+					key={ingredient._id + '_' + index}
+					className={styles.ingredient_drag}>
 					<DragIcon type='primary' />
 					<ConstructorElement
 						text={ingredient.name}
@@ -94,22 +75,12 @@ export const BurgerConstructor = () => {
 
 	return (
 		<div className='pl-4 pr-4'>
-			<div
-				className={'mt-25'}
-				style={{ display: 'flex', flexDirection: 'column' }}>
+			<div className={`${styles.ingredients} mt-25`}>
 				{renderTopBun()}
-				<div style={{ height: '50vh', overflowY: 'auto' }}>
-					{renderIngredients()}
-				</div>
+				<div className={styles.ingredient_middle}>{renderIngredients()}</div>
 				{renderBottomBun()}
 			</div>
-			<div
-				className={'mt-10 mr-8'}
-				style={{
-					display: 'flex',
-					justifyContent: 'end',
-					alignItems: 'center',
-				}}>
+			<div className={`${styles.total} mt-10 mr-8`}>
 				<p className='text text_type_digits-medium'>610</p>
 				<CurrencyIcon type='primary' className={'mr-10'} />
 				<Button type='primary' size='large' htmlType={'button'}>

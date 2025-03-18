@@ -2,6 +2,7 @@ import {
 	CurrencyIcon,
 	Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import styles from './burger-ingredient.module.css';
 
 export const BurgerIngredient = (props: {
 	image: string | undefined;
@@ -9,20 +10,12 @@ export const BurgerIngredient = (props: {
 	type: string;
 	price: number;
 }) => (
-	<div
-		style={{
-			display: 'flex',
-			textAlign: 'center',
-			flexDirection: 'column',
-			alignItems: 'center',
-			position: 'relative',
-			width: '45%',
-		}}>
-		<div style={{ position: 'absolute', top: 0, right: 0 }}>
+	<div className={styles.ingredient}>
+		<div className={styles.counter}>
 			<Counter count={1} />
 		</div>
-		<img src={props.image} alt={props.name} style={{ margin: '10px 0' }} />
-		<div style={{ display: 'flex' }}>
+		<img src={props.image} alt={props.name} />
+		<div className={styles.price}>
 			<p className='text text_type_digits-default'>{props.price}</p>
 			<CurrencyIcon type={'primary'} />
 		</div>

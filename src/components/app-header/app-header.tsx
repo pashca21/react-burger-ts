@@ -5,26 +5,16 @@ import {
 	ListIcon,
 	ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import styles from './app-header.module.css';
 
 export const AppHeader = () => (
-	<header
-		style={{
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'space-between',
-			flexDirection: 'row',
-			width: '100%',
-		}}>
-		<div
-			style={{
-				display: 'flex',
-			}}>
+	<header className={styles.header}>
+		<div className={styles.left_buttons}>
 			<Button
 				htmlType='button'
 				type='secondary'
 				size='medium'
-				style={{ display: 'flex', alignItems: 'center' }}
-				extraClass={'mt-5 mb-4'}>
+				extraClass={`${styles.button} mt-5 mb-4`}>
 				<BurgerIcon type='secondary' className={'ml-5 mr-2'} />
 				Конструктор
 			</Button>
@@ -32,8 +22,7 @@ export const AppHeader = () => (
 				htmlType='button'
 				type='secondary'
 				size='medium'
-				style={{ display: 'flex', alignItems: 'center' }}
-				extraClass={'mt-5 mb-4'}>
+				extraClass={`${styles.button} mt-5 mb-4`}>
 				<ListIcon type='secondary' className={'ml-5 mr-2'} />
 				Лента заказов
 			</Button>
@@ -46,8 +35,7 @@ export const AppHeader = () => (
 				htmlType='button'
 				type='secondary'
 				size='medium'
-				style={{ display: 'flex', alignItems: 'center' }}
-				extraClass={'mt-5 mb-4'}>
+				extraClass={`${styles.button} mt-5 mb-4`}>
 				<ProfileIcon type='secondary' className={'ml-5 mr-2'} />
 				Личный кабинет
 			</Button>
