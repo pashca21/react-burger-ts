@@ -5,6 +5,7 @@
 	align-items: center;
 	width: 45%;
 	text-align: center;
+	cursor: pointer;
 }
 
 .counter {

@@ -1,27 +1,39 @@
+import { useState } from 'react';
+import { Modal } from '@components/modal/modal';
+import { ModalOverlay } from '@components/modal-overlay/modaloverlay';
+import { OrderDetails } from '@components/order-details/orderdetails';
 import {
 	ConstructorElement,
 	Button,
 	CurrencyIcon,
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import data from '@utils/data';
-import { Ingredient } from '@utils/types';
+import { IngredientProps } from '@utils/types';
 import styles from './burger-constructor.module.css';
 
-export const BurgerConstructor = () => {
-	const bunId = '60666c42cc7b410027a1a9b1';
+export const BurgerConstructor = (props: { data: any[] }) => {
+	const bunId = '643d69a5c3f7b9001cfa093c';
 	const ingredientsIds = [
-		'60666c42cc7b410027a1a9b9',
-		'60666c42cc7b410027a1a9b4',
-		'60666c42cc7b410027a1a9bc',
-		'60666c42cc7b410027a1a9bb',
-		'60666c42cc7b410027a1a9bb',
+		'643d69a5c3f7b9001cfa0944',
+		'643d69a5c3f7b9001cfa093f',
+		'643d69a5c3f7b9001cfa0947',
+		'643d69a5c3f7b9001cfa0946',
+		'643d69a5c3f7b9001cfa0946',
 	];
+	const [isModalOpen, setModalOpen] = useState(false);
+
+	const handleOpenModal = () => {
+		setModalOpen(true);
+	};
+
+	const handleCloseModal = () => {
+		setModalOpen(false);
+	};
 
 	const renderTopBun = () => {
-		return data
+		return props.data
 			.filter((ingredient: { _id: string }) => ingredient._id === bunId)
-			.map((ingredient: Ingredient) => (
+			.map((ingredient: IngredientProps) => (
 				<ConstructorElement
 					key={ingredient._id + '_top'}
 					type='top'
@@ -35,9 +47,9 @@ export const BurgerConstructor = () => {
 	};
 
 	const renderBottomBun = () => {
-		return data
+		return props.data
 			.filter((ingredient: { _id: string }) => ingredient._id === bunId)
-			.map((ingredient: Ingredient) => (
+			.map((ingredient: IngredientProps) => (
 				<ConstructorElement
 					key={ingredient._id + '_bottom'}
 					type='bottom'
@@ -52,7 +64,7 @@ export const BurgerConstructor = () => {
 
 	const renderIngredients = () => {
 		return ingredientsIds.map((id, index) => {
-			const ingredient = data.find(
+			const ingredient = props.data.find(
 				(ingredient: { _id: string }) => ingredient._id === id
 			);
 			if (!ingredient) return null;
@@ -80,13 +92,24 @@ export const BurgerConstructor = () => {
 				<div className={styles.ingredient_middle}>{renderIngredients()}</div>
 				{renderBottomBun()}
 			</div>
-			<div className={`${styles.total} mt-10 mr-8`}>
+			<div className={`${styles.total} mt-10 mr-8 mb-10`}>
 				<p className='text text_type_digits-medium'>610</p>
 				<CurrencyIcon type='primary' className={'mr-10'} />
-				<Button type='primary' size='large' htmlType={'button'}>
+				<Button
+					type='primary'
+					size='large'
+					htmlType={'button'}
+					onClick={handleOpenModal}>
 					Оформить заказ
 				</Button>
 			</div>
+			{isModalOpen && (
+				<ModalOverlay onClose={handleCloseModal}>
+					<Modal onClose={handleCloseModal} title='Детали заказа'>
+						<OrderDetails />
+					</Modal>
+				</ModalOverlay>
+			)}
 		</div>
 	);
 };

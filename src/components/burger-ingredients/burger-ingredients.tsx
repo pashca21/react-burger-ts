@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerIngredient } from '@components/burger-ingredients/burger-ingredient';
-import data from '@utils/data';
-import { Ingredient } from '@utils/types';
+import { IngredientProps } from '@utils/types';
 import styles from './burger-ingredients.module.css';
 
-export const BurgerIngredients = () => {
+export const BurgerIngredients = (props: { data: IngredientProps[] }) => {
 	const IngredientTypeBun = 'bun';
 	const IngredientTypeMain = 'main';
 	const IngredientTypeSauce = 'sauce';
@@ -17,15 +16,19 @@ export const BurgerIngredients = () => {
 	};
 
 	const renderIngredients = (type: string) => {
-		return data
+		return props.data
 			.filter((ingredient: { type: string }) => ingredient.type === type)
-			.map((ingredient: Ingredient) => (
+			.map((ingredient: IngredientProps) => (
 				<BurgerIngredient
 					key={ingredient._id}
 					name={ingredient.name}
 					type={ingredient.type}
 					image={ingredient.image}
 					price={ingredient.price}
+					calories={ingredient.calories}
+					proteins={ingredient.proteins}
+					fat={ingredient.fat}
+					carbohydrates={ingredient.carbohydrates}
 				/>
 			));
 	};
