@@ -5,16 +5,19 @@ import styles from './app.module.css';
 import { useState, useEffect } from 'react';
 
 export const App = () => {
-	const API_URl = 'https://norma.nomoreparties.space/api/ingredients';
+	const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
 	const [data, setData] = useState([]);
 
 	useEffect(() => {
-		fetch(API_URl)
-			.then((res) => res.json())
+		fetch(API_URL)
+			.then((res) => {
+				if (res.ok) return res.json();
+				return Promise.reject(`Ошибка: ${res.status}`);
+			})
 			.then((data) => {
 				setData(data.data);
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => console.error(err));
 	}, []);
 
 	return (

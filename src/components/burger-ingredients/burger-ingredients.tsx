@@ -19,17 +19,7 @@ export const BurgerIngredients = (props: { data: IngredientProps[] }) => {
 		return props.data
 			.filter((ingredient: { type: string }) => ingredient.type === type)
 			.map((ingredient: IngredientProps) => (
-				<BurgerIngredient
-					key={ingredient._id}
-					name={ingredient.name}
-					type={ingredient.type}
-					image={ingredient.image}
-					price={ingredient.price}
-					calories={ingredient.calories}
-					proteins={ingredient.proteins}
-					fat={ingredient.fat}
-					carbohydrates={ingredient.carbohydrates}
-				/>
+				<BurgerIngredient key={ingredient._id} ingredient={ingredient} />
 			));
 	};
 

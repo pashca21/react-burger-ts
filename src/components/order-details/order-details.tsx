@@ -1,5 +1,5 @@
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './orderdetails.module.css';
+import styles from './order-details.module.css';
 
 export const OrderDetails = () => {
 	return (

@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import { Modal } from '@components/modal/modal';
-import { ModalOverlay } from '@components/modal-overlay/modaloverlay';
-import { OrderDetails } from '@components/order-details/orderdetails';
+import { OrderDetails } from '@components/order-details/order-details';
 import {
 	ConstructorElement,
 	Button,
@@ -10,6 +8,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientProps } from '@utils/types';
 import styles from './burger-constructor.module.css';
+import { useModal } from '../../hooks/useModal';
 
 export const BurgerConstructor = (props: { data: any[] }) => {
 	const bunId = '643d69a5c3f7b9001cfa093c';
@@ -20,15 +19,7 @@ export const BurgerConstructor = (props: { data: any[] }) => {
 		'643d69a5c3f7b9001cfa0946',
 		'643d69a5c3f7b9001cfa0946',
 	];
-	const [isModalOpen, setModalOpen] = useState(false);
-
-	const handleOpenModal = () => {
-		setModalOpen(true);
-	};
-
-	const handleCloseModal = () => {
-		setModalOpen(false);
-	};
+	const { isModalOpen, openModal, closeModal } = useModal();
 
 	const renderTopBun = () => {
 		return props.data
@@ -99,16 +90,14 @@ export const BurgerConstructor = (props: { data: any[] }) => {
 					type='primary'
 					size='large'
 					htmlType={'button'}
-					onClick={handleOpenModal}>
+					onClick={openModal}>
 					Оформить заказ
 				</Button>
 			</div>
 			{isModalOpen && (
-				<ModalOverlay onClose={handleCloseModal}>
-					<Modal onClose={handleCloseModal} title='Детали заказа'>
-						<OrderDetails />
-					</Modal>
-				</ModalOverlay>
+				<Modal onClose={closeModal} title='Детали заказа'>
+					<OrderDetails />
+				</Modal>
 			)}
 		</div>
 	);

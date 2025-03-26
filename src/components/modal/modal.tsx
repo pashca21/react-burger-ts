@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './modal.module.css';
 import { ModalProps } from '@utils/types';
+import { ModalOverlay } from '@components/modal-overlay/modal-overlay';
 
 export const Modal = ({ children, onClose, title }: ModalProps) => {
 	useEffect(() => {
@@ -19,15 +20,15 @@ export const Modal = ({ children, onClose, title }: ModalProps) => {
 	}, [onClose]);
 
 	return createPortal(
-		<div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-			<div className={styles.modalHeader}>
-				<p className='text text_type_main-medium'>{title}</p>
-				<button onClick={onClose}>
-					<CloseIcon type='primary' />
-				</button>
+		<ModalOverlay onClose={onClose}>
+			<div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+				<div className={styles.modalHeader}>
+					<p className='text text_type_main-medium'>{title}</p>
+					<CloseIcon type='primary' onClick={onClose} />
+				</div>
+				{children}
 			</div>
-			{children}
-		</div>,
+		</ModalOverlay>,
 		document.getElementById('react-modals') as HTMLElement
 	);
 };

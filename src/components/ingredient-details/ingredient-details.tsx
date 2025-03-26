@@ -1,18 +1,16 @@
-import styles from './ingredientdetails.module.css';
+import styles from './ingredient-details.module.css';
+import { IngredientProps } from '@utils/types';
 
-export const IngredientDetails = (props: {
-	image: string | undefined;
-	name: string;
-	calories: number;
-	proteins: number;
-	fat: number;
-	carbohydrates: number;
-}) => {
+export const IngredientDetails = (props: { ingredient: IngredientProps }) => {
 	return (
 		<div className={styles.ingredientDetails}>
-			<img src={props.image} alt={props.name} className='mb-4' />
+			<img
+				src={props.ingredient.image_large}
+				alt={props.ingredient.name}
+				className='mb-4'
+			/>
 			<div className='mb-8'>
-				<p className='text text_type_main-medium'>{props.name}</p>
+				<p className='text text_type_main-medium'>{props.ingredient.name}</p>
 			</div>
 			<div className={styles.ingredientContent + ' mb-15'}>
 				<div className='mr-5'>
@@ -20,7 +18,7 @@ export const IngredientDetails = (props: {
 						Калории, ккал
 					</p>
 					<p className='text text_type_digits-default text_color_inactive'>
-						{props.calories}
+						{props.ingredient.calories}
 					</p>
 				</div>
 				<div className='mr-5'>
@@ -28,7 +26,7 @@ export const IngredientDetails = (props: {
 						Белки, г
 					</p>
 					<p className='text text_type_digits-default text_color_inactive'>
-						{props.proteins}
+						{props.ingredient.proteins}
 					</p>
 				</div>
 				<div className='mr-5'>
@@ -36,7 +34,7 @@ export const IngredientDetails = (props: {
 						Жиры, г
 					</p>
 					<p className='text text_type_digits-default text_color_inactive'>
-						{props.fat}
+						{props.ingredient.fat}
 					</p>
 				</div>
 				<div>
@@ -44,7 +42,7 @@ export const IngredientDetails = (props: {
 						Углеводы, г
 					</p>
 					<p className='text text_type_digits-default text_color_inactive'>
-						{props.carbohydrates}
+						{props.ingredient.carbohydrates}
 					</p>
 				</div>
 			</div>
