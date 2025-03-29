@@ -1,0 +1,13 @@
+.index {
+	height: 100vh;
+}
+
+.main {
+	display: flex;
+	max-width: 1280px;
+	margin: 0 auto;
+}
+
+.section {
+	flex: 1;
+}

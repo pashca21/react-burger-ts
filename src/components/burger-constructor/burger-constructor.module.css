@@ -1,0 +1,21 @@
+.ingredients {
+	display: flex;
+	flex-direction: column;
+}
+
+.ingredient_middle {
+	height: 40vh;
+	overflow-y: auto;
+}
+
+.ingredient_drag {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.total {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
