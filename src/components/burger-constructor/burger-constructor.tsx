@@ -1,98 +1,120 @@
 import { Modal } from '@components/modal/modal';
 import { OrderDetails } from '@components/order-details/order-details';
 import {
-	ConstructorElement,
 	Button,
 	CurrencyIcon,
-	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientProps } from '@utils/types';
 import styles from './burger-constructor.module.css';
 import { useModal } from '../../hooks/useModal';
+import { useSelector, useDispatch } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import {
+	ADD_BUN,
+	ADD_INGREDIENT,
+	MOVE_INGREDIENT,
+} from '@services/actions/constructor';
+import { createOrder, VIEW_ORDER } from '@services/actions/order';
+import { ConstructorBunTop } from '@components/burger-constructor/constructor-bun-top';
+import { ConstructorBunBottom } from '@components/burger-constructor/constructor-bun-bottom';
+import { ConstructorIngredient } from '@components/burger-constructor/constructor-ingredient';
 
-export const BurgerConstructor = (props: { data: any[] }) => {
-	const bunId = '643d69a5c3f7b9001cfa093c';
-	const ingredientsIds = [
-		'643d69a5c3f7b9001cfa0944',
-		'643d69a5c3f7b9001cfa093f',
-		'643d69a5c3f7b9001cfa0947',
-		'643d69a5c3f7b9001cfa0946',
-		'643d69a5c3f7b9001cfa0946',
-	];
+export const BurgerConstructor = () => {
+	const dispatch = useDispatch();
 	const { isModalOpen, openModal, closeModal } = useModal();
 
-	const renderTopBun = () => {
-		return props.data
-			.filter((ingredient: { _id: string }) => ingredient._id === bunId)
-			.map((ingredient: IngredientProps) => (
-				<ConstructorElement
-					key={ingredient._id + '_top'}
-					type='top'
-					isLocked={true}
-					text={ingredient.name + ' (верх)'}
-					price={ingredient.price}
-					thumbnail={ingredient.image}
-					extraClass={'ml-10 mt-4 mr-4'}
-				/>
-			));
+	const [, dropTarget] = useDrop({
+		accept: 'ingredient',
+		drop(ingredient: IngredientProps) {
+			if (ingredient.type === 'bun') {
+				dispatch({
+					type: ADD_BUN,
+					ingredient: ingredient,
+				});
+			} else {
+				dispatch({
+					type: ADD_INGREDIENT,
+					ingredient: ingredient,
+				});
+			}
+		},
+	});
+
+	const moveIngredient = (dragIndex: number, hoverIndex: number) => {
+		dispatch({
+			type: MOVE_INGREDIENT,
+			dragIndex: dragIndex,
+			hoverIndex: hoverIndex,
+		});
 	};
 
-	const renderBottomBun = () => {
-		return props.data
-			.filter((ingredient: { _id: string }) => ingredient._id === bunId)
-			.map((ingredient: IngredientProps) => (
-				<ConstructorElement
-					key={ingredient._id + '_bottom'}
-					type='bottom'
-					isLocked={true}
-					text={ingredient.name + ' (низ)'}
-					price={ingredient.price}
-					thumbnail={ingredient.image}
-					extraClass={'ml-10 mt-4 mr-4'}
-				/>
-			));
+	const constructorBun = useSelector((state: any) => state.constructor.bun);
+
+	const constructorIngredients = useSelector(
+		(state: any) => state.constructor.ingredients
+	);
+
+	let totalPrice = 0;
+	if (constructorBun) {
+		totalPrice += constructorBun.price * 2;
+	}
+	if (constructorIngredients) {
+		totalPrice += constructorIngredients.reduce(
+			(acc: number, ingredient: IngredientProps) => {
+				return acc + ingredient.price;
+			},
+			0
+		);
+	}
+
+	const handleCreateOrder = () => {
+		const ingredientsIds = constructorIngredients.map(
+			(ingredient: IngredientProps) => ingredient._id
+		);
+		if (constructorBun) {
+			ingredientsIds.unshift(constructorBun._id);
+		}
+		dispatch<any>(createOrder(ingredientsIds));
+		dispatch({ type: VIEW_ORDER });
+		openModal();
 	};
 
 	const renderIngredients = () => {
-		return ingredientsIds.map((id, index) => {
-			const ingredient = props.data.find(
-				(ingredient: { _id: string }) => ingredient._id === id
-			);
-			if (!ingredient) return null;
-
-			return (
-				<div
-					key={ingredient._id + '_' + index}
-					className={styles.ingredient_drag}>
-					<DragIcon type='primary' />
-					<ConstructorElement
-						text={ingredient.name}
-						price={ingredient.price}
-						thumbnail={ingredient.image}
-						extraClass={'ml-4 mt-4 mr-4'}
-					/>
-				</div>
-			);
-		});
+		if (!constructorIngredients) return null;
+		return constructorIngredients.map(
+			(ingredient: IngredientProps, index: number) => {
+				return (
+					<ConstructorIngredient
+						key={ingredient._id + '_' + index}
+						ingredient={ingredient}
+						index={index}
+						moveIngredient={moveIngredient}></ConstructorIngredient>
+				);
+			}
+		);
 	};
 
 	return (
 		<div className='pl-4 pr-4'>
-			<div className={`${styles.ingredients} mt-25`}>
-				{renderTopBun()}
+			<div ref={dropTarget} className={`${styles.ingredients} mt-25`}>
+				<ConstructorBunTop />
 				<div className={styles.ingredient_middle}>{renderIngredients()}</div>
-				{renderBottomBun()}
+				<ConstructorBunBottom />
 			</div>
 			<div className={`${styles.total} mt-10 mr-8 mb-10`}>
-				<p className='text text_type_digits-medium'>610</p>
+				<p className='text text_type_digits-medium'>{totalPrice}</p>
 				<CurrencyIcon type='primary' className={'mr-10'} />
-				<Button
-					type='primary'
-					size='large'
-					htmlType={'button'}
-					onClick={openModal}>
-					Оформить заказ
-				</Button>
+				{constructorBun &&
+					constructorIngredients &&
+					constructorIngredients.length > 0 && (
+						<Button
+							type='primary'
+							size='large'
+							htmlType={'button'}
+							onClick={handleCreateOrder}>
+							Оформить заказ
+						</Button>
+					)}
 			</div>
 			{isModalOpen && (
 				<Modal onClose={closeModal} title='Детали заказа'>
