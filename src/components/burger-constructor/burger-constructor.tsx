@@ -7,7 +7,6 @@ import {
 import { IngredientProps } from '@utils/types';
 import styles from './burger-constructor.module.css';
 import { useModal } from '../../hooks/useModal';
-import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import {
 	ADD_BUN,
@@ -18,9 +17,11 @@ import { createOrder, VIEW_ORDER } from '@services/actions/order';
 import { ConstructorBunTop } from '@components/burger-constructor/constructor-bun-top';
 import { ConstructorBunBottom } from '@components/burger-constructor/constructor-bun-bottom';
 import { ConstructorIngredient } from '@components/burger-constructor/constructor-ingredient';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 export const BurgerConstructor = () => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const { isModalOpen, openModal, closeModal } = useModal();
 
 	const [, dropTarget] = useDrop({
@@ -48,9 +49,9 @@ export const BurgerConstructor = () => {
 		});
 	};
 
-	const constructorBun = useSelector((state: any) => state.constructor.bun);
+	const constructorBun = useAppSelector((state: any) => state.constructor.bun);
 
-	const constructorIngredients = useSelector(
+	const constructorIngredients = useAppSelector(
 		(state: any) => state.constructor.ingredients
 	);
 
@@ -85,7 +86,7 @@ export const BurgerConstructor = () => {
 			(ingredient: IngredientProps, index: number) => {
 				return (
 					<ConstructorIngredient
-						key={ingredient._id + '_' + index}
+						key={ingredient.uniqueId}
 						ingredient={ingredient}
 						index={index}
 						moveIngredient={moveIngredient}></ConstructorIngredient>

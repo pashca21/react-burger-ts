@@ -6,7 +6,7 @@ import { IngredientProps } from '@utils/types';
 import styles from './burger-constructor.module.css';
 import { useDrag, useDrop } from 'react-dnd';
 import { REMOVE_INGREDIENT } from '@services/actions/constructor';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 export const ConstructorIngredient = ({
 	ingredient,
@@ -17,7 +17,7 @@ export const ConstructorIngredient = ({
 	index: number;
 	moveIngredient: (dragIndex: number, hoverIndex: number) => void;
 }) => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const removeIngredient = (index: number) => {
 		dispatch({

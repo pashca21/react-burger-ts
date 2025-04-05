@@ -1,40 +1,39 @@
-export const getIngredientsRequest = async () => {
-	const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
+import { request } from '@utils/functions';
 
-	const res = await fetch(API_URL);
-	if (!res.ok) {
+export const getIngredientsRequest = async () => {
+	try {
+		const data = await request('ingredients');
+		return {
+			success: true,
+			ingredients: data.data,
+		};
+	} catch (error) {
 		return {
 			success: false,
-			message: `Ошибка: ${res.status}`,
+			message: error,
 		};
 	}
-	const data = await res.json();
-	return {
-		success: true,
-		ingredients: data.data,
-	};
 };
 
 export const createOrderRequest = async (ingredients_ids: string[]) => {
-	const API_URL = 'https://norma.nomoreparties.space/api/orders';
-	const res = await fetch(API_URL, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({
-			ingredients: ingredients_ids,
-		}),
-	});
-	if (!res.ok) {
+	try {
+		const data = await request('orders', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				ingredients: ingredients_ids,
+			}),
+		});
+		return {
+			success: true,
+			data: data,
+		};
+	} catch (error) {
 		return {
 			success: false,
-			message: `Ошибка: ${res.status}`,
+			message: error,
 		};
 	}
-	const data = await res.json();
-	return {
-		success: true,
-		data: data,
-	};
 };

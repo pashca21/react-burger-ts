@@ -1,12 +1,12 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 export const ConstructorBunTop = () => {
-	const ingredient = useSelector((state: any) => state.constructor.bun);
+	const ingredient = useAppSelector((state: any) => state.constructor.bun);
 	if (!ingredient) return null;
 	return (
 		<ConstructorElement
-			key={ingredient._id + '_top'}
+			key={ingredient.uniqueId}
 			type='top'
 			isLocked={true}
 			text={ingredient.name + ' (верх)'}

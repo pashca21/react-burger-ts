@@ -7,15 +7,16 @@ import { useModal } from '../../hooks/useModal';
 import { Modal } from '@components/modal/modal';
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { IngredientProps } from '@utils/types';
-import { useDispatch, useSelector } from 'react-redux';
 import {
 	CLOSE_INGREDIENT,
 	VIEW_INGREDIENT,
 } from '@services/actions/ingredient';
 import { useDrag } from 'react-dnd';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 export const BurgerIngredient = (props: { ingredient: IngredientProps }) => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -27,7 +28,7 @@ export const BurgerIngredient = (props: { ingredient: IngredientProps }) => {
 		}),
 	});
 
-	const constructorIngredients = useSelector(
+	const constructorIngredients = useAppSelector(
 		(state: any) => state.constructor.ingredients
 	);
 

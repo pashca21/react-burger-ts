@@ -1,8 +1,10 @@
 import styles from './ingredient-details.module.css';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 export const IngredientDetails = () => {
-	const ingredient = useSelector((state: any) => state.ingredient.ingredient);
+	const ingredient = useAppSelector(
+		(state: any) => state.ingredient.ingredient
+	);
 
 	return (
 		<div className={styles.ingredientDetails}>

@@ -1,6 +1,7 @@
 import { Key, ReactNode } from 'react';
 
 export interface IngredientProps {
+	uniqueId?: string;
 	_id: Key | null | undefined;
 	name: string;
 	type: string;

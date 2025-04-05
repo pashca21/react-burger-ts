@@ -1,4 +1,8 @@
-import { CREATE_ORDER_SUCCESS, VIEW_ORDER } from '@services/actions/order';
+import {
+	CLEAR_ORDER,
+	CREATE_ORDER_SUCCESS,
+	VIEW_ORDER,
+} from '@services/actions/order';
 
 const initialState = {
 	name: '',
@@ -26,6 +30,13 @@ export const orderReducer = (
 				...state,
 				name: action.name,
 				number: action.number,
+			};
+		}
+		case CLEAR_ORDER: {
+			return {
+				...state,
+				name: '',
+				number: 0,
 			};
 		}
 		default: {

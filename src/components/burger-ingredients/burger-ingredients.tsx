@@ -3,7 +3,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerIngredient } from '@components/burger-ingredients/burger-ingredient';
 import { IngredientProps } from '@utils/types';
 import styles from './burger-ingredients.module.css';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 export const BurgerIngredients = () => {
 	const IngredientTypeBun = 'bun';
@@ -12,7 +12,7 @@ export const BurgerIngredients = () => {
 
 	const [currentTab, setCurrentTab] = useState(IngredientTypeBun);
 
-	const ingredients = useSelector(
+	const ingredients = useAppSelector(
 		(state: any) => state.ingredients.ingredients
 	);
 
