@@ -1,16 +1,20 @@
 import styles from './ingredient-details.module.css';
-import { IngredientProps } from '@utils/types';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
-export const IngredientDetails = (props: { ingredient: IngredientProps }) => {
+export const IngredientDetails = () => {
+	const ingredient = useAppSelector(
+		(state: any) => state.ingredient.ingredient
+	);
+
 	return (
 		<div className={styles.ingredientDetails}>
 			<img
-				src={props.ingredient.image_large}
-				alt={props.ingredient.name}
+				src={ingredient.image_large}
+				alt={ingredient.name}
 				className='mb-4'
 			/>
 			<div className='mb-8'>
-				<p className='text text_type_main-medium'>{props.ingredient.name}</p>
+				<p className='text text_type_main-medium'>{ingredient.name}</p>
 			</div>
 			<div className={styles.ingredientContent + ' mb-15'}>
 				<div className='mr-5'>
@@ -18,7 +22,7 @@ export const IngredientDetails = (props: { ingredient: IngredientProps }) => {
 						Калории, ккал
 					</p>
 					<p className='text text_type_digits-default text_color_inactive'>
-						{props.ingredient.calories}
+						{ingredient.calories}
 					</p>
 				</div>
 				<div className='mr-5'>
@@ -26,7 +30,7 @@ export const IngredientDetails = (props: { ingredient: IngredientProps }) => {
 						Белки, г
 					</p>
 					<p className='text text_type_digits-default text_color_inactive'>
-						{props.ingredient.proteins}
+						{ingredient.proteins}
 					</p>
 				</div>
 				<div className='mr-5'>
@@ -34,7 +38,7 @@ export const IngredientDetails = (props: { ingredient: IngredientProps }) => {
 						Жиры, г
 					</p>
 					<p className='text text_type_digits-default text_color_inactive'>
-						{props.ingredient.fat}
+						{ingredient.fat}
 					</p>
 				</div>
 				<div>
@@ -42,7 +46,7 @@ export const IngredientDetails = (props: { ingredient: IngredientProps }) => {
 						Углеводы, г
 					</p>
 					<p className='text text_type_digits-default text_color_inactive'>
-						{props.ingredient.carbohydrates}
+						{ingredient.carbohydrates}
 					</p>
 				</div>
 			</div>
