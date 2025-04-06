@@ -1,10 +1,11 @@
-import { v4 as uuid } from 'uuid';
 import {
 	ADD_BUN,
 	ADD_INGREDIENT,
 	MOVE_INGREDIENT,
 	REMOVE_INGREDIENT,
 	CLEAR_CONSTRUCTOR,
+	addIngredient,
+	addBun,
 } from '@services/actions/constructor';
 import { IngredientProps } from '@utils/types';
 
@@ -27,7 +28,7 @@ export const constructorReducer = (
 		case ADD_BUN: {
 			return {
 				...state,
-				bun: action.ingredient,
+				bun: addBun(action.ingredient).ingredient,
 			};
 		}
 		case ADD_INGREDIENT: {
@@ -35,7 +36,7 @@ export const constructorReducer = (
 				...state,
 				ingredients: [
 					...(state.ingredients || []),
-					{ ...action.ingredient, uniqueId: uuid() },
+					addIngredient(action.ingredient).ingredient,
 				],
 			};
 		}
