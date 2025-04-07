@@ -2,35 +2,32 @@ import { AppHeader } from '@components/app-header/app-header';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import styles from './app.module.css';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { getIngredients } from '@services/actions/ingredients';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 export const App = () => {
-	const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
-	const [data, setData] = useState([]);
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		fetch(API_URL)
-			.then((res) => {
-				if (res.ok) return res.json();
-				return Promise.reject(`Ошибка: ${res.status}`);
-			})
-			.then((data) => {
-				setData(data.data);
-			})
-			.catch((err) => console.error(err));
-	}, []);
+		dispatch<any>(getIngredients());
+	}, [dispatch]);
 
 	return (
 		<div className={styles.index}>
 			<AppHeader />
-			<main className={styles.main}>
-				<section className={styles.section}>
-					<BurgerIngredients data={data} />
-				</section>
-				<section className={styles.section}>
-					<BurgerConstructor data={data} />
-				</section>
-			</main>
+			<DndProvider backend={HTML5Backend}>
+				<main className={styles.main}>
+					<section className={styles.section}>
+						<BurgerIngredients />
+					</section>
+					<section className={styles.section}>
+						<BurgerConstructor />
+					</section>
+				</main>
+			</DndProvider>
 		</div>
 	);
 };
