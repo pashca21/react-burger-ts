@@ -5,7 +5,7 @@ import { VIEW_INGREDIENT } from '@services/actions/ingredient';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 
 export const IngredientPage = () => {
-	const dispatch = useAppDispatch();
+	// const dispatch = useAppDispatch();
 	useEffect(() => {
 		// TODO: match ingredient by id in query
 		// dispatch({ type: VIEW_INGREDIENT, ingredient: props.ingredient });
