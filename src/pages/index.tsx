@@ -1,7 +1,8 @@
 import { HomePage } from '@pages/home';
 import { LoginPage } from '@pages/login';
+import { LogoutPage } from '@pages/logout';
 import { RegisterPage } from '@pages/register';
-import { ForgotPasswordPage} from '@pages/forgot-password';
+import { ForgotPasswordPage } from '@pages/forgot-password';
 import { ResetPasswordPage } from '@pages/reset-password';
 import { NotFoundPage } from '@pages/not-found';
 import { ProfilePage } from '@pages/profile';
@@ -11,6 +12,7 @@ import { IngredientPage } from '@pages/ingredient';
 export {
 	HomePage,
 	LoginPage,
+	LogoutPage,
 	RegisterPage,
 	ForgotPasswordPage,
 	ResetPasswordPage,

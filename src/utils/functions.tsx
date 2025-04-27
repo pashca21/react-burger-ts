@@ -1,5 +1,5 @@
 import { BASE_URL } from '@utils/constants';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const checkResponse = (res: Response) => {
 	if (res.ok) {
@@ -21,11 +21,21 @@ export const request = async (url: string, options?: RequestInit) => {
 		.then(checkSuccess);
 };
 
-export const decodeToken = (token: string): JwtPayload | null => {
+interface DecodedToken {
+	exp: number;
+	[key: string]: any;
+}
+
+export const decodeTokenAndGetExp = (
+	token: string | undefined
+): number | null => {
+	if (!token) {
+		return null;
+	}
 	try {
-		return jwtDecode<JwtPayload>(token);
+		const decoded: DecodedToken = jwtDecode(token);
+		return decoded.exp || null;
 	} catch (error) {
-		console.error('Ошибка декодирования токена:', error);
 		return null;
 	}
 };

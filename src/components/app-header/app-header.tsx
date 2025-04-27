@@ -7,22 +7,20 @@ import {
 	ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
-import { useAppSelector } from '../../hooks/useAppSelector';
 
 export const AppHeader = () => {
 	const navigate = useNavigate();
-	const isAuth = useAppSelector((state: any) => state.auth.isAuth);
 
 	const handleHomeLink = () => {
 		navigate('/');
 	};
 
 	const handleProfileLink = () => {
-		navigate(isAuth ? '/profile' : '/login');
+		navigate('/profile');
 	};
 
 	const handleOrdersLink = () => {
-		navigate(isAuth ? '/profile' : '/login');
+		navigate('/profile/orders');
 	};
 
 	return (

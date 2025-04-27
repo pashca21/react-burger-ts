@@ -32,7 +32,6 @@ export const createOrder = (ingredients_ids: string[]) => {
 				});
 			})
 			.catch((err) => {
-				console.error(err);
 				dispatch({
 					type: CREATE_ORDER_FAILED,
 					message: err.message,

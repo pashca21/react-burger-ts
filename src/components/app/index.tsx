@@ -7,7 +7,9 @@ import {
 	ResetPasswordPage,
 	NotFoundPage,
 	ProfilePage,
-	IngredientPage, OrdersPage,
+	IngredientPage,
+	OrdersPage,
+	LogoutPage,
 } from '@pages/index';
 import { AppHeader } from '@components/app-header/app-header';
 import styles from './app.module.css';
@@ -26,23 +28,30 @@ export const App = () => {
 	}, [dispatch]);
 
 	return (
-		<BrowserRouter>
+		<BrowserRouter basename={'/'}>
 			<div className={styles.index}>
 				<AppHeader />
 				<DndProvider backend={HTML5Backend}>
 					<main className={styles.main}>
 						<Routes>
 							<Route path='/' element={<HomePage />} />
+							<Route path='/ingredients/:id' element={<IngredientPage />} />
+							<Route
+								path='/profile/orders'
+								element={<ProtectedRouteElement element={<OrdersPage />} />}
+							/>
 							<Route
 								path='/profile'
-								element={<ProtectedRouteElement element={<ProfilePage />} />}>
-								<Route path='orders' element={<OrdersPage />} />
-							</Route>
-							<Route path='/ingredients/:id' element={<IngredientPage />} />
+								element={<ProtectedRouteElement element={<ProfilePage />} />}
+							/>
 							<Route path='/login' element={<LoginPage />} />
 							<Route path='/register' element={<RegisterPage />} />
 							<Route path='/forgot-password' element={<ForgotPasswordPage />} />
 							<Route path='/reset-password' element={<ResetPasswordPage />} />
+							<Route
+								path='/logout'
+								element={<ProtectedRouteElement element={<LogoutPage />} />}
+							/>
 							<Route path='*' element={<NotFoundPage />} />
 						</Routes>
 					</main>

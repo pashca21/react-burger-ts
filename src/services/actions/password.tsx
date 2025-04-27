@@ -35,7 +35,6 @@ export const forgotPassword = (email: string) => {
 				});
 			})
 			.catch((err) => {
-				console.error(err);
 				dispatch({
 					type: FORGOT_PASSWORD_FAILED,
 					message: err.message,
@@ -67,7 +66,6 @@ export const resetPassword = (password: string, token: string) => {
 				});
 			})
 			.catch((err) => {
-				console.error(err);
 				dispatch({
 					type: RESET_PASSWORD_FAILED,
 					message: err.message,

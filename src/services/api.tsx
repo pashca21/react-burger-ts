@@ -193,7 +193,7 @@ export const getUserRequest = async (accessToken: string) => {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${accessToken}`,
+				Authorization: 'Bearer ' + accessToken,
 			},
 		});
 		return {
@@ -219,7 +219,7 @@ export const patchUserRequest = async (
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${accessToken}`,
+				Authorization: 'Bearer ' + accessToken,
 			},
 			body: JSON.stringify({
 				email,

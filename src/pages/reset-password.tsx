@@ -7,10 +7,15 @@ import styles from './login.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { resetPassword } from '@services/actions/password';
 import { useAppDispatch } from '../hooks/useAppDispatch';
+import { useAppSelector } from '../hooks/useAppSelector';
 
 export const ResetPasswordPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+
+	const { isAuth } = useAppSelector((state: any) => state.auth);
+	if (isAuth) navigate('/');
+
 	const [form, setValue] = useState({ password: '', token: '' });
 	const onChange = (e: {
 		target: {
@@ -21,11 +26,8 @@ export const ResetPasswordPage = () => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
 	const handleClickResetPassword = () => {
-		dispatch<any>(resetPassword(form.password, form.token)).then((res: any) => {
-			if (res.success) {
-				navigate('/login');
-			}
-		});
+		dispatch<any>(resetPassword(form.password, form.token));
+		navigate('/login');
 	};
 
 	return (
@@ -39,7 +41,7 @@ export const ResetPasswordPage = () => {
 						type='password'
 						placeholder='Введите новый пароль'
 						name='password'
-						value={''}
+						value={form.password}
 						onChange={onChange}
 						extraClass={'mb-6'}
 						icon={'ShowIcon'}
@@ -49,7 +51,7 @@ export const ResetPasswordPage = () => {
 						type='text'
 						placeholder='Введите код из письма'
 						name='token'
-						value={''}
+						value={form.token}
 						onChange={onChange}
 						extraClass={'mb-6'}
 						required={true}

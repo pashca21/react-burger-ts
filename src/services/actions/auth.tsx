@@ -1,4 +1,5 @@
 import {
+	getUserRequest,
 	patchUserRequest,
 	postLoginRequest,
 	postLogoutRequest,
@@ -10,7 +11,6 @@ import Cookies from 'js-cookie';
 export const REGISTER_REQUEST = 'REGISTER_REQUEST';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAILED = 'REGISTER_FAILED';
-export const CLEAR_REGISTER_FORM = 'CLEAR_REGISTER_FORM';
 export const UPDATE_ACCESS_TOKEN_REQUEST = 'UPDATE_ACCESS_TOKEN_REQUEST';
 export const UPDATE_ACCESS_TOKEN_SUCCESS = 'UPDATE_ACCESS_TOKEN_SUCCESS';
 export const UPDATE_ACCESS_TOKEN_FAILED = 'UPDATE_ACCESS_TOKEN_FAILED';
@@ -21,6 +21,9 @@ export const CLEAR_LOGIN = 'CLEAR_LOGIN';
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILED = 'LOGOUT_FAILED';
+export const GET_USER_REQUEST = 'GET_USER_REQUEST';
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+export const GET_USER_FAILED = 'GET_USER_FAILED';
 export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const UPDATE_USER_FAILED = 'UPDATE_USER_FAILED';
@@ -33,7 +36,6 @@ export const register = (name: string, email: string, password: string) => {
 		postRegisterRequest(name, email, password)
 			.then((res) => {
 				if (res.success) {
-					console.log(res.data);
 					const accessToken = res.data.accessToken.replace('Bearer ', '');
 					dispatch({
 						type: REGISTER_SUCCESS,
@@ -48,7 +50,6 @@ export const register = (name: string, email: string, password: string) => {
 				}
 			})
 			.catch((err) => {
-				console.error(err);
 				dispatch({
 					type: REGISTER_FAILED,
 					message: err.message,
@@ -65,10 +66,13 @@ export const login = (email: string, password: string) => {
 		postLoginRequest(email, password)
 			.then((res) => {
 				if (res.success) {
+					const accessToken = res.data.accessToken.replace('Bearer ', '');
 					dispatch({
 						type: LOGIN_SUCCESS,
 						user: res.data.user,
+						accessToken: accessToken,
 					});
+					Cookies.set('refreshToken', res.data.refreshToken);
 				} else {
 					dispatch({
 						type: LOGIN_FAILED,
@@ -81,7 +85,6 @@ export const login = (email: string, password: string) => {
 				});
 			})
 			.catch((err) => {
-				console.error(err);
 				dispatch({
 					type: LOGIN_FAILED,
 					message: err.message,
@@ -98,6 +101,7 @@ export const logout = (refreshToken: string) => {
 		postLogoutRequest(refreshToken)
 			.then((res) => {
 				if (res.success) {
+					Cookies.remove('refreshToken');
 					dispatch({
 						type: LOGOUT_SUCCESS,
 					});
@@ -108,7 +112,6 @@ export const logout = (refreshToken: string) => {
 				}
 			})
 			.catch((err) => {
-				console.error(err);
 				dispatch({
 					type: LOGOUT_FAILED,
 					message: err.message,
@@ -124,11 +127,13 @@ export const updateAccessToken = (refreshToken: string) => {
 		});
 		postUpdateAccessTokenRequest(refreshToken)
 			.then((res) => {
+				const accessToken = res.data.accessToken.replace('Bearer ', '');
 				if (res.success) {
 					dispatch({
 						type: UPDATE_ACCESS_TOKEN_SUCCESS,
-						accessToken: res.data.accessToken,
+						accessToken: accessToken,
 					});
+					Cookies.set('refreshToken', res.data.refreshToken);
 				} else {
 					dispatch({
 						type: UPDATE_ACCESS_TOKEN_FAILED,
@@ -136,9 +141,35 @@ export const updateAccessToken = (refreshToken: string) => {
 				}
 			})
 			.catch((err) => {
-				console.error(err);
 				dispatch({
 					type: UPDATE_ACCESS_TOKEN_FAILED,
+					message: err.message,
+				});
+			});
+	};
+};
+
+export const getUser = (accessToken: string) => {
+	return function (dispatch: any) {
+		dispatch({
+			type: GET_USER_REQUEST,
+		});
+		getUserRequest(accessToken)
+			.then((res) => {
+				if (res.success) {
+					dispatch({
+						type: GET_USER_SUCCESS,
+						user: res.data.user,
+					});
+				} else {
+					dispatch({
+						type: GET_USER_FAILED,
+					});
+				}
+			})
+			.catch((err) => {
+				dispatch({
+					type: GET_USER_FAILED,
 					message: err.message,
 				});
 			});
@@ -158,7 +189,6 @@ export const updateUser = (
 		patchUserRequest(accessToken, name, email, password)
 			.then((res) => {
 				if (res.success) {
-					console.log(res.data);
 					dispatch({
 						type: UPDATE_USER_SUCCESS,
 						user: res.data.user,
@@ -170,7 +200,6 @@ export const updateUser = (
 				}
 			})
 			.catch((err) => {
-				console.error(err);
 				dispatch({
 					type: UPDATE_USER_FAILED,
 					message: err.message,

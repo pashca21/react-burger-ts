@@ -12,8 +12,10 @@ import { useAppSelector } from '../hooks/useAppSelector';
 export const RegisterPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+
 	const { isAuth } = useAppSelector((state: any) => state.auth);
 	if (isAuth) navigate('/');
+
 	const [form, setValue] = useState({ name: '', email: '', password: '' });
 	const onChange = (e: {
 		target: {

@@ -7,11 +7,15 @@ import styles from './login.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { forgotPassword } from '@services/actions/password';
+import { useAppSelector } from '../hooks/useAppSelector';
 
 export const ForgotPasswordPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [email, setEmail] = useState('');
+
+	const { isAuth } = useAppSelector((state: any) => state.auth);
+	if (isAuth) navigate('/');
 
 	const onChange = (e: {
 		target: {
@@ -22,11 +26,8 @@ export const ForgotPasswordPage = () => {
 	};
 
 	const handleClickForgotPassword = () => {
-		dispatch<any>(forgotPassword(email)).then((res: any) => {
-			if (res.success) {
-				navigate('/reset-password');
-			}
-		});
+		dispatch<any>(forgotPassword(email));
+		navigate('/reset-password');
 	};
 
 	return (
@@ -40,7 +41,7 @@ export const ForgotPasswordPage = () => {
 						type='email'
 						placeholder='Укажите e-mail'
 						name='email'
-						value={''}
+						value={email}
 						onChange={onChange}
 						extraClass={'mb-6'}
 						errorText={'Введите корректный e-mail'}

@@ -11,10 +11,11 @@ import { useAppDispatch } from '../hooks/useAppDispatch';
 
 export const LoginPage = () => {
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+
 	const { isAuth } = useAppSelector((state: any) => state.auth);
 	if (isAuth) navigate('/');
 
-	const dispatch = useAppDispatch();
 	const [form, setValue] = useState({ email: '', password: '' });
 	const onChange = (e: {
 		target: {
@@ -25,9 +26,11 @@ export const LoginPage = () => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
 	const onClick = () => {
-		dispatch<any>(login(form.email, form.password)).then((res: any) => {
-			if (res.success) navigate('/');
-		});
+		if (!form.email || !form.password) {
+			return;
+		}
+		dispatch<any>(login(form.email, form.password));
+		navigate('/');
 	};
 
 	return (
@@ -39,7 +42,7 @@ export const LoginPage = () => {
 						type='email'
 						placeholder='E-mail'
 						name='email'
-						value={''}
+						value={form.email}
 						onChange={onChange}
 						extraClass={'mb-6'}
 						required={true}
@@ -48,7 +51,7 @@ export const LoginPage = () => {
 						type='password'
 						placeholder='Пароль'
 						name='password'
-						value={''}
+						value={form.password}
 						onChange={onChange}
 						extraClass={'mb-6'}
 						icon={'ShowIcon'}

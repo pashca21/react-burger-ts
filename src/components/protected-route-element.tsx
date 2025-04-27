@@ -3,47 +3,68 @@ import { useEffect, useState } from 'react';
 import { useAppSelector } from '../hooks/useAppSelector';
 import Cookies from 'js-cookie';
 import { useAppDispatch } from '../hooks/useAppDispatch';
-import { updateAccessToken } from '@services/actions/auth';
-import { getUserRequest } from '@services/api';
+import { getUser, updateAccessToken } from '@services/actions/auth';
 
 interface ProtectedRouteElementProps {
 	element?: JSX.Element;
 }
 
 export const ProtectedRouteElement = (props: ProtectedRouteElementProps) => {
-	const auth = useAppSelector((state: any) => state.auth);
-	const [isUserLoaded, setUserLoaded] = useState(false);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const { accessToken } = useAppSelector((state: any) => state.auth);
+	const auth = useAppSelector((state: any) => state.auth);
+	const [isUserLoaded, setUserLoaded] = useState(false);
 
 	const init = async () => {
-		const refreshToken = Cookies.get('refreshToken');
-		if (refreshToken) {
+		if (auth.user.email) {
+			setUserLoaded(true);
+			return;
+		}
+		const refreshToken = Cookies.get('refreshToken') || '';
+
+		if (!refreshToken) {
+			navigate('/login');
+			return;
+		}
+
+		const accessTokenValid = new Date(auth.accessTokenExpiresAt) > new Date();
+
+		if (refreshToken && !accessTokenValid) {
 			try {
 				await dispatch<any>(updateAccessToken(refreshToken));
+			} catch (error) {
+				navigate('/login');
+				return;
+			}
+		}
 
-				const userResponse = await getUserRequest(accessToken);
-				if (!userResponse.success) {
-					throw new Error('Не удалось получить данные пользователя');
-				}
+		if (auth.accessToken || accessTokenValid) {
+			try {
+				await dispatch<any>(getUser(auth.accessToken));
 				setUserLoaded(true);
 			} catch (error) {
-				console.error('Ошибка при инициализации приложения:', error);
 				navigate('/login');
 			}
-		} else {
-			navigate('/login');
 		}
 	};
 
 	useEffect(() => {
 		init();
-	}, []);
+	}, [
+		dispatch,
+		navigate,
+		auth.accessToken,
+		auth.accessTokenExpiresAt,
+		auth.user.email,
+	]);
 
-	if (!isUserLoaded) {
-		return null;
+	if (!isUserLoaded || !auth.user.email) {
+		return (
+			<div>
+				<p>Загрузка...</p>
+			</div>
+		);
 	}
 
-	return auth.user ? props.element : <Navigate to='/login' replace />;
+	return auth.user.email ? props.element : <Navigate to='/login' replace />;
 };

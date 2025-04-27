@@ -20,3 +20,7 @@
 .section {
 	flex: 1;
 }
+
+.active {
+	color: #ffffff;
+}
