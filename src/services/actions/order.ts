@@ -7,7 +7,9 @@ export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';
 export const CREATE_ORDER_FAILED = 'CREATE_ORDER_FAILED';
 export const CLEAR_ORDER = 'CLEAR_ORDER';
 
-export const createOrder = (ingredients_ids: string[]) => {
+export const createOrder = (
+	ingredients_ids: (string | number | bigint | null | undefined)[]
+) => {
 	return function (dispatch: any) {
 		dispatch({
 			type: CREATE_ORDER_REQUEST,

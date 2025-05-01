@@ -1,7 +1,7 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppSelector } from '@hooks/index';
 
-export const ConstructorBunBottom = () => {
+export const ConstructorBunBottom = (): JSX.Element | null => {
 	const ingredient = useAppSelector((state: any) => state.constructor.bun);
 	if (!ingredient) return null;
 	return (

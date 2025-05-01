@@ -3,7 +3,7 @@ import {
 	GET_INGREDIENTS_SUCCESS,
 	GET_INGREDIENTS_FAILED,
 } from '@services/actions/ingredients';
-import { IngredientProps } from '@utils/types';
+import { IIngredient } from '@interfaces/index';
 
 const initialState = {
 	ingredients: [],
@@ -13,7 +13,7 @@ const initialState = {
 
 export const ingredientsReducer = (
 	state = initialState,
-	action: { type: string; ingredients: IngredientProps[] }
+	action: { type: string; ingredients: IIngredient[] }
 ) => {
 	switch (action.type) {
 		case GET_INGREDIENTS_REQUEST: {

@@ -1,16 +1,14 @@
 import React from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
 	Input,
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login.module.css';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/useAppSelector';
 import { login } from '@services/actions/auth';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useForm } from '../../hooks/useForm';
+import { useAppDispatch, useAppSelector, useForm } from '@hooks/index';
 
-export const LoginPage = () => {
+export const LoginPage = (): JSX.Element => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const location = useLocation();

@@ -8,7 +8,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
 
-export const AppHeader = () => {
+export const AppHeader = (): JSX.Element => {
 	const navigate = useNavigate();
 
 	const handleHomeLink = () => {

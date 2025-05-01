@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
 	Input,
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login.module.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { forgotPassword } from '@services/actions/password';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
 
-export const ForgotPasswordPage = () => {
+export const ForgotPasswordPage = (): JSX.Element => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [email, setEmail] = useState('');

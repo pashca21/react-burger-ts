@@ -1,25 +1,25 @@
+import { useDrag, useDrop } from 'react-dnd';
 import {
 	ConstructorElement,
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IngredientProps } from '@utils/types';
 import styles from './burger-constructor.module.css';
-import { useDrag, useDrop } from 'react-dnd';
+import { IIngredient } from '@interfaces/index';
 import { REMOVE_INGREDIENT } from '@services/actions/constructor';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppDispatch } from '@hooks/index';
 
 export const ConstructorIngredient = ({
 	ingredient,
 	index,
 	moveIngredient,
 }: {
-	ingredient: IngredientProps;
+	ingredient: IIngredient;
 	index: number;
 	moveIngredient: (dragIndex: number, hoverIndex: number) => void;
 }) => {
 	const dispatch = useAppDispatch();
 
-	const removeIngredient = (index: number) => {
+	const removeIngredient = (index: number): void => {
 		dispatch({
 			type: REMOVE_INGREDIENT,
 			index: index,

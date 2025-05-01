@@ -6,10 +6,9 @@ import {
 import styles from './login.module.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { resetPassword } from '@services/actions/password';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
 
-export const ResetPasswordPage = () => {
+export const ResetPasswordPage = (): JSX.Element => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -29,6 +28,7 @@ export const ResetPasswordPage = () => {
 	const handleClickResetPassword = () => {
 		dispatch<any>(resetPassword(form.password, form.token));
 		navigate('/login', { state: { from: location } });
+		return;
 	};
 
 	return (

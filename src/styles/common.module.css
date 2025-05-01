@@ -1,8 +1,14 @@
-.row_end {
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-}
+/* .row_end { */
+
+/*	display: flex; */
+
+/*	justify-content: flex-end; */
+
+/*	align-items: center; */
+
+/* } */
+
+/* TODO: */
 
 .row_between {
 	display: flex;

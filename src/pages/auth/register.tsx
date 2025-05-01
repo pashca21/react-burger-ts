@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
 	Input,
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login.module.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { register } from '@services/actions/auth';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
 
-export const RegisterPage = () => {
+export const RegisterPage = (): JSX.Element => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 

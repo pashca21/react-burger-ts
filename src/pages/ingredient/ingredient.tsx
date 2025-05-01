@@ -2,13 +2,12 @@ import React, { useEffect } from 'react';
 import styles from '../auth/login.module.css';
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { VIEW_INGREDIENT } from '@services/actions/ingredient';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getIngredients } from '@services/actions/ingredients';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { IngredientProps } from '@utils/types';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { IIngredient } from '@interfaces/index';
 
-export const IngredientPage = () => {
+export const IngredientPage = (): JSX.Element => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const { id } = useParams();
@@ -37,7 +36,7 @@ export const IngredientPage = () => {
 
 	useEffect(() => {
 		const ingredient = ingredients.find(
-			(ingredient: IngredientProps) => ingredient._id === id
+			(ingredient: IIngredient) => ingredient._id === id
 		);
 		if (ingredient) {
 			dispatch({ type: VIEW_INGREDIENT, ingredient: ingredient });

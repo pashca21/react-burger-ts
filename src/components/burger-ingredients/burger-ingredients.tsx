@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { BurgerIngredient } from '@components/burger-ingredients/burger-ingredient';
-import { IngredientProps } from '@utils/types';
 import styles from './burger-ingredients.module.css';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { BurgerIngredient } from '@components/burger-ingredients/burger-ingredient';
+import { IIngredient } from '@interfaces/index';
+import { useAppSelector } from '@hooks/index';
 
 export const BurgerIngredients = () => {
 	const IngredientTypeBun = 'bun';
@@ -12,7 +12,7 @@ export const BurgerIngredients = () => {
 
 	const [currentTab, setCurrentTab] = useState(IngredientTypeBun);
 
-	const ingredients = useAppSelector(
+	const ingredients: IIngredient[] = useAppSelector(
 		(state: any) => state.ingredients.ingredients
 	);
 
@@ -20,7 +20,7 @@ export const BurgerIngredients = () => {
 	const sauceRef = useRef<HTMLDivElement>(null);
 	const mainRef = useRef<HTMLDivElement>(null);
 
-	const handleTabClick = (tab: string) => {
+	const handleTabClick = (tab: string): void => {
 		setCurrentTab(tab);
 		if (tab === IngredientTypeBun) {
 			bunRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -32,10 +32,13 @@ export const BurgerIngredients = () => {
 	};
 
 	useEffect(() => {
-		const handleScroll = () => {
-			const bunOffset = bunRef.current?.getBoundingClientRect().top || 0;
-			const sauceOffset = sauceRef.current?.getBoundingClientRect().top || 0;
-			const mainOffset = mainRef.current?.getBoundingClientRect().top || 0;
+		const handleScroll = (): void => {
+			const bunOffset: number =
+				bunRef.current?.getBoundingClientRect().top || 0;
+			const sauceOffset: number =
+				sauceRef.current?.getBoundingClientRect().top || 0;
+			const mainOffset: number =
+				mainRef.current?.getBoundingClientRect().top || 0;
 
 			if (bunOffset < 100 && sauceOffset >= 100) {
 				setCurrentTab(IngredientTypeBun);
@@ -46,7 +49,9 @@ export const BurgerIngredients = () => {
 			}
 		};
 
-		const scrollContainer = document.querySelector(`.${styles.scroll_section}`);
+		const scrollContainer: Element | null = document.querySelector(
+			`.${styles.scroll_section}`
+		);
 		scrollContainer?.addEventListener('scroll', handleScroll);
 
 		return () => {
@@ -57,7 +62,7 @@ export const BurgerIngredients = () => {
 	const renderIngredients = (type: string) => {
 		return ingredients
 			.filter((ingredient: { type: string }) => ingredient.type === type)
-			.map((ingredient: IngredientProps) => (
+			.map((ingredient: IIngredient) => (
 				<BurgerIngredient key={ingredient._id} ingredient={ingredient} />
 			));
 	};

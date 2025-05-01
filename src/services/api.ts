@@ -15,7 +15,9 @@ export const getIngredientsRequest = async () => {
 	}
 };
 
-export const createOrderRequest = async (ingredients_ids: string[]) => {
+export const createOrderRequest = async (
+	ingredients_ids: (string | number | bigint | null | undefined)[]
+) => {
 	try {
 		const data = await request('orders', {
 			method: 'POST',

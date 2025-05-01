@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './profile.module.css';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 
-export const ProfilePage = () => {
+export const ProfilePage = (): JSX.Element => {
 	return (
 		<div className={`${styles.container}`}>
 			<section className={styles.section + ' ' + styles.form}>
