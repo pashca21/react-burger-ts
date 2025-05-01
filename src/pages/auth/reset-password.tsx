@@ -4,30 +4,31 @@ import {
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login.module.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../hooks/useAppDispatch';
-import { forgotPassword } from '@services/actions/password';
-import { useAppSelector } from '../hooks/useAppSelector';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { resetPassword } from '@services/actions/password';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
-export const ForgotPasswordPage = () => {
+export const ResetPasswordPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const [email, setEmail] = useState('');
+	const location = useLocation();
 
 	const { isAuth } = useAppSelector((state: any) => state.auth);
 	if (isAuth) navigate('/');
 
+	const [form, setValue] = useState({ password: '', token: '' });
 	const onChange = (e: {
 		target: {
+			name: string;
 			value: string;
 		};
 	}) => {
-		setEmail(e.target.value);
+		setValue({ ...form, [e.target.name]: e.target.value });
 	};
-
-	const handleClickForgotPassword = () => {
-		dispatch<any>(forgotPassword(email));
-		navigate('/reset-password');
+	const handleClickResetPassword = () => {
+		dispatch<any>(resetPassword(form.password, form.token));
+		navigate('/login', { state: { from: location } });
 	};
 
 	return (
@@ -38,22 +39,32 @@ export const ForgotPasswordPage = () => {
 				</h1>
 				<form className={`${styles.form}`}>
 					<Input
-						type='email'
-						placeholder='Укажите e-mail'
-						name='email'
-						value={email}
+						type='password'
+						placeholder='Введите новый пароль'
+						name='password'
+						value={form.password}
 						onChange={onChange}
 						extraClass={'mb-6'}
-						errorText={'Введите корректный e-mail'}
+						icon={'ShowIcon'}
+						required={true}
+						autoComplete={'new-password'}
+					/>
+					<Input
+						type='text'
+						placeholder='Введите код из письма'
+						name='token'
+						value={form.token}
+						onChange={onChange}
+						extraClass={'mb-6'}
 						required={true}
 					/>
 					<Button
 						type='primary'
+						onClick={handleClickResetPassword}
 						htmlType='button'
-						onClick={handleClickForgotPassword}
 						extraClass={'mb-20'}
 						size='large'>
-						Восстановить
+						Сохранить
 					</Button>
 				</form>
 				<div className={`${styles.row}`}>

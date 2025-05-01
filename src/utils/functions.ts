@@ -2,6 +2,7 @@ import { BASE_URL } from '@utils/constants';
 import { jwtDecode } from 'jwt-decode';
 
 const checkResponse = (res: Response) => {
+	console.log(res);
 	if (res.ok) {
 		return res.json();
 	}

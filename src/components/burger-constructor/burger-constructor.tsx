@@ -19,11 +19,12 @@ import { ConstructorBunBottom } from '@components/burger-constructor/constructor
 import { ConstructorIngredient } from '@components/burger-constructor/constructor-ingredient';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const location = useLocation();
 	const { isAuth } = useAppSelector((state: any) => state.auth);
 	const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -73,7 +74,7 @@ export const BurgerConstructor = () => {
 
 	const handleCreateOrder = () => {
 		if (!isAuth) {
-			navigate('/login');
+			navigate('/login', { state: { from: location } });
 		}
 		const ingredientsIds = constructorIngredients.map(
 			(ingredient: IngredientProps) => ingredient._id

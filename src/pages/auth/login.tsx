@@ -1,36 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
 	Input,
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login.module.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../hooks/useAppSelector';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { login } from '@services/actions/auth';
-import { useAppDispatch } from '../hooks/useAppDispatch';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useForm } from '../../hooks/useForm';
 
 export const LoginPage = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+	const location = useLocation();
+	const from = location.state?.from?.pathname || '/';
 
 	const { isAuth } = useAppSelector((state: any) => state.auth);
-	if (isAuth) navigate('/');
+	if (isAuth) navigate(from, { replace: true });
 
-	const [form, setValue] = useState({ email: '', password: '' });
-	const onChange = (e: {
-		target: {
-			name: string;
-			value: string;
-		};
-	}) => {
-		setValue({ ...form, [e.target.name]: e.target.value });
-	};
+	const [values, onChange] = useForm<{ email: string; password: string }>({
+		email: '',
+		password: '',
+	});
+
 	const onClick = () => {
-		if (!form.email || !form.password) {
+		if (!values.email || !values.password) {
 			return;
 		}
-		dispatch<any>(login(form.email, form.password));
-		navigate('/');
+		dispatch<any>(login(values.email, values.password));
+		navigate(from, { replace: true });
 	};
 
 	return (
@@ -42,20 +41,22 @@ export const LoginPage = () => {
 						type='email'
 						placeholder='E-mail'
 						name='email'
-						value={form.email}
+						value={values.email}
 						onChange={onChange}
 						extraClass={'mb-6'}
 						required={true}
+						autoComplete={'email'}
 					/>
 					<Input
 						type='password'
 						placeholder='Пароль'
 						name='password'
-						value={form.password}
+						value={values.password}
 						onChange={onChange}
 						extraClass={'mb-6'}
 						icon={'ShowIcon'}
 						required={true}
+						autoComplete={'current-password'}
 					/>
 					<Button
 						type='primary'

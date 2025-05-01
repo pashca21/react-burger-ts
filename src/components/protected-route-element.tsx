@@ -1,4 +1,4 @@
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '../hooks/useAppSelector';
 import Cookies from 'js-cookie';
@@ -12,40 +12,57 @@ interface ProtectedRouteElementProps {
 export const ProtectedRouteElement = (props: ProtectedRouteElementProps) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const location = useLocation();
 	const auth = useAppSelector((state: any) => state.auth);
 	const [isUserLoaded, setUserLoaded] = useState(false);
 
 	const init = async () => {
-		if (auth.user.email) {
+		if (auth.user.email && auth.isAuth) {
 			setUserLoaded(true);
 			return;
 		}
+
 		const refreshToken = Cookies.get('refreshToken') || '';
 
 		if (!refreshToken) {
-			navigate('/login');
+			navigate('/login', { state: { from: location } });
 			return;
 		}
 
-		const accessTokenValid = new Date(auth.accessTokenExpiresAt) > new Date();
+		let needToUpdateAccessToken = false;
 
-		if (refreshToken && !accessTokenValid) {
+		if (!auth.accessToken) {
+			needToUpdateAccessToken = true;
+		}
+
+		if (auth.accessToken && auth.accessTokenExpiresAt) {
+			const accessToken = auth.accessToken;
+			const accessTokenExpiresAt = new Date(auth.accessTokenExpiresAt);
+			if (accessToken && accessTokenExpiresAt) {
+				needToUpdateAccessToken = false;
+			}
+		}
+
+		if (refreshToken && needToUpdateAccessToken) {
 			try {
 				await dispatch<any>(updateAccessToken(refreshToken));
-			} catch (error) {
-				navigate('/login');
+			} catch {
+				navigate('/login', { state: { from: location } });
 				return;
 			}
 		}
 
-		if (auth.accessToken || accessTokenValid) {
+		try {
+			await dispatch<any>(getUser(auth.accessToken, refreshToken));
+		} catch {
 			try {
-				await dispatch<any>(getUser(auth.accessToken));
-				setUserLoaded(true);
-			} catch (error) {
-				navigate('/login');
+				await dispatch<any>(updateAccessToken(refreshToken));
+			} catch {
+				navigate('/login', { state: { from: location } });
 			}
+			await dispatch<any>(getUser(auth.accessToken, refreshToken));
 		}
+		setUserLoaded(true);
 	};
 
 	useEffect(() => {
@@ -66,5 +83,9 @@ export const ProtectedRouteElement = (props: ProtectedRouteElementProps) => {
 		);
 	}
 
-	return auth.user.email ? props.element : <Navigate to='/login' replace />;
+	return auth.user.email ? (
+		props.element
+	) : (
+		<Navigate to='/login' state={{ from: location }} replace />
+	);
 };

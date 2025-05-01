@@ -1,17 +1,21 @@
 import React, { useEffect } from 'react';
-import styles from './login.module.css';
+import styles from '../auth/login.module.css';
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { VIEW_INGREDIENT } from '@services/actions/ingredient';
-import { useAppDispatch } from '../hooks/useAppDispatch';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getIngredients } from '@services/actions/ingredients';
-import { useAppSelector } from '../hooks/useAppSelector';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { IngredientProps } from '@utils/types';
 
 export const IngredientPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const { id } = useParams();
+
+	const ingredient = useAppSelector(
+		(state: any) => state.ingredient.ingredient
+	);
 
 	const {
 		loading: loadingIngredients,
@@ -25,15 +29,20 @@ export const IngredientPage = () => {
 		}
 	}, [dispatch, ingredients, loadingIngredients]);
 
-	const ingredient = ingredients.find(
-		(ingredient: IngredientProps) => ingredient._id === id
-	);
-
 	useEffect(() => {
 		if (performance.navigation.type === 1) {
 			navigate('/?openModalIngredientId=' + id);
 		}
-	}, [dispatch]);
+	}, [dispatch, id, navigate]);
+
+	useEffect(() => {
+		const ingredient = ingredients.find(
+			(ingredient: IngredientProps) => ingredient._id === id
+		);
+		if (ingredient) {
+			dispatch({ type: VIEW_INGREDIENT, ingredient: ingredient });
+		}
+	}, [dispatch, id, ingredient, ingredients]);
 
 	if (loadingIngredients) {
 		return <p>Загрузка...</p>;
@@ -43,9 +52,7 @@ export const IngredientPage = () => {
 		return <p>Ошибка загрузки ингредиентов: {errorIngredients}</p>;
 	}
 
-	if (ingredient) {
-		dispatch({ type: VIEW_INGREDIENT, ingredient: ingredient });
-	} else {
+	if (!ingredient) {
 		return <p>Ингредиент не найден</p>;
 	}
 

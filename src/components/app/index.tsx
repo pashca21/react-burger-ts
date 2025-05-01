@@ -8,7 +8,6 @@ import {
 	NotFoundPage,
 	ProfilePage,
 	IngredientPage,
-	OrdersPage,
 	LogoutPage,
 } from '@pages/index';
 import { AppHeader } from '@components/app-header/app-header';
@@ -19,6 +18,8 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { ProtectedRouteElement } from '@components/protected-route-element';
+import { Orders } from '@components/orders/orders';
+import { Profile } from '@components/profile/profile';
 
 export const App = () => {
 	const dispatch = useAppDispatch();
@@ -37,13 +38,11 @@ export const App = () => {
 							<Route path='/' element={<HomePage />} />
 							<Route path='/ingredients/:id' element={<IngredientPage />} />
 							<Route
-								path='/profile/orders'
-								element={<ProtectedRouteElement element={<OrdersPage />} />}
-							/>
-							<Route
 								path='/profile'
-								element={<ProtectedRouteElement element={<ProfilePage />} />}
-							/>
+								element={<ProtectedRouteElement element={<ProfilePage />} />}>
+								<Route index element={<Profile />} />
+								<Route path='orders' element={<Orders />} />
+							</Route>
 							<Route path='/login' element={<LoginPage />} />
 							<Route path='/register' element={<RegisterPage />} />
 							<Route path='/forgot-password' element={<ForgotPasswordPage />} />

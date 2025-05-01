@@ -27,7 +27,7 @@ export interface RegisterProps {
 
 export interface ModalProps {
 	onClose: () => void;
-	children: React.ReactNode;
+	children: ReactNode;
 	title: string;
 }
 

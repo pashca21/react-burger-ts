@@ -137,6 +137,8 @@ export const updateAccessToken = (refreshToken: string) => {
 				} else {
 					dispatch({
 						type: UPDATE_ACCESS_TOKEN_FAILED,
+						message: res.message,
+						response: res,
 					});
 				}
 			})
@@ -144,12 +146,13 @@ export const updateAccessToken = (refreshToken: string) => {
 				dispatch({
 					type: UPDATE_ACCESS_TOKEN_FAILED,
 					message: err.message,
+					response: err,
 				});
 			});
 	};
 };
 
-export const getUser = (accessToken: string) => {
+export const getUser = (accessToken: string, refreshToken: string) => {
 	return function (dispatch: any) {
 		dispatch({
 			type: GET_USER_REQUEST,
@@ -161,6 +164,9 @@ export const getUser = (accessToken: string) => {
 						type: GET_USER_SUCCESS,
 						user: res.data.user,
 					});
+				} else if (res.message === 'token expires') {
+					dispatch(updateAccessToken(refreshToken));
+					dispatch(getUser(accessToken, refreshToken));
 				} else {
 					dispatch({
 						type: GET_USER_FAILED,
@@ -178,6 +184,7 @@ export const getUser = (accessToken: string) => {
 
 export const updateUser = (
 	accessToken: string,
+	refreshToken: string,
 	name: string,
 	email: string,
 	password: string
@@ -193,6 +200,11 @@ export const updateUser = (
 						type: UPDATE_USER_SUCCESS,
 						user: res.data.user,
 					});
+				} else if (res.message === 'token expires') {
+					dispatch(updateAccessToken(refreshToken));
+					dispatch(
+						updateUser(accessToken, refreshToken, name, email, password)
+					);
 				} else {
 					dispatch({
 						type: UPDATE_USER_FAILED,
