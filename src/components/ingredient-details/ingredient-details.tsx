@@ -6,6 +6,10 @@ export const IngredientDetails = () => {
 		(state: any) => state.ingredient.ingredient
 	);
 
+	if (!ingredient) {
+		return <p>Ингредиент не найден</p>;
+	}
+
 	return (
 		<div className={styles.ingredientDetails}>
 			<img

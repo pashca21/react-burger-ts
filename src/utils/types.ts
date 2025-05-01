@@ -16,9 +16,18 @@ export interface IngredientProps {
 	__v: number;
 }
 
+export interface RegisterProps {
+	user: {
+		email: string;
+		name: string;
+	};
+	accessToken: string;
+	refreshToken: string;
+}
+
 export interface ModalProps {
 	onClose: () => void;
-	children: React.ReactNode;
+	children: ReactNode;
 	title: string;
 }
 

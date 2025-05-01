@@ -23,7 +23,6 @@ export function getIngredients() {
 				}
 			})
 			.catch((err) => {
-				console.error(err);
 				dispatch({
 					type: GET_INGREDIENTS_FAILED,
 					message: err.message,

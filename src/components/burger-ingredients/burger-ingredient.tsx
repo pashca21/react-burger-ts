@@ -14,9 +14,12 @@ import {
 import { useDrag } from 'react-dnd';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export const BurgerIngredient = (props: { ingredient: IngredientProps }) => {
 	const dispatch = useAppDispatch();
+	const [searchParams] = useSearchParams();
 
 	const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -45,12 +48,24 @@ export const BurgerIngredient = (props: { ingredient: IngredientProps }) => {
 	const handleIngredientClick = () => {
 		dispatch({ type: VIEW_INGREDIENT, ingredient: props.ingredient });
 		openModal();
+		window.history.pushState(
+			{ fromHome: true },
+			'',
+			'/ingredients/' + props.ingredient._id
+		);
 	};
 
 	const handleIngredientClose = () => {
 		closeModal();
 		dispatch({ type: CLOSE_INGREDIENT });
+		window.history.pushState({}, '', '/');
 	};
+
+	useEffect(() => {
+		if (searchParams.get('openModalIngredientId') === props.ingredient._id) {
+			handleIngredientClick();
+		}
+	}, [searchParams, props.ingredient._id]);
 
 	return (
 		<>
@@ -66,7 +81,9 @@ export const BurgerIngredient = (props: { ingredient: IngredientProps }) => {
 					alt={props.ingredient.name}
 				/>
 				<div className={styles.price}>
-					<p className='text text_type_digits-default'>{props.ingredient.price}</p>
+					<p className='text text_type_digits-default'>
+						{props.ingredient.price}
+					</p>
 					<CurrencyIcon type={'primary'} />
 				</div>
 				<div>
