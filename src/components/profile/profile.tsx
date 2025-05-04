@@ -4,21 +4,25 @@ import {
 	Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import stylesCommon from '@styles/common.module.css';
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { updateUser } from '@services/actions/auth';
 import Cookies from 'js-cookie';
 
-export const Profile = (): JSX.Element => {
+export const Profile = (): ReactNode => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const { user } = useAppSelector((state: any) => state.auth);
 	const { accessToken } = useAppSelector((state: any) => state.auth);
 
-	const [isDataChanged, setIsDataChanged] = useState(false);
+	const [isDataChanged, setIsDataChanged] = useState<boolean>(false);
 
-	const [form, setValue] = useState({
+	const [form, setValue] = useState<{
+		name: string;
+		email: string;
+		password: string;
+	}>({
 		name: user.name,
 		email: user.email,
 		password: '',

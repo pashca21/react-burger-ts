@@ -5,10 +5,10 @@ export const useForm = <T extends { [key: string]: string }>(
 ): [T, (e: ChangeEvent<HTMLInputElement>) => void] => {
 	const [form, setForm] = useState<T>(baseForm);
 
-	function handleChange(e: ChangeEvent<HTMLInputElement>) {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
 		const element = e.target;
 		setForm((pastForm) => ({ ...pastForm, [element.name]: element.value }));
-	}
+	};
 
 	return [form, handleChange];
 };

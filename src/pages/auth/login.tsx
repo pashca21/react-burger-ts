@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
 	Input,
@@ -8,21 +8,23 @@ import styles from './login.module.css';
 import { login } from '@services/actions/auth';
 import { useAppDispatch, useAppSelector, useForm } from '@hooks/index';
 
-export const LoginPage = (): JSX.Element => {
+export const LoginPage = (): ReactNode => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const location = useLocation();
 	const from = location.state?.from?.pathname || '/';
 
 	const { isAuth } = useAppSelector((state: any) => state.auth);
-	if (isAuth) navigate(from, { replace: true });
+	if (isAuth) {
+		navigate(from, { replace: true });
+	}
 
 	const [values, onChange] = useForm<{ email: string; password: string }>({
 		email: '',
 		password: '',
 	});
 
-	const onClick = () => {
+	const onClick = (): void => {
 		if (!values.email || !values.password) {
 			return;
 		}

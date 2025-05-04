@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import {
 	Input,
 	Button,
@@ -8,24 +8,29 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { resetPassword } from '@services/actions/password';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 
-export const ResetPasswordPage = (): JSX.Element => {
+export const ResetPasswordPage = (): ReactNode => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
 
 	const { isAuth } = useAppSelector((state: any) => state.auth);
-	if (isAuth) navigate('/');
+	if (isAuth) {
+		navigate('/');
+	}
 
-	const [form, setValue] = useState({ password: '', token: '' });
+	const [form, setValue] = useState<{ password: string; token: string }>({
+		password: '',
+		token: '',
+	});
 	const onChange = (e: {
 		target: {
 			name: string;
 			value: string;
 		};
-	}) => {
+	}): void => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
-	const handleClickResetPassword = () => {
+	const handleClickResetPassword = (): void => {
 		dispatch<any>(resetPassword(form.password, form.token));
 		navigate('/login', { state: { from: location } });
 		return;

@@ -18,9 +18,9 @@ import { ConstructorBunBottom } from '@components/burger-constructor/constructor
 import { ConstructorIngredient } from '@components/burger-constructor/constructor-ingredient';
 import { useAppDispatch, useAppSelector, useModal } from '@hooks/index';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Key } from 'react';
+import { Key, ReactNode } from 'react';
 
-export const BurgerConstructor = (): JSX.Element => {
+export const BurgerConstructor = (): ReactNode => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -44,7 +44,7 @@ export const BurgerConstructor = (): JSX.Element => {
 		},
 	});
 
-	const moveIngredient = (dragIndex: number, hoverIndex: number) => {
+	const moveIngredient = (dragIndex: number, hoverIndex: number): void => {
 		dispatch({
 			type: MOVE_INGREDIENT,
 			dragIndex: dragIndex,
@@ -73,7 +73,7 @@ export const BurgerConstructor = (): JSX.Element => {
 		);
 	}
 
-	const handleCreateOrder = () => {
+	const handleCreateOrder = (): void => {
 		if (!isAuth) {
 			navigate('/login', { state: { from: location } });
 			return;
@@ -96,7 +96,7 @@ export const BurgerConstructor = (): JSX.Element => {
 		openModal();
 	};
 
-	const renderIngredients = () => {
+	const renderIngredients = (): ReactNode[] | ReactNode => {
 		if (!constructorIngredients) return null;
 		return constructorIngredients.map(
 			(ingredient: IIngredient, index: number) => {

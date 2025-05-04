@@ -1,8 +1,9 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useAppSelector } from '@hooks/index';
 import { IIngredient } from '@interfaces/index';
+import { ReactNode } from 'react';
 
-export const ConstructorBunTop = (): JSX.Element | null => {
+export const ConstructorBunTop = (): ReactNode => {
 	const ingredient: IIngredient = useAppSelector(
 		(state: any) => state.constructor.bun
 	);

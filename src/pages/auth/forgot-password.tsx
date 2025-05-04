@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
 	Input,
@@ -8,23 +8,25 @@ import styles from './login.module.css';
 import { forgotPassword } from '@services/actions/password';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 
-export const ForgotPasswordPage = (): JSX.Element => {
+export const ForgotPasswordPage = (): ReactNode => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const [email, setEmail] = useState('');
+	const [email, setEmail] = useState<string>('');
 
 	const { isAuth } = useAppSelector((state: any) => state.auth);
-	if (isAuth) navigate('/');
+	if (isAuth) {
+		navigate('/');
+	}
 
 	const onChange = (e: {
 		target: {
 			value: string;
 		};
-	}) => {
+	}): void => {
 		setEmail(e.target.value);
 	};
 
-	const handleClickForgotPassword = () => {
+	const handleClickForgotPassword = (): void => {
 		dispatch<any>(forgotPassword(email));
 		navigate('/reset-password');
 	};

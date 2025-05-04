@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import styles from '../auth/login.module.css';
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { VIEW_INGREDIENT } from '@services/actions/ingredient';
@@ -7,7 +7,7 @@ import { getIngredients } from '@services/actions/ingredients';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { IIngredient } from '@interfaces/index';
 
-export const IngredientPage = (): JSX.Element => {
+export const IngredientPage = (): ReactNode => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const { id } = useParams();

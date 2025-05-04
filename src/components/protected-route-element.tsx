@@ -1,12 +1,12 @@
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useAppSelector, useAppDispatch } from '@hooks/index';
 import { getUser, updateAccessToken } from '@services/actions/auth';
 import { IAuth } from '@interfaces/auth';
 
 interface ProtectedRouteElementProps {
-	element?: JSX.Element;
+	element?: ReactNode;
 }
 
 export const ProtectedRouteElement = (props: ProtectedRouteElementProps) => {
@@ -17,7 +17,7 @@ export const ProtectedRouteElement = (props: ProtectedRouteElementProps) => {
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
 	const auth: IAuth = useAppSelector((state) => state.auth);
-	const [isUserLoaded, setUserLoaded] = useState(false);
+	const [isUserLoaded, setUserLoaded] = useState<boolean>(false);
 
 	const init = async () => {
 		if (auth.user.email && auth.isAuth) {

@@ -1,15 +1,3 @@
-/* .row_end { */
-
-/*	display: flex; */
-
-/*	justify-content: flex-end; */
-
-/*	align-items: center; */
-
-/* } */
-
-/* TODO: */
-
 .row_between {
 	display: flex;
 	justify-content: space-between;

@@ -1,10 +1,11 @@
 import styles from './modal-overlay.module.css';
 import { IModalOverlay } from '@interfaces/index';
+import { ReactNode } from 'react';
 
 export const ModalOverlay = ({
 	children,
 	onClose,
-}: IModalOverlay): JSX.Element => {
+}: IModalOverlay): ReactNode => {
 	return (
 		<div
 			className={styles.modalOverlay}

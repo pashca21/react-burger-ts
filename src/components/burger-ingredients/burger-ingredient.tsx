@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
 	CurrencyIcon,
@@ -17,7 +17,7 @@ import { useAppDispatch, useAppSelector, useModal } from '@hooks/index';
 
 export const BurgerIngredient = (props: {
 	ingredient: IIngredient;
-}): JSX.Element => {
+}): ReactNode => {
 	const dispatch = useAppDispatch();
 	const [searchParams] = useSearchParams();
 

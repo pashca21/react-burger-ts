@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
 	Button,
@@ -8,18 +9,18 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
 
-export const AppHeader = (): JSX.Element => {
+export const AppHeader = (): ReactNode => {
 	const navigate = useNavigate();
 
-	const handleHomeLink = () => {
+	const handleHomeLink = (): void => {
 		navigate('/');
 	};
 
-	const handleProfileLink = () => {
+	const handleProfileLink = (): void => {
 		navigate('/profile');
 	};
 
-	const handleOrdersLink = () => {
+	const handleOrdersLink = (): void => {
 		navigate('/profile/orders');
 	};
 
