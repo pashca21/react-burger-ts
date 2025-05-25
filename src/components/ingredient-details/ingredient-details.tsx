@@ -1,8 +1,10 @@
 import styles from './ingredient-details.module.css';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppSelector } from '@hooks/index';
+import { IIngredient } from '@interfaces/index';
+import { ReactNode } from 'react';
 
-export const IngredientDetails = () => {
-	const ingredient = useAppSelector(
+export const IngredientDetails = (): ReactNode => {
+	const ingredient: IIngredient = useAppSelector(
 		(state: any) => state.ingredient.ingredient
 	);
 

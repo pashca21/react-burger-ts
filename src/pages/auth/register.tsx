@@ -1,31 +1,36 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
 	Input,
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login.module.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { register } from '@services/actions/auth';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
 
-export const RegisterPage = () => {
+export const RegisterPage = (): ReactNode => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
 	const { isAuth } = useAppSelector((state: any) => state.auth);
-	if (isAuth) navigate('/');
+	if (isAuth) {
+		navigate('/');
+	}
 
-	const [form, setValue] = useState({ name: '', email: '', password: '' });
+	const [form, setValue] = useState<{
+		name: string;
+		email: string;
+		password: string;
+	}>({ name: '', email: '', password: '' });
 	const onChange = (e: {
 		target: {
 			name: string;
 			value: string;
 		};
-	}) => {
+	}): void => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
-	const onClick = () => {
+	const onClick = (): void => {
 		dispatch<any>(register(form.name, form.email, form.password));
 		navigate('/');
 	};

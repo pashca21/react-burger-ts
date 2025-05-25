@@ -2,7 +2,7 @@ import {
 	VIEW_INGREDIENT,
 	CLOSE_INGREDIENT,
 } from '@services/actions/ingredient';
-import { IngredientProps } from '@utils/types';
+import { IIngredient } from '@interfaces/index';
 
 const initialState = {
 	ingredient: null,
@@ -10,7 +10,7 @@ const initialState = {
 
 export const ingredientReducer = (
 	state = initialState,
-	action: { type: string; ingredient: IngredientProps }
+	action: { type: string; ingredient: IIngredient }
 ) => {
 	switch (action.type) {
 		case VIEW_INGREDIENT: {

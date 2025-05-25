@@ -1,4 +1,12 @@
+import { ReactNode, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import styles from './app.module.css';
+import { ProtectedRouteElement } from '@components/protected-route-element';
+import { AppHeader } from '@components/app-header/app-header';
+import { Profile } from '@components/profile/profile';
+import { Orders } from '@components/orders/orders';
 import {
 	ForgotPasswordPage,
 	HomePage,
@@ -10,21 +18,15 @@ import {
 	IngredientPage,
 	LogoutPage,
 } from '@pages/index';
-import { AppHeader } from '@components/app-header/app-header';
-import styles from './app.module.css';
-import { useEffect } from 'react';
 import { getIngredients } from '@services/actions/ingredients';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { ProtectedRouteElement } from '@components/protected-route-element';
-import { Orders } from '@components/orders/orders';
-import { Profile } from '@components/profile/profile';
+import { useAppDispatch } from '@hooks/index';
 
-export const App = () => {
+export const App = (): ReactNode => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		dispatch<any>(getIngredients());
 	}, [dispatch]);
 

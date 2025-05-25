@@ -3,23 +3,26 @@ import {
 	Button,
 	Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import stylesCommon from '../../styles/common.module.css';
-import React, { useEffect, useState } from 'react';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import stylesCommon from '@styles/common.module.css';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { updateUser } from '@services/actions/auth';
 import Cookies from 'js-cookie';
 
-export const Profile = () => {
+export const Profile = (): ReactNode => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const { user } = useAppSelector((state: any) => state.auth);
 	const { accessToken } = useAppSelector((state: any) => state.auth);
 
-	const [isDataChanged, setIsDataChanged] = useState(false);
+	const [isDataChanged, setIsDataChanged] = useState<boolean>(false);
 
-	const [form, setValue] = useState({
+	const [form, setValue] = useState<{
+		name: string;
+		email: string;
+		password: string;
+	}>({
 		name: user.name,
 		email: user.email,
 		password: '',
@@ -29,7 +32,7 @@ export const Profile = () => {
 			name: string;
 			value: string;
 		};
-	}) => {
+	}): void => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 		if (
 			user.name !== form.name ||
@@ -41,8 +44,8 @@ export const Profile = () => {
 			setIsDataChanged(false);
 		}
 	};
-	const saveUserData = () => {
-		const refreshToken = Cookies.get('refreshToken') || '';
+	const saveUserData = (): void => {
+		const refreshToken: string = Cookies.get('refreshToken') || '';
 		dispatch<any>(
 			updateUser(
 				accessToken,
@@ -55,7 +58,7 @@ export const Profile = () => {
 		navigate('/');
 	};
 
-	const cancelSaveUserData = () => {
+	const cancelSaveUserData = (): void => {
 		setValue({ name: user.name, email: user.email, password: '' });
 		setIsDataChanged(false);
 	};

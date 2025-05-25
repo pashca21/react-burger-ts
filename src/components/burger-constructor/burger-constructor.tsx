@@ -4,9 +4,8 @@ import {
 	Button,
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IngredientProps } from '@utils/types';
+import { IIngredient } from '@interfaces/index';
 import styles from './burger-constructor.module.css';
-import { useModal } from '../../hooks/useModal';
 import { useDrop } from 'react-dnd';
 import {
 	ADD_BUN,
@@ -17,11 +16,11 @@ import { createOrder, VIEW_ORDER } from '@services/actions/order';
 import { ConstructorBunTop } from '@components/burger-constructor/constructor-bun-top';
 import { ConstructorBunBottom } from '@components/burger-constructor/constructor-bun-bottom';
 import { ConstructorIngredient } from '@components/burger-constructor/constructor-ingredient';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch, useAppSelector, useModal } from '@hooks/index';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Key, ReactNode } from 'react';
 
-export const BurgerConstructor = () => {
+export const BurgerConstructor = (): ReactNode => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -30,7 +29,7 @@ export const BurgerConstructor = () => {
 
 	const [, dropTarget] = useDrop({
 		accept: 'ingredient',
-		drop(ingredient: IngredientProps) {
+		drop(ingredient: IIngredient) {
 			if (ingredient.type === 'bun') {
 				dispatch({
 					type: ADD_BUN,
@@ -45,7 +44,7 @@ export const BurgerConstructor = () => {
 		},
 	});
 
-	const moveIngredient = (dragIndex: number, hoverIndex: number) => {
+	const moveIngredient = (dragIndex: number, hoverIndex: number): void => {
 		dispatch({
 			type: MOVE_INGREDIENT,
 			dragIndex: dragIndex,
@@ -53,9 +52,11 @@ export const BurgerConstructor = () => {
 		});
 	};
 
-	const constructorBun = useAppSelector((state: any) => state.constructor.bun);
+	const constructorBun: IIngredient = useAppSelector(
+		(state: any) => state.constructor.bun
+	);
 
-	const constructorIngredients = useAppSelector(
+	const constructorIngredients: IIngredient[] = useAppSelector(
 		(state: any) => state.constructor.ingredients
 	);
 
@@ -65,32 +66,40 @@ export const BurgerConstructor = () => {
 	}
 	if (constructorIngredients) {
 		totalPrice += constructorIngredients.reduce(
-			(acc: number, ingredient: IngredientProps) => {
+			(acc: number, ingredient: IIngredient) => {
 				return acc + ingredient.price;
 			},
 			0
 		);
 	}
 
-	const handleCreateOrder = () => {
+	const handleCreateOrder = (): void => {
 		if (!isAuth) {
 			navigate('/login', { state: { from: location } });
+			return;
 		}
-		const ingredientsIds = constructorIngredients.map(
-			(ingredient: IngredientProps) => ingredient._id
-		);
+
+		const ingredientsIds: (string | number | bigint | null | undefined)[] =
+			constructorIngredients.map(
+				(ingredient: IIngredient): Key | null | undefined => ingredient._id
+			);
+
 		if (constructorBun) {
 			ingredientsIds.unshift(constructorBun._id);
 		}
+
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		dispatch<any>(createOrder(ingredientsIds));
+
 		dispatch({ type: VIEW_ORDER });
 		openModal();
 	};
 
-	const renderIngredients = () => {
+	const renderIngredients = (): ReactNode[] | ReactNode => {
 		if (!constructorIngredients) return null;
 		return constructorIngredients.map(
-			(ingredient: IngredientProps, index: number) => {
+			(ingredient: IIngredient, index: number) => {
 				return (
 					<ConstructorIngredient
 						key={ingredient.uniqueId}

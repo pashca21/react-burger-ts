@@ -1,20 +1,23 @@
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useAppSelector } from '../hooks/useAppSelector';
+import { ReactNode, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import { useAppDispatch } from '../hooks/useAppDispatch';
+import { useAppSelector, useAppDispatch } from '@hooks/index';
 import { getUser, updateAccessToken } from '@services/actions/auth';
+import { IAuth } from '@interfaces/auth';
 
 interface ProtectedRouteElementProps {
-	element?: JSX.Element;
+	element?: ReactNode;
 }
 
 export const ProtectedRouteElement = (props: ProtectedRouteElementProps) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
-	const auth = useAppSelector((state: any) => state.auth);
-	const [isUserLoaded, setUserLoaded] = useState(false);
+
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	const auth: IAuth = useAppSelector((state) => state.auth);
+	const [isUserLoaded, setUserLoaded] = useState<boolean>(false);
 
 	const init = async () => {
 		if (auth.user.email && auth.isAuth) {
@@ -45,6 +48,8 @@ export const ProtectedRouteElement = (props: ProtectedRouteElementProps) => {
 
 		if (refreshToken && needToUpdateAccessToken) {
 			try {
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-ignore
 				await dispatch<any>(updateAccessToken(refreshToken));
 			} catch {
 				navigate('/login', { state: { from: location } });
@@ -59,6 +64,7 @@ export const ProtectedRouteElement = (props: ProtectedRouteElementProps) => {
 				await dispatch<any>(updateAccessToken(refreshToken));
 			} catch {
 				navigate('/login', { state: { from: location } });
+				return;
 			}
 			await dispatch<any>(getUser(auth.accessToken, refreshToken));
 		}

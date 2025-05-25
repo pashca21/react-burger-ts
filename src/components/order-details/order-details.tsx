@@ -1,11 +1,10 @@
+import { ReactNode, useEffect } from 'react';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './order-details.module.css';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { useEffect } from 'react';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector, useAppDispatch } from '@hooks/index';
 import { CLEAR_ORDER } from '@services/actions/order';
 
-export const OrderDetails = () => {
+export const OrderDetails = (): ReactNode => {
 	const order = useAppSelector((state: any) => state.order);
 	const dispatch = useAppDispatch();
 

@@ -7,18 +7,18 @@ import {
 	addIngredient,
 	addBun,
 } from '@services/actions/constructor';
-import { IngredientProps } from '@utils/types';
+import { IIngredient } from '@interfaces/index';
 
 const initialState = {
 	bun: null,
-	ingredients: [] as IngredientProps[],
+	ingredients: [] as IIngredient[],
 };
 
 export const constructorReducer = (
 	state = initialState,
 	action: {
 		type: string;
-		ingredient: IngredientProps;
+		ingredient: IIngredient;
 		index: number;
 		dragIndex?: number;
 		hoverIndex?: number;
