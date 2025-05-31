@@ -6,7 +6,7 @@ import styles from './burger-ingredient.module.css';
 import { useModal } from '../../hooks/useModal';
 import { Modal } from '@components/modal/modal';
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
-import { IngredientProps } from '@utils/types';
+import { IIngredient } from '@utils/types';
 import {
 	CLOSE_INGREDIENT,
 	VIEW_INGREDIENT,
@@ -17,7 +17,7 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
-export const BurgerIngredient = (props: { ingredient: IngredientProps }) => {
+export const BurgerIngredient = (props: { ingredient: IIngredient }) => {
 	const dispatch = useAppDispatch();
 	const [searchParams] = useSearchParams();
 
@@ -39,7 +39,7 @@ export const BurgerIngredient = (props: { ingredient: IngredientProps }) => {
 
 	if (constructorIngredients) {
 		constructorIngredient_a = constructorIngredients.filter(
-			(ingredient: IngredientProps) => ingredient._id === props.ingredient._id
+			(ingredient: IIngredient) => ingredient._id === props.ingredient._id
 		);
 	}
 

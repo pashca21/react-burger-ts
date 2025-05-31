@@ -15,12 +15,16 @@ export const getIngredientsRequest = async () => {
 	}
 };
 
-export const createOrderRequest = async (ingredients_ids: string[]) => {
+export const createOrderRequest = async (
+	ingredients_ids: string[],
+	accessToken: string
+) => {
 	try {
 		const data = await request('orders', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + accessToken,
 			},
 			body: JSON.stringify({
 				ingredients: ingredients_ids,

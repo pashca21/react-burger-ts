@@ -1,0 +1,20 @@
+.section {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 45%;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+}
+
+.row {
+	display: flex;
+}
+
+.two_columns {
+	column-count: 2;
+	column-gap: 10px;
+}

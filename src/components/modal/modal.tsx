@@ -2,10 +2,10 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './modal.module.css';
-import { ModalProps } from '@utils/types';
+import { IModal } from '@utils/types';
 import { ModalOverlay } from '@components/modal-overlay/modal-overlay';
 
-export const Modal = ({ children, onClose, title }: ModalProps) => {
+export const Modal = ({ children, onClose, title }: IModal) => {
 	useEffect(() => {
 		const handleEscKey = (event: KeyboardEvent) => {
 			if (event.key === 'Escape') {

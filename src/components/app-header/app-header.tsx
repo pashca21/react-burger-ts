@@ -19,8 +19,8 @@ export const AppHeader = () => {
 		navigate('/profile');
 	};
 
-	const handleOrdersLink = () => {
-		navigate('/profile/orders');
+	const handleFeedLink = () => {
+		navigate('/feed');
 	};
 
 	return (
@@ -37,7 +37,7 @@ export const AppHeader = () => {
 				</Button>
 				<Button
 					htmlType='button'
-					onClick={handleOrdersLink}
+					onClick={handleFeedLink}
 					type='secondary'
 					size='medium'
 					extraClass={`${styles.button} mt-5 mb-4`}>
@@ -45,8 +45,8 @@ export const AppHeader = () => {
 					Лента заказов
 				</Button>
 			</div>
-			<div>
-				<Logo />
+			<div onClick={handleHomeLink}>
+				<Logo/>
 			</div>
 			<div>
 				<Button

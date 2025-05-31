@@ -1,21 +1,35 @@
 import React, { useEffect } from 'react';
 import styles from '../auth/login.module.css';
-import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { VIEW_INGREDIENT } from '@services/actions/ingredient';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getIngredients } from '@services/actions/ingredients';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { IIngredient } from '@utils/types';
+import { FeedOrder } from '@components/feed/feed-order';
+import { WS_CONNECTION_START } from '@services/actions/websocket';
+import { WEBSOCKET_URL } from '@utils/constants';
 
-export const IngredientPage = () => {
+export const OrderPage = () => {
 	const dispatch = useAppDispatch();
+	const location = useLocation();
 	const navigate = useNavigate();
+
 	const { id } = useParams();
 
-	const ingredient = useAppSelector(
-		(state: any) => state.ingredient.ingredient
-	);
+	const order = useAppSelector((state: any) => state.feedOrder.order);
+
+	useEffect(() => {
+		return () => {
+			dispatch({ type: 'WS_CONNECTION_CLOSE' });
+		};
+	}, [location.pathname, dispatch]);
+
+	useEffect(() => {
+		dispatch({
+			type: WS_CONNECTION_START,
+			payload: WEBSOCKET_URL + 'orders/all',
+		});
+	}, [dispatch]);
 
 	const {
 		loading: loadingIngredients,
@@ -24,14 +38,8 @@ export const IngredientPage = () => {
 	} = useAppSelector((state: any) => state.ingredients);
 
 	useEffect(() => {
-		if (ingredients.length === 0 && !loadingIngredients) {
-			dispatch<any>(getIngredients());
-		}
-	}, [dispatch, ingredients, loadingIngredients]);
-
-	useEffect(() => {
 		if (performance.navigation.type === 1) {
-			navigate('/?openModalIngredientId=' + id);
+			navigate('/?openModalOrderId=' + id);
 		}
 	}, [dispatch, id, navigate]);
 
@@ -42,7 +50,7 @@ export const IngredientPage = () => {
 		if (ingredient) {
 			dispatch({ type: VIEW_INGREDIENT, ingredient: ingredient });
 		}
-	}, [dispatch, id, ingredient, ingredients]);
+	}, [dispatch, id, order, ingredients]);
 
 	if (loadingIngredients) {
 		return <p>Загрузка...</p>;
@@ -52,15 +60,17 @@ export const IngredientPage = () => {
 		return <p>Ошибка загрузки ингредиентов: {errorIngredients}</p>;
 	}
 
-	if (!ingredient) {
-		return <p>Ингредиент не найден</p>;
+	if (!order) {
+		return <p>Заказ не найден</p>;
 	}
 
 	return (
 		<div className={`${styles.container}`}>
 			<div className={`${styles.form}`}>
-				<h1 className={'mb-6 text text_type_main-large'}>Детали ингредиента</h1>
-				<IngredientDetails />
+				<h1 className={'mb-6 text text_type_main-large'}>
+					Информация о заказе
+				</h1>
+				<FeedOrder order={order} />
 			</div>
 		</div>
 	);

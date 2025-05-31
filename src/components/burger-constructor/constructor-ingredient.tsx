@@ -2,7 +2,7 @@ import {
 	ConstructorElement,
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IngredientProps } from '@utils/types';
+import { IIngredient } from '@utils/types';
 import styles from './burger-constructor.module.css';
 import { useDrag, useDrop } from 'react-dnd';
 import { REMOVE_INGREDIENT } from '@services/actions/constructor';
@@ -13,7 +13,7 @@ export const ConstructorIngredient = ({
 	index,
 	moveIngredient,
 }: {
-	ingredient: IngredientProps;
+	ingredient: IIngredient;
 	index: number;
 	moveIngredient: (dragIndex: number, hoverIndex: number) => void;
 }) => {

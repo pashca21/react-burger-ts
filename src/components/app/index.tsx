@@ -9,6 +9,7 @@ import {
 	ProfilePage,
 	IngredientPage,
 	LogoutPage,
+	FeedPage,
 } from '@pages/index';
 import { AppHeader } from '@components/app-header/app-header';
 import styles from './app.module.css';
@@ -20,6 +21,7 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { ProtectedRouteElement } from '@components/protected-route-element';
 import { Orders } from '@components/orders/orders';
 import { Profile } from '@components/profile/profile';
+import { OrderPage } from '@pages/order/order';
 
 export const App = () => {
 	const dispatch = useAppDispatch();
@@ -37,6 +39,9 @@ export const App = () => {
 						<Routes>
 							<Route path='/' element={<HomePage />} />
 							<Route path='/ingredients/:id' element={<IngredientPage />} />
+							<Route path='/feed/:id' element={<OrderPage />} />
+							<Route path='/feed' element={<FeedPage />} />
+							<Route path='/profile/orders/:id' element={<OrderPage />} />
 							<Route
 								path='/profile'
 								element={<ProtectedRouteElement element={<ProfilePage />} />}>

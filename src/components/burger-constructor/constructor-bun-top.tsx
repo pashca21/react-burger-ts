@@ -3,7 +3,9 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 
 export const ConstructorBunTop = () => {
 	const ingredient = useAppSelector((state: any) => state.constructor.bun);
-	if (!ingredient) return null;
+	if (!ingredient) {
+		return null;
+	}
 	return (
 		<ConstructorElement
 			key={ingredient.uniqueId}

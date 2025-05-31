@@ -8,25 +8,25 @@ import {
 } from '@services/api';
 import Cookies from 'js-cookie';
 
-export const REGISTER_REQUEST = 'REGISTER_REQUEST';
-export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-export const REGISTER_FAILED = 'REGISTER_FAILED';
-export const UPDATE_ACCESS_TOKEN_REQUEST = 'UPDATE_ACCESS_TOKEN_REQUEST';
-export const UPDATE_ACCESS_TOKEN_SUCCESS = 'UPDATE_ACCESS_TOKEN_SUCCESS';
-export const UPDATE_ACCESS_TOKEN_FAILED = 'UPDATE_ACCESS_TOKEN_FAILED';
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAILED = 'LOGIN_FAILED';
-export const CLEAR_LOGIN = 'CLEAR_LOGIN';
-export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-export const LOGOUT_FAILED = 'LOGOUT_FAILED';
-export const GET_USER_REQUEST = 'GET_USER_REQUEST';
-export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
-export const GET_USER_FAILED = 'GET_USER_FAILED';
-export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
-export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
-export const UPDATE_USER_FAILED = 'UPDATE_USER_FAILED';
+export const REGISTER_REQUEST = 'REGISTER_REQUEST' as const;
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS' as const;
+export const REGISTER_FAILED = 'REGISTER_FAILED' as const;
+export const UPDATE_ACCESS_TOKEN_REQUEST = 'UPDATE_ACCESS_TOKEN_REQUEST' as const;
+export const UPDATE_ACCESS_TOKEN_SUCCESS = 'UPDATE_ACCESS_TOKEN_SUCCESS' as const;
+export const UPDATE_ACCESS_TOKEN_FAILED = 'UPDATE_ACCESS_TOKEN_FAILED' as const;
+export const LOGIN_REQUEST = 'LOGIN_REQUEST' as const;
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS' as const;
+export const LOGIN_FAILED = 'LOGIN_FAILED' as const;
+export const CLEAR_LOGIN = 'CLEAR_LOGIN' as const;
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST' as const;
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS' as const;
+export const LOGOUT_FAILED = 'LOGOUT_FAILED' as const;
+export const GET_USER_REQUEST = 'GET_USER_REQUEST' as const;
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS' as const;
+export const GET_USER_FAILED = 'GET_USER_FAILED' as const;
+export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST' as const;
+export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS' as const;
+export const UPDATE_USER_FAILED = 'UPDATE_USER_FAILED' as const;
 
 export const register = (name: string, email: string, password: string) => {
 	return function (dispatch: any) {

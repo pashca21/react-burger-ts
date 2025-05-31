@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerIngredient } from '@components/burger-ingredients/burger-ingredient';
-import { IngredientProps } from '@utils/types';
+import { IIngredient } from '@utils/types';
 import styles from './burger-ingredients.module.css';
 import { useAppSelector } from '../../hooks/useAppSelector';
 
@@ -57,7 +57,7 @@ export const BurgerIngredients = () => {
 	const renderIngredients = (type: string) => {
 		return ingredients
 			.filter((ingredient: { type: string }) => ingredient.type === type)
-			.map((ingredient: IngredientProps) => (
+			.map((ingredient: IIngredient) => (
 				<BurgerIngredient key={ingredient._id} ingredient={ingredient} />
 			));
 	};

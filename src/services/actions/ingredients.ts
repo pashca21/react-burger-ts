@@ -1,8 +1,28 @@
 import { getIngredientsRequest } from '../api';
+import { IIngredient } from '@utils/types';
 
-export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
-export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
-export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
+export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST' as const;
+export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS' as const;
+export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED' as const;
+
+export interface IGetIngredientsRequestAction {
+	readonly type: typeof GET_INGREDIENTS_REQUEST;
+}
+
+export interface IGetIngredientsSuccessAction {
+	readonly type: typeof GET_INGREDIENTS_SUCCESS;
+	readonly ingredients: IIngredient[];
+}
+
+export interface IGetIngredientsFailedAction {
+	readonly type: typeof GET_INGREDIENTS_FAILED;
+	readonly message?: string;
+}
+
+export type TIngredientsActions =
+	| IGetIngredientsRequestAction
+	| IGetIngredientsSuccessAction
+	| IGetIngredientsFailedAction;
 
 export function getIngredients() {
 	return function (dispatch: any) {

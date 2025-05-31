@@ -4,7 +4,7 @@ import {
 	Button,
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IngredientProps } from '@utils/types';
+import { IIngredient } from '@utils/types';
 import styles from './burger-constructor.module.css';
 import { useModal } from '../../hooks/useModal';
 import { useDrop } from 'react-dnd';
@@ -25,12 +25,12 @@ export const BurgerConstructor = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { isAuth } = useAppSelector((state: any) => state.auth);
+	const { isAuth, accessToken } = useAppSelector((state: any) => state.auth);
 	const { isModalOpen, openModal, closeModal } = useModal();
 
 	const [, dropTarget] = useDrop({
 		accept: 'ingredient',
-		drop(ingredient: IngredientProps) {
+		drop(ingredient: IIngredient) {
 			if (ingredient.type === 'bun') {
 				dispatch({
 					type: ADD_BUN,
@@ -65,7 +65,7 @@ export const BurgerConstructor = () => {
 	}
 	if (constructorIngredients) {
 		totalPrice += constructorIngredients.reduce(
-			(acc: number, ingredient: IngredientProps) => {
+			(acc: number, ingredient: IIngredient) => {
 				return acc + ingredient.price;
 			},
 			0
@@ -77,12 +77,12 @@ export const BurgerConstructor = () => {
 			navigate('/login', { state: { from: location } });
 		}
 		const ingredientsIds = constructorIngredients.map(
-			(ingredient: IngredientProps) => ingredient._id
+			(ingredient: IIngredient) => ingredient._id
 		);
 		if (constructorBun) {
 			ingredientsIds.unshift(constructorBun._id);
 		}
-		dispatch<any>(createOrder(ingredientsIds));
+		dispatch<any>(createOrder(ingredientsIds, accessToken));
 		dispatch({ type: VIEW_ORDER });
 		openModal();
 	};
@@ -90,7 +90,7 @@ export const BurgerConstructor = () => {
 	const renderIngredients = () => {
 		if (!constructorIngredients) return null;
 		return constructorIngredients.map(
-			(ingredient: IngredientProps, index: number) => {
+			(ingredient: IIngredient, index: number) => {
 				return (
 					<ConstructorIngredient
 						key={ingredient.uniqueId}
