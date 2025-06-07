@@ -8,14 +8,17 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { resetPassword } from '@services/actions/password';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { TRootState } from '@utils/types';
 
 export const ResetPasswordPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const { isAuth } = useAppSelector((state: any) => state.auth);
-	if (isAuth) navigate('/');
+	const { isAuth } = useAppSelector((state: TRootState) => state.auth);
+	if (isAuth) {
+		navigate('/');
+	}
 
 	const [form, setValue] = useState({ password: '', token: '' });
 	const onChange = (e: {

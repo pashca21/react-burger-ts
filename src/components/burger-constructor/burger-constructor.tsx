@@ -4,7 +4,7 @@ import {
 	Button,
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IIngredient } from '@utils/types';
+import { IIngredient, TRootState } from '@utils/types';
 import styles from './burger-constructor.module.css';
 import { useModal } from '../../hooks/useModal';
 import { useDrop } from 'react-dnd';
@@ -25,7 +25,9 @@ export const BurgerConstructor = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { isAuth, accessToken } = useAppSelector((state: any) => state.auth);
+	const { isAuth, accessToken } = useAppSelector(
+		(state: TRootState) => state.auth
+	);
 	const { isModalOpen, openModal, closeModal } = useModal();
 
 	const [, dropTarget] = useDrop({
@@ -34,12 +36,12 @@ export const BurgerConstructor = () => {
 			if (ingredient.type === 'bun') {
 				dispatch({
 					type: ADD_BUN,
-					ingredient: ingredient,
+					ingredient: { ...ingredient, uniqueId: '' },
 				});
 			} else {
 				dispatch({
 					type: ADD_INGREDIENT,
-					ingredient: ingredient,
+					ingredient: { ...ingredient, uniqueId: '' },
 				});
 			}
 		},
@@ -53,11 +55,8 @@ export const BurgerConstructor = () => {
 		});
 	};
 
-	const constructorBun = useAppSelector((state: any) => state.constructor.bun);
-
-	const constructorIngredients = useAppSelector(
-		(state: any) => state.constructor.ingredients
-	);
+	const { bun: constructorBun, ingredients: constructorIngredients } =
+		useAppSelector((state: TRootState) => state.constructor);
 
 	let totalPrice = 0;
 	if (constructorBun) {
@@ -76,19 +75,35 @@ export const BurgerConstructor = () => {
 		if (!isAuth) {
 			navigate('/login', { state: { from: location } });
 		}
-		const ingredientsIds = constructorIngredients.map(
-			(ingredient: IIngredient) => ingredient._id
-		);
-		if (constructorBun) {
+		const ingredientsIds = constructorIngredients
+			.map((ingredient: IIngredient) => ingredient._id)
+			.filter((id): id is string => !!id);
+		if (constructorBun && constructorBun._id) {
 			ingredientsIds.unshift(constructorBun._id);
 		}
-		dispatch<any>(createOrder(ingredientsIds, accessToken));
-		dispatch({ type: VIEW_ORDER });
+		if (accessToken) {
+			dispatch<any>(createOrder(ingredientsIds, accessToken));
+		}
+		dispatch({
+			type: VIEW_ORDER,
+			number: 0,
+			order: {
+				_id: '',
+				name: '',
+				status: '',
+				number: 0,
+				createdAt: '',
+				updatedAt: '',
+				ingredients: [],
+			},
+		});
 		openModal();
 	};
 
 	const renderIngredients = () => {
-		if (!constructorIngredients) return null;
+		if (!constructorIngredients) {
+			return null;
+		}
 		return constructorIngredients.map(
 			(ingredient: IIngredient, index: number) => {
 				return (

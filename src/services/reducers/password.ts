@@ -1,17 +1,20 @@
 import {
 	FORGOT_PASSWORD_SUCCESS,
 	RESET_PASSWORD_SUCCESS,
+	TPasswordActions,
 } from '@services/actions/password';
 
-const initialState = {
+export type TPasswordState = {
+	isSent: boolean;
+};
+
+const passwordInitialState = {
 	isSent: false,
 };
 
 export const passwordReducer = (
-	state = initialState,
-	action: {
-		type: string;
-	}
+	state: TPasswordState = passwordInitialState,
+	action: TPasswordActions
 ) => {
 	switch (action.type) {
 		case FORGOT_PASSWORD_SUCCESS: {

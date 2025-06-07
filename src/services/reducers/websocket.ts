@@ -14,7 +14,7 @@ type TWSState = {
 	error?: Event;
 };
 
-const initialState: TWSState = {
+const websocketInitialState: TWSState = {
 	wsConnected: false,
 	ordersAll: undefined,
 	ordersUser: undefined,
@@ -22,7 +22,7 @@ const initialState: TWSState = {
 };
 
 export const websocketReducer = (
-	state: TWSState = initialState,
+	state: TWSState = websocketInitialState,
 	action: TWSActions
 ) => {
 	switch (action.type) {

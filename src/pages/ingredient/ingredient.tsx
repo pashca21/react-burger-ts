@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getIngredients } from '@services/actions/ingredients';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { IIngredient } from '@utils/types';
+import { IIngredient, TRootState } from '@utils/types';
 
 export const IngredientPage = () => {
 	const dispatch = useAppDispatch();
@@ -14,14 +14,14 @@ export const IngredientPage = () => {
 	const { id } = useParams();
 
 	const ingredient = useAppSelector(
-		(state: any) => state.ingredient.ingredient
+		(state: TRootState) => state.ingredient.ingredient
 	);
 
 	const {
 		loading: loadingIngredients,
 		error: errorIngredients,
 		ingredients,
-	} = useAppSelector((state: any) => state.ingredients);
+	} = useAppSelector((state: TRootState) => state.ingredients);
 
 	useEffect(() => {
 		if (ingredients.length === 0 && !loadingIngredients) {

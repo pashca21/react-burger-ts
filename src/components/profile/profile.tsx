@@ -10,18 +10,20 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { updateUser } from '@services/actions/auth';
 import Cookies from 'js-cookie';
+import { TRootState } from '@utils/types';
 
 export const Profile = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const { user } = useAppSelector((state: any) => state.auth);
-	const { accessToken } = useAppSelector((state: any) => state.auth);
+	const { user, accessToken } = useAppSelector(
+		(state: TRootState) => state.auth
+	);
 
 	const [isDataChanged, setIsDataChanged] = useState(false);
 
 	const [form, setValue] = useState({
-		name: user.name,
-		email: user.email,
+		name: user?.name,
+		email: user?.email,
 		password: '',
 	});
 	const onChange = (e: {
@@ -32,9 +34,9 @@ export const Profile = () => {
 	}) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 		if (
-			user.name !== form.name ||
-			user.email !== form.email ||
-			user.password !== form.password
+			user?.name !== form.name ||
+			user?.email !== form.email ||
+			user?.password !== form.password
 		) {
 			setIsDataChanged(true);
 		} else {
@@ -43,26 +45,40 @@ export const Profile = () => {
 	};
 	const saveUserData = () => {
 		const refreshToken = Cookies.get('refreshToken') || '';
-		dispatch<any>(
-			updateUser(
-				accessToken,
-				refreshToken,
-				form.name,
-				form.email,
-				form.password
-			)
-		);
+		if (!refreshToken) {
+			navigate('/login');
+			return;
+		}
+		if (accessToken) {
+			dispatch<any>(
+				updateUser(
+					accessToken,
+					refreshToken,
+					form?.name ?? '',
+					form?.email ?? '',
+					form?.password ?? ''
+				)
+			);
+		}
 		navigate('/');
 	};
 
 	const cancelSaveUserData = () => {
-		setValue({ name: user.name, email: user.email, password: '' });
+		setValue({
+			name: user?.name ?? '',
+			email: user?.email ?? '',
+			password: '',
+		});
 		setIsDataChanged(false);
 	};
 
 	useEffect(() => {
-		setValue({ name: user.name, email: user.email, password: '' });
-	}, [user]);
+		setValue({
+			name: user?.name ?? '',
+			email: user?.email ?? '',
+			password: '',
+		});
+	}, [user?.name, user?.email]);
 
 	return (
 		<div className={`${styles.form}`}>
@@ -71,7 +87,7 @@ export const Profile = () => {
 					type='text'
 					placeholder='Имя'
 					name='name'
-					value={form.name}
+					value={form?.name ?? ''}
 					onChange={onChange}
 					extraClass={'mb-6'}
 					icon={'EditIcon'}
@@ -81,7 +97,7 @@ export const Profile = () => {
 					type='email'
 					placeholder='Логин'
 					name='email'
-					value={form.email}
+					value={form?.email ?? ''}
 					onChange={onChange}
 					extraClass={'mb-6'}
 					icon={'EditIcon'}

@@ -15,7 +15,12 @@ import {
 	WS_GET_MESSAGE_ORDERS_ALL,
 	WS_GET_MESSAGE_ORDERS_USER,
 } from '@services/actions/websocket';
-import type { TWSStoreActions } from '@utils/types';
+import type {
+	TApplicationActions,
+	TRootState,
+	TWSStoreActions,
+} from '@utils/types';
+import { ThunkMiddleware } from '@reduxjs/toolkit';
 
 const composeEnhancers =
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -36,7 +41,10 @@ const wsActions: TWSStoreActions = {
 };
 
 const enhancer = composeEnhancers(
-	applyMiddleware(thunk, websocketMiddleware(wsActions))
+	applyMiddleware(
+		thunk as ThunkMiddleware<TRootState, TApplicationActions>,
+		websocketMiddleware(wsActions)
+	)
 );
 
 const store = createStore(rootReducer, enhancer);
@@ -50,3 +58,5 @@ root.render(
 	</Provider>
 	// </StrictMode>
 );
+
+export type AppDispatch = typeof store.dispatch;

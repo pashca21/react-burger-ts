@@ -8,14 +8,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { forgotPassword } from '@services/actions/password';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { TRootState } from '@utils/types';
 
 export const ForgotPasswordPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [email, setEmail] = useState('');
 
-	const { isAuth } = useAppSelector((state: any) => state.auth);
-	if (isAuth) navigate('/');
+	const { isAuth } = useAppSelector((state: TRootState) => state.auth);
+	if (isAuth) {
+		navigate('/');
+	}
 
 	const onChange = (e: {
 		target: {

@@ -6,7 +6,7 @@ import styles from './burger-ingredient.module.css';
 import { useModal } from '../../hooks/useModal';
 import { Modal } from '@components/modal/modal';
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
-import { IIngredient } from '@utils/types';
+import { IIngredient, TRootState } from '@utils/types';
 import {
 	CLOSE_INGREDIENT,
 	VIEW_INGREDIENT,
@@ -32,7 +32,7 @@ export const BurgerIngredient = (props: { ingredient: IIngredient }) => {
 	});
 
 	const constructorIngredients = useAppSelector(
-		(state: any) => state.constructor.ingredients
+		(state: TRootState) => state.constructor.ingredients
 	);
 
 	let constructorIngredient_a = [];
@@ -65,7 +65,7 @@ export const BurgerIngredient = (props: { ingredient: IIngredient }) => {
 		if (searchParams.get('openModalIngredientId') === props.ingredient._id) {
 			handleIngredientClick();
 		}
-	}, [searchParams, props.ingredient._id]);
+	}, [searchParams, props.ingredient._id, handleIngredientClick]);
 
 	return (
 		<>

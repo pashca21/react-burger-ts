@@ -4,9 +4,10 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { CLEAR_ORDER } from '@services/actions/order';
+import { TRootState } from '@utils/types';
 
 export const OrderDetails = () => {
-	const order = useAppSelector((state: any) => state.order);
+	const order = useAppSelector((state: TRootState) => state.order);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {

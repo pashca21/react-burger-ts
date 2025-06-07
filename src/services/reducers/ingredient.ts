@@ -2,16 +2,21 @@ import {
 	VIEW_INGREDIENT,
 	CLOSE_INGREDIENT,
 } from '@services/actions/ingredient';
-import { IIngredient } from '@utils/types';
+import type { IIngredient } from '@utils/types';
+import type { TIngredientActions } from '@services/actions/ingredient';
 
-const initialState = {
+export type TIngredientState = {
+	ingredient: IIngredient | null;
+};
+
+export const ingredientInitialState: TIngredientState = {
 	ingredient: null,
 };
 
 export const ingredientReducer = (
-	state = initialState,
-	action: { type: string; ingredient: IIngredient }
-) => {
+	state: TIngredientState = ingredientInitialState,
+	action: TIngredientActions
+): TIngredientState => {
 	switch (action.type) {
 		case VIEW_INGREDIENT: {
 			return {

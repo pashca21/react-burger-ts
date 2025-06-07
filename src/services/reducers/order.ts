@@ -2,21 +2,23 @@ import {
 	CLEAR_ORDER,
 	CREATE_ORDER_SUCCESS,
 	VIEW_ORDER,
+	TOrderActions,
 } from '@services/actions/order';
 
-const initialState = {
+interface IOrderState {
+	name: string;
+	number: number;
+	order?: string;
+}
+
+const orderInitialState: IOrderState = {
 	name: '',
 	number: 0,
 };
 
 export const orderReducer = (
-	state = initialState,
-	action: {
-		number: number;
-		name: string;
-		type: string;
-		order: string;
-	}
+	state: IOrderState = orderInitialState,
+	action: TOrderActions
 ) => {
 	switch (action.type) {
 		case VIEW_ORDER: {

@@ -42,6 +42,26 @@ export const createOrderRequest = async (
 	}
 };
 
+export const getOrderRequest = async (order_id: string) => {
+	try {
+		const data = await request(`orders/${order_id}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		return {
+			success: true,
+			data: data,
+		};
+	} catch (error) {
+		return {
+			success: false,
+			message: error,
+		};
+	}
+};
+
 export const postRegisterRequest = async (
 	name: string,
 	email: string,

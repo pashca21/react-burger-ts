@@ -3,24 +3,28 @@ import {
 	GET_INGREDIENTS_SUCCESS,
 	GET_INGREDIENTS_FAILED,
 } from '@services/actions/ingredients';
-import { IIngredient } from '@utils/types';
+import type { IIngredient } from '@utils/types';
+import type { TIngredientsActions } from '@services/actions/ingredients';
 
-const initialState = {
+export type TIngredientsState = {
+	ingredients: Array<IIngredient>;
+	loading: boolean;
+	error: boolean;
+};
+
+export const ingredientsInitialState: TIngredientsState = {
 	ingredients: [],
 	loading: false,
 	error: false,
 };
 
 export const ingredientsReducer = (
-	state = initialState,
-	action: { type: string; ingredients: IIngredient[] }
-) => {
+	state: TIngredientsState = ingredientsInitialState,
+	action: TIngredientsActions
+): TIngredientsState => {
 	switch (action.type) {
 		case GET_INGREDIENTS_REQUEST: {
-			return {
-				...state,
-				loading: true,
-			};
+			return { ...state, loading: true };
 		}
 		case GET_INGREDIENTS_SUCCESS: {
 			return {
@@ -31,11 +35,7 @@ export const ingredientsReducer = (
 			};
 		}
 		case GET_INGREDIENTS_FAILED: {
-			return {
-				...state,
-				error: true,
-				loading: false,
-			};
+			return { ...state, error: true, loading: false };
 		}
 		default: {
 			return state;

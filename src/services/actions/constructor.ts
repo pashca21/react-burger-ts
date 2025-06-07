@@ -17,6 +17,13 @@ export interface IAddIngredientAction {
 	readonly ingredient: IIngredient & { uniqueId: string };
 }
 
+export type TConstructorActions =
+	| IAddBunAction
+	| IAddIngredientAction
+	| { type: typeof REMOVE_INGREDIENT; index: number }
+	| { type: typeof MOVE_INGREDIENT; dragIndex: number; hoverIndex: number }
+	| { type: typeof CLEAR_CONSTRUCTOR };
+
 export const addBun = (ingredient: IIngredient): IAddBunAction => {
 	return {
 		type: ADD_BUN,

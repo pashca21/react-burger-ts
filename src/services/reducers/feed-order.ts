@@ -1,25 +1,30 @@
 import {
-	VIEW_ORDER,
-	CLOSE_ORDER,
+	VIEW_FEED_ORDER,
+	CLOSE_FEED_ORDER,
+	TFeedOrderActions,
 } from '@services/actions/feed-order';
 import { IOrder } from '@utils/types';
 
-const initialState = {
+export type TFeedOrderState = {
+	order: IOrder | null;
+};
+
+const feedOrderInitialState: TFeedOrderState = {
 	order: null,
 };
 
 export const feedOrderReducer = (
-	state = initialState,
-	action: { type: string; order: IOrder }
+	state: TFeedOrderState = feedOrderInitialState,
+	action: TFeedOrderActions
 ) => {
 	switch (action.type) {
-		case VIEW_ORDER: {
+		case VIEW_FEED_ORDER: {
 			return {
 				...state,
 				order: action.order,
 			};
 		}
-		case CLOSE_ORDER: {
+		case CLOSE_FEED_ORDER: {
 			return {
 				...state,
 				order: null,

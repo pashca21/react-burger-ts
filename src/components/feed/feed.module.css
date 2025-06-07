@@ -4,13 +4,6 @@
 	cursor: pointer;
 }
 
-.modalHeader {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
-}
-
 .images_row {
 	display: flex;
 	justify-content: center;

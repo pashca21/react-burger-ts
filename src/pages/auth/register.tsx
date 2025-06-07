@@ -8,13 +8,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { register } from '@services/actions/auth';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { TRootState } from '@utils/types';
 
 export const RegisterPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	const { isAuth } = useAppSelector((state: any) => state.auth);
-	if (isAuth) navigate('/');
+	const { isAuth } = useAppSelector((state: TRootState) => state.auth);
+	if (isAuth) {
+		navigate('/');
+	}
 
 	const [form, setValue] = useState({ name: '', email: '', password: '' });
 	const onChange = (e: {

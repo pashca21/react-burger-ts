@@ -3,7 +3,6 @@ import { jwtDecode } from 'jwt-decode';
 import { IIngredient } from '@utils/types';
 
 const checkResponse = (res: Response) => {
-	console.log(res);
 	if (res.ok) {
 		return res.json();
 	}

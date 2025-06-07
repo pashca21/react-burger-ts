@@ -9,6 +9,7 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { login } from '@services/actions/auth';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useForm } from '../../hooks/useForm';
+import { TRootState } from '@utils/types';
 
 export const LoginPage = () => {
 	const navigate = useNavigate();
@@ -16,8 +17,10 @@ export const LoginPage = () => {
 	const location = useLocation();
 	const from = location.state?.from?.pathname || '/';
 
-	const { isAuth } = useAppSelector((state: any) => state.auth);
-	if (isAuth) navigate(from, { replace: true });
+	const { isAuth } = useAppSelector((state: TRootState) => state.auth);
+	if (isAuth) {
+		navigate(from, { replace: true });
+	}
 
 	const [values, onChange] = useForm<{ email: string; password: string }>({
 		email: '',

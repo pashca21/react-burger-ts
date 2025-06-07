@@ -1,8 +1,11 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { TRootState } from '@utils/types';
 
 export const ConstructorBunBottom = () => {
-	const ingredient = useAppSelector((state: any) => state.constructor.bun);
+	const ingredient = useAppSelector(
+		(state: TRootState) => state.constructor.bun
+	);
 	if (!ingredient) {
 		return null;
 	}

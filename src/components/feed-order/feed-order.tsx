@@ -7,13 +7,13 @@ import {
 	getOrderStatusText,
 	modifyDateTimeToReadable,
 } from '@utils/functions';
-import { IOrder } from '@utils/types';
+import { IIngredient, IOrder, TRootState } from '@utils/types';
 import { BurgerIngredientInOrder } from '@components/burger-ingredients/burger-ingredient-in-order';
 
 export const FeedOrderDetails = (props: { order: IOrder }) => {
 	const { order } = props;
 	const ingredients = useAppSelector(
-		(state: any) => state.ingredients.ingredients
+		(state: TRootState) => state.ingredients.ingredients
 	);
 
 	const price = getOrderPrice(order.ingredients, ingredients);
@@ -30,8 +30,6 @@ export const FeedOrderDetails = (props: { order: IOrder }) => {
 		}
 	});
 
-	console.log('ingredientsIdsWithCount', ingredientsIdsWithCount);
-
 	return (
 		<div className={styles.orderDetails}>
 			{order.number ? (
@@ -46,7 +44,7 @@ export const FeedOrderDetails = (props: { order: IOrder }) => {
 						{ingredientsIdsWithCount.map(
 							(ing: { id: string; count: number }) => {
 								const ingredient = ingredients.find(
-									(ingredient: { _id: string }) => ingredient._id === ing.id
+									(ingredient: IIngredient) => ingredient._id === ing.id
 								);
 								if (!ingredient) {
 									return null;

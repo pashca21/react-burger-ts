@@ -1,9 +1,10 @@
 import styles from './ingredient-details.module.css';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { TRootState } from '@utils/types';
 
 export const IngredientDetails = () => {
 	const ingredient = useAppSelector(
-		(state: any) => state.ingredient.ingredient
+		(state: TRootState) => state.ingredient.ingredient
 	);
 
 	if (!ingredient) {

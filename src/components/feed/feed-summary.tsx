@@ -1,24 +1,21 @@
 import styles from './feed-summary.module.css';
 import React from 'react';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { IOrders, IOrder } from '@utils/types';
+import { IOrder, TRootState } from '@utils/types';
 
 export const FeedSummary = () => {
-	const ordersAll: IOrders = useAppSelector(
-		(state: any) => state.websocket.ordersAll
-	);
+	const { ordersAll } = useAppSelector((state: TRootState) => state.websocket);
 
-	const ordersReady: IOrder[] = ordersAll?.orders.filter(
-		(order) => order.status === 'done'
-	);
+	const ordersReady: IOrder[] =
+		ordersAll?.orders?.filter((order: IOrder) => order.status === 'done') ?? [];
 
 	const ordersReadyToShow: IOrder[] = Array.isArray(ordersReady)
 		? ordersReady.slice(0, 20)
 		: [];
 
-	const ordersPending: IOrder[] = ordersAll?.orders.filter(
-		(order) => order.status === 'pending'
-	);
+	const ordersPending: IOrder[] =
+		ordersAll?.orders?.filter((order: IOrder) => order.status === 'pending') ??
+		[];
 
 	const ordersPendingToShow: IOrder[] = Array.isArray(ordersPending)
 		? ordersPending.slice(0, 20)

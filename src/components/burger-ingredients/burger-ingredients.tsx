@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerIngredient } from '@components/burger-ingredients/burger-ingredient';
-import { IIngredient } from '@utils/types';
+import { IIngredient, TRootState } from '@utils/types';
 import styles from './burger-ingredients.module.css';
 import { useAppSelector } from '../../hooks/useAppSelector';
 
@@ -13,7 +13,7 @@ export const BurgerIngredients = () => {
 	const [currentTab, setCurrentTab] = useState(IngredientTypeBun);
 
 	const ingredients = useAppSelector(
-		(state: any) => state.ingredients.ingredients
+		(state: TRootState) => state.ingredients.ingredients
 	);
 
 	const bunRef = useRef<HTMLDivElement>(null);

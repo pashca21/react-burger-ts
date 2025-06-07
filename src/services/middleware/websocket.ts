@@ -19,33 +19,29 @@ export const websocketMiddleware = (wsActions: TWSStoreActions): Middleware => {
 			} = wsActions;
 
 			if (type === wsInit && action.payload) {
-				console.log('WebSocket init:', action.payload);
 				socket = new WebSocket(action.payload);
 				url = action.payload;
 			}
 
 			if (socket) {
 				socket.onopen = (event) => {
-					console.log('WebSocket connected:', event);
 					dispatch({ type: onOpen, payload: event });
 				};
 
 				socket.onerror = (event) => {
-					console.error('WebSocket error:', event);
 					dispatch({ type: onError, payload: event });
 				};
 
 				socket.onmessage = (event) => {
 					const { data } = event;
 					const parsedData: IOrders = JSON.parse(data);
-					const { success, ...restParsedData } = parsedData;
 
 					dispatch({
 						type:
 							url && url.includes('/all')
 								? onMessageOrdersAll
 								: onMessageOrdersUser,
-						payload: { ...restParsedData },
+						payload: { ...parsedData },
 					});
 				};
 

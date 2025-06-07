@@ -1,14 +1,17 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './feed.module.css';
 import stylesCommon from '../../styles/common.module.css';
-import { IOrder } from '@utils/types';
+import { IOrder, TRootState } from '@utils/types';
 import {
 	getOrderPrice,
 	getOrderStatusText,
 	modifyDateTimeToReadable,
 } from '@utils/functions';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { VIEW_ORDER, CLOSE_ORDER } from '@services/actions/feed-order';
+import {
+	VIEW_FEED_ORDER,
+	CLOSE_FEED_ORDER,
+} from '@services/actions/feed-order';
 import { Modal } from '@components/modal/modal';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useModal } from '../../hooks/useModal';
@@ -23,19 +26,19 @@ export const FeedOrder = (props: { order: IOrder }) => {
 
 	const { order } = props;
 	const ingredients = useAppSelector(
-		(state: any) => state.ingredients.ingredients
+		(state: TRootState) => state.ingredients.ingredients
 	);
 	const price = getOrderPrice(order.ingredients, ingredients);
 
 	const handleOrderClick = () => {
-		dispatch({ type: VIEW_ORDER, order: order });
+		dispatch({ type: VIEW_FEED_ORDER, order: order });
 		openModal();
 		window.history.pushState({ fromHome: true }, '', '/feed/' + order._id);
 	};
 
 	const handleOrderClose = () => {
 		closeModal();
-		dispatch({ type: CLOSE_ORDER });
+		dispatch({ type: CLOSE_FEED_ORDER });
 		window.history.pushState({}, '', '/');
 	};
 
@@ -43,7 +46,7 @@ export const FeedOrder = (props: { order: IOrder }) => {
 		if (searchParams.get('openModalOrderId') === order._id) {
 			handleOrderClick();
 		}
-	}, [searchParams, order._id]);
+	}, [searchParams, order._id, handleOrderClick]);
 
 	return (
 		<>
@@ -66,7 +69,7 @@ export const FeedOrder = (props: { order: IOrder }) => {
 					<div className={styles.images_row}>
 						{order.ingredients.slice(0, 5).map((ingredientId, index) => {
 							const ingredient = ingredients.find(
-								(ing: { _id: string }) => ing._id === ingredientId
+								(ing: { _id: string | undefined }) => ing._id === ingredientId
 							);
 							if (!ingredient) {
 								return null;
@@ -94,7 +97,7 @@ export const FeedOrder = (props: { order: IOrder }) => {
 									display: 'flex',
 									alignItems: 'center',
 									justifyContent: 'center',
-									color: '#fff',
+									color: '#ffffff',
 									fontWeight: 700,
 									fontSize: '18px',
 								}}>

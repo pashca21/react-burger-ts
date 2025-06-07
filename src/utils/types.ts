@@ -1,4 +1,5 @@
-import { Key, ReactNode } from 'react';
+import { ReactNode } from 'react';
+import { ThunkAction } from 'redux-thunk';
 import {
 	WS_CONNECTION_START,
 	WS_CONNECTION_SUCCESS,
@@ -7,10 +8,20 @@ import {
 	WS_GET_MESSAGE_ORDERS_ALL,
 	WS_GET_MESSAGE_ORDERS_USER,
 } from '@services/actions/websocket';
+import { rootReducer } from '@services/reducers';
+import { TIngredientsActions } from '@services/actions/ingredients';
+import { TAuthActions } from '@services/actions/auth';
+import { TConstructorActions } from '@services/actions/constructor';
+import { TFeedOrderActions } from '@services/actions/feed-order';
+import { TIngredientActions } from '@services/actions/ingredient';
+import { TOrderActions } from '@services/actions/order';
+import { TPasswordActions } from '@services/actions/password';
+
+export type TRootState = ReturnType<typeof rootReducer>;
 
 export interface IIngredient {
 	uniqueId?: string;
-	_id: Key | null | undefined;
+	_id: string | undefined;
 	name: string;
 	type: string;
 	image: string;
@@ -22,15 +33,6 @@ export interface IIngredient {
 	fat: number;
 	carbohydrates: number;
 	__v: number;
-}
-
-export interface IRegister {
-	user: {
-		email: string;
-		name: string;
-	};
-	accessToken: string;
-	refreshToken: string;
 }
 
 export interface IModal {
@@ -105,3 +107,20 @@ export type TWSStoreActions = {
 	onMessageOrdersAll: typeof WS_GET_MESSAGE_ORDERS_ALL;
 	onMessageOrdersUser: typeof WS_GET_MESSAGE_ORDERS_USER;
 };
+
+export type TApplicationActions =
+	| TWSActions
+	| TAuthActions
+	| TConstructorActions
+	| TFeedOrderActions
+	| TIngredientActions
+	| TIngredientsActions
+	| TOrderActions
+	| TPasswordActions;
+
+export type AppThunk<ReturnType = void> = ThunkAction<
+	ReturnType,
+	TRootState,
+	unknown,
+	TApplicationActions
+>;

@@ -1,5 +1,6 @@
 import { getIngredientsRequest } from '../api';
-import { IIngredient } from '@utils/types';
+import { AppThunk, IIngredient } from '@utils/types';
+import { AppDispatch } from '../../index';
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST' as const;
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS' as const;
@@ -24,8 +25,8 @@ export type TIngredientsActions =
 	| IGetIngredientsSuccessAction
 	| IGetIngredientsFailedAction;
 
-export function getIngredients() {
-	return function (dispatch: any) {
+export const getIngredients = (): AppThunk => {
+	return function (dispatch: AppDispatch) {
 		dispatch({
 			type: GET_INGREDIENTS_REQUEST,
 		});
@@ -49,4 +50,4 @@ export function getIngredients() {
 				});
 			});
 	};
-}
+};

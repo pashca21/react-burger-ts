@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import styles from './feed.module.css';
 import { FeedOrder } from '@components/feed/feed-order';
-import { IOrders } from '@utils/types';
+import { IOrders, TRootState } from '@utils/types';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { WS_CONNECTION_START } from '@services/actions/websocket';
+import {
+	WS_CONNECTION_START,
+	WS_CONNECTION_CLOSED,
+} from '@services/actions/websocket';
 import { WEBSOCKET_URL } from '@utils/constants';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { FeedSummary } from '@components/feed/feed-summary';
@@ -16,7 +19,7 @@ export const FeedPage = () => {
 
 	useEffect(() => {
 		return () => {
-			dispatch({ type: 'WS_CONNECTION_CLOSE' });
+			dispatch({ type: WS_CONNECTION_CLOSED });
 		};
 	}, [location.pathname, dispatch]);
 
@@ -27,8 +30,8 @@ export const FeedPage = () => {
 		});
 	}, [dispatch]);
 
-	const ordersAll: IOrders = useAppSelector(
-		(state: any) => state.websocket.ordersAll
+	const ordersAll: IOrders | undefined = useAppSelector(
+		(state: TRootState) => state.websocket.ordersAll
 	);
 
 	return (
