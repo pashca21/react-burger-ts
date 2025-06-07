@@ -18,9 +18,24 @@ import {
 	UPDATE_USER_SUCCESS,
 	UPDATE_USER_FAILED,
 } from '@services/actions/auth';
+import type { TAuthActions } from '@services/actions/auth';
 import { decodeTokenAndGetExp } from '@utils/functions';
 
-const initialState = {
+type TAuthState = {
+	isAuthChecked: boolean;
+	isAuth: boolean;
+	isLoading: boolean;
+	error: boolean | string;
+	user: {
+		name: string;
+		email: string;
+		password: string;
+	};
+	accessToken: string;
+	accessTokenExpiresAt: number;
+};
+
+const authInitialState: TAuthState = {
 	isAuthChecked: false,
 	isAuth: false,
 	isLoading: false,
@@ -35,21 +50,8 @@ const initialState = {
 };
 
 export const authReducer = (
-	state = initialState,
-	action: {
-		type: string;
-		error?: string;
-		isAuthChecked?: boolean;
-		isAuth?: boolean;
-		isLoading?: boolean;
-		user?: {
-			name: string;
-			email: string;
-			password: string;
-		};
-		accessToken?: string;
-		accessTokenExpiresAt?: number;
-	}
+	state: TAuthState = authInitialState,
+	action: TAuthActions
 ) => {
 	switch (action.type) {
 		case REGISTER_REQUEST: {
@@ -77,7 +79,7 @@ export const authReducer = (
 				...state,
 				isAuth: false,
 				isLoading: false,
-				error: action.error,
+				error: false,
 			};
 		}
 		case GET_USER_REQUEST: {
@@ -103,7 +105,7 @@ export const authReducer = (
 				...state,
 				isAuth: false,
 				isLoading: false,
-				error: action.error,
+				error: false,
 			};
 		}
 		case UPDATE_USER_REQUEST: {
@@ -126,7 +128,7 @@ export const authReducer = (
 				...state,
 				isAuth: false,
 				isLoading: false,
-				error: action.error,
+				error: false,
 			};
 		}
 		case UPDATE_ACCESS_TOKEN_REQUEST: {
@@ -178,7 +180,7 @@ export const authReducer = (
 				isAuth: false,
 				isLoading: false,
 				error: true,
-				user: initialState.user,
+				user: authInitialState.user,
 				accessToken: '',
 				accessTokenExpiresAt: 0,
 			};
@@ -198,7 +200,7 @@ export const authReducer = (
 				isAuth: false,
 				isLoading: false,
 				error: false,
-				user: initialState.user,
+				user: authInitialState.user,
 				accessToken: '',
 				accessTokenExpiresAt: 0,
 			};
@@ -208,7 +210,7 @@ export const authReducer = (
 				...state,
 				isAuth: false,
 				isLoading: false,
-				error: action.error,
+				error: false,
 			};
 		}
 		default:

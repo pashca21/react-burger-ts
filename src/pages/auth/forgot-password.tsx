@@ -1,19 +1,21 @@
-import React, { ReactNode, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import {
 	Input,
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login.module.css';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { forgotPassword } from '@services/actions/password';
-import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { TRootState } from '@utils/types';
 
-export const ForgotPasswordPage = (): ReactNode => {
+export const ForgotPasswordPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const [email, setEmail] = useState<string>('');
+	const [email, setEmail] = useState('');
 
-	const { isAuth } = useAppSelector((state: any) => state.auth);
+	const { isAuth } = useAppSelector((state: TRootState) => state.auth);
 	if (isAuth) {
 		navigate('/');
 	}
@@ -22,11 +24,11 @@ export const ForgotPasswordPage = (): ReactNode => {
 		target: {
 			value: string;
 		};
-	}): void => {
+	}) => {
 		setEmail(e.target.value);
 	};
 
-	const handleClickForgotPassword = (): void => {
+	const handleClickForgotPassword = () => {
 		dispatch<any>(forgotPassword(email));
 		navigate('/reset-password');
 	};

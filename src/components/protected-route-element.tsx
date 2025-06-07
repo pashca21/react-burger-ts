@@ -1,26 +1,24 @@
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useAppSelector } from '../hooks/useAppSelector';
 import Cookies from 'js-cookie';
-import { useAppSelector, useAppDispatch } from '@hooks/index';
+import { useAppDispatch } from '../hooks/useAppDispatch';
 import { getUser, updateAccessToken } from '@services/actions/auth';
-import { IAuth } from '@interfaces/auth';
+import { TRootState } from '@utils/types';
 
 interface ProtectedRouteElementProps {
-	element?: ReactNode;
+	element?: JSX.Element;
 }
 
 export const ProtectedRouteElement = (props: ProtectedRouteElementProps) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
-
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
-	const auth: IAuth = useAppSelector((state) => state.auth);
-	const [isUserLoaded, setUserLoaded] = useState<boolean>(false);
+	const { auth } = useAppSelector((state: TRootState) => state);
+	const [isUserLoaded, setUserLoaded] = useState(false);
 
 	const init = async () => {
-		if (auth.user.email && auth.isAuth) {
+		if (auth.user && auth.user.email && auth.isAuth) {
 			setUserLoaded(true);
 			return;
 		}
@@ -48,8 +46,6 @@ export const ProtectedRouteElement = (props: ProtectedRouteElementProps) => {
 
 		if (refreshToken && needToUpdateAccessToken) {
 			try {
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore
 				await dispatch<any>(updateAccessToken(refreshToken));
 			} catch {
 				navigate('/login', { state: { from: location } });
@@ -58,15 +54,18 @@ export const ProtectedRouteElement = (props: ProtectedRouteElementProps) => {
 		}
 
 		try {
-			await dispatch<any>(getUser(auth.accessToken, refreshToken));
+			if (auth.accessToken) {
+				await dispatch<any>(getUser(auth.accessToken, refreshToken));
+			}
 		} catch {
 			try {
 				await dispatch<any>(updateAccessToken(refreshToken));
 			} catch {
 				navigate('/login', { state: { from: location } });
-				return;
 			}
-			await dispatch<any>(getUser(auth.accessToken, refreshToken));
+			if (auth.accessToken) {
+				await dispatch<any>(getUser(auth.accessToken, refreshToken));
+			}
 		}
 		setUserLoaded(true);
 	};
@@ -78,10 +77,10 @@ export const ProtectedRouteElement = (props: ProtectedRouteElementProps) => {
 		navigate,
 		auth.accessToken,
 		auth.accessTokenExpiresAt,
-		auth.user.email,
+		auth.user?.email,
 	]);
 
-	if (!isUserLoaded || !auth.user.email) {
+	if (!isUserLoaded || !auth.user?.email) {
 		return (
 			<div>
 				<p>Загрузка...</p>
@@ -89,7 +88,12 @@ export const ProtectedRouteElement = (props: ProtectedRouteElementProps) => {
 		);
 	}
 
-	return auth.user.email ? (
+	if (!auth.user?.email) {
+		navigate('/login', { state: { from: location } });
+		return;
+	}
+
+	return auth.user?.email ? (
 		props.element
 	) : (
 		<Navigate to='/login' state={{ from: location }} replace />

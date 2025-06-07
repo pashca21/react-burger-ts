@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import {
 	Input,
 	Button,
@@ -6,34 +6,32 @@ import {
 import styles from './login.module.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { resetPassword } from '@services/actions/password';
-import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { TRootState } from '@utils/types';
 
-export const ResetPasswordPage = (): ReactNode => {
+export const ResetPasswordPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const { isAuth } = useAppSelector((state: any) => state.auth);
+	const { isAuth } = useAppSelector((state: TRootState) => state.auth);
 	if (isAuth) {
 		navigate('/');
 	}
 
-	const [form, setValue] = useState<{ password: string; token: string }>({
-		password: '',
-		token: '',
-	});
+	const [form, setValue] = useState({ password: '', token: '' });
 	const onChange = (e: {
 		target: {
 			name: string;
 			value: string;
 		};
-	}): void => {
+	}) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
-	const handleClickResetPassword = (): void => {
+	const handleClickResetPassword = () => {
 		dispatch<any>(resetPassword(form.password, form.token));
 		navigate('/login', { state: { from: location } });
-		return;
 	};
 
 	return (

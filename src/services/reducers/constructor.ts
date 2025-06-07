@@ -6,23 +6,23 @@ import {
 	CLEAR_CONSTRUCTOR,
 	addIngredient,
 	addBun,
+	TConstructorActions,
 } from '@services/actions/constructor';
-import { IIngredient } from '@interfaces/index';
+import { IIngredient } from '@utils/types';
 
-const initialState = {
+export type TConstructorState = {
+	bun: IIngredient | null;
+	ingredients: ReadonlyArray<IIngredient>;
+};
+
+const constructorInitialState: TConstructorState = {
 	bun: null,
 	ingredients: [] as IIngredient[],
 };
 
 export const constructorReducer = (
-	state = initialState,
-	action: {
-		type: string;
-		ingredient: IIngredient;
-		index: number;
-		dragIndex?: number;
-		hoverIndex?: number;
-	}
+	state: TConstructorState = constructorInitialState,
+	action: TConstructorActions
 ) => {
 	switch (action.type) {
 		case ADD_BUN: {
@@ -50,15 +50,15 @@ export const constructorReducer = (
 		}
 		case MOVE_INGREDIENT: {
 			const newIngredients = [...state.ingredients];
-			const [movedIngredient] = newIngredients.splice(action.dragIndex!, 1);
-			newIngredients.splice(action.hoverIndex!, 0, movedIngredient);
+			const [movedIngredient] = newIngredients.splice(action?.dragIndex, 1);
+			newIngredients.splice(action?.hoverIndex, 0, movedIngredient);
 			return {
 				...state,
 				ingredients: newIngredients,
 			};
 		}
 		case CLEAR_CONSTRUCTOR: {
-			return initialState;
+			return constructorInitialState;
 		}
 		default: {
 			return state;

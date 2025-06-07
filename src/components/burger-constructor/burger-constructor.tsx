@@ -4,8 +4,9 @@ import {
 	Button,
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IIngredient } from '@interfaces/index';
+import { IIngredient, TRootState } from '@utils/types';
 import styles from './burger-constructor.module.css';
+import { useModal } from '../../hooks/useModal';
 import { useDrop } from 'react-dnd';
 import {
 	ADD_BUN,
@@ -16,15 +17,17 @@ import { createOrder, VIEW_ORDER } from '@services/actions/order';
 import { ConstructorBunTop } from '@components/burger-constructor/constructor-bun-top';
 import { ConstructorBunBottom } from '@components/burger-constructor/constructor-bun-bottom';
 import { ConstructorIngredient } from '@components/burger-constructor/constructor-ingredient';
-import { useAppDispatch, useAppSelector, useModal } from '@hooks/index';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Key, ReactNode } from 'react';
 
-export const BurgerConstructor = (): ReactNode => {
+export const BurgerConstructor = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { isAuth } = useAppSelector((state: any) => state.auth);
+	const { isAuth, accessToken } = useAppSelector(
+		(state: TRootState) => state.auth
+	);
 	const { isModalOpen, openModal, closeModal } = useModal();
 
 	const [, dropTarget] = useDrop({
@@ -33,18 +36,18 @@ export const BurgerConstructor = (): ReactNode => {
 			if (ingredient.type === 'bun') {
 				dispatch({
 					type: ADD_BUN,
-					ingredient: ingredient,
+					ingredient: { ...ingredient, uniqueId: '' },
 				});
 			} else {
 				dispatch({
 					type: ADD_INGREDIENT,
-					ingredient: ingredient,
+					ingredient: { ...ingredient, uniqueId: '' },
 				});
 			}
 		},
 	});
 
-	const moveIngredient = (dragIndex: number, hoverIndex: number): void => {
+	const moveIngredient = (dragIndex: number, hoverIndex: number) => {
 		dispatch({
 			type: MOVE_INGREDIENT,
 			dragIndex: dragIndex,
@@ -52,13 +55,8 @@ export const BurgerConstructor = (): ReactNode => {
 		});
 	};
 
-	const constructorBun: IIngredient = useAppSelector(
-		(state: any) => state.constructor.bun
-	);
-
-	const constructorIngredients: IIngredient[] = useAppSelector(
-		(state: any) => state.constructor.ingredients
-	);
+	const { bun: constructorBun, ingredients: constructorIngredients } =
+		useAppSelector((state: TRootState) => state.constructor);
 
 	let totalPrice = 0;
 	if (constructorBun) {
@@ -73,31 +71,39 @@ export const BurgerConstructor = (): ReactNode => {
 		);
 	}
 
-	const handleCreateOrder = (): void => {
+	const handleCreateOrder = () => {
 		if (!isAuth) {
 			navigate('/login', { state: { from: location } });
-			return;
 		}
-
-		const ingredientsIds: (string | number | bigint | null | undefined)[] =
-			constructorIngredients.map(
-				(ingredient: IIngredient): Key | null | undefined => ingredient._id
-			);
-
-		if (constructorBun) {
+		const ingredientsIds = constructorIngredients
+			.map((ingredient: IIngredient) => ingredient._id)
+			.filter((id): id is string => !!id);
+		if (constructorBun && constructorBun._id) {
 			ingredientsIds.unshift(constructorBun._id);
 		}
-
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
-		dispatch<any>(createOrder(ingredientsIds));
-
-		dispatch({ type: VIEW_ORDER });
+		if (accessToken) {
+			dispatch<any>(createOrder(ingredientsIds, accessToken));
+		}
+		dispatch({
+			type: VIEW_ORDER,
+			number: 0,
+			order: {
+				_id: '',
+				name: '',
+				status: '',
+				number: 0,
+				createdAt: '',
+				updatedAt: '',
+				ingredients: [],
+			},
+		});
 		openModal();
 	};
 
-	const renderIngredients = (): ReactNode[] | ReactNode => {
-		if (!constructorIngredients) return null;
+	const renderIngredients = () => {
+		if (!constructorIngredients) {
+			return null;
+		}
 		return constructorIngredients.map(
 			(ingredient: IIngredient, index: number) => {
 				return (

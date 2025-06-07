@@ -1,10 +1,14 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useAppSelector } from '@hooks/index';
-import { ReactNode } from 'react';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { TRootState } from '@utils/types';
 
-export const ConstructorBunBottom = (): ReactNode => {
-	const ingredient = useAppSelector((state: any) => state.constructor.bun);
-	if (!ingredient) return null;
+export const ConstructorBunBottom = () => {
+	const ingredient = useAppSelector(
+		(state: TRootState) => state.constructor.bun
+	);
+	if (!ingredient) {
+		return null;
+	}
 	return (
 		<ConstructorElement
 			key={ingredient.uniqueId}

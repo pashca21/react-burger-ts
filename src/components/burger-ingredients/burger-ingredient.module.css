@@ -17,3 +17,21 @@
 .price {
 	display: flex;
 }
+
+.row {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+.image {
+	width: 60px;
+	height: 60px;
+	background-color: #000000;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #8A2BE2;
+	border-radius: 50%;
+	object-fit: cover;
+}

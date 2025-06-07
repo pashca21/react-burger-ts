@@ -1,23 +1,23 @@
-import { ReactNode, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import {
 	CurrencyIcon,
 	Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredient.module.css';
+import { useModal } from '../../hooks/useModal';
 import { Modal } from '@components/modal/modal';
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
-import { IIngredient } from '@interfaces/index';
+import { IIngredient, TRootState } from '@utils/types';
 import {
 	CLOSE_INGREDIENT,
 	VIEW_INGREDIENT,
 } from '@services/actions/ingredient';
 import { useDrag } from 'react-dnd';
-import { useAppDispatch, useAppSelector, useModal } from '@hooks/index';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
-export const BurgerIngredient = (props: {
-	ingredient: IIngredient;
-}): ReactNode => {
+export const BurgerIngredient = (props: { ingredient: IIngredient }) => {
 	const dispatch = useAppDispatch();
 	const [searchParams] = useSearchParams();
 
@@ -32,7 +32,7 @@ export const BurgerIngredient = (props: {
 	});
 
 	const constructorIngredients = useAppSelector(
-		(state: any) => state.constructor.ingredients
+		(state: TRootState) => state.constructor.ingredients
 	);
 
 	let constructorIngredient_a = [];
@@ -45,7 +45,7 @@ export const BurgerIngredient = (props: {
 
 	const count = constructorIngredient_a.length;
 
-	const handleIngredientClick = (): void => {
+	const handleIngredientClick = () => {
 		dispatch({ type: VIEW_INGREDIENT, ingredient: props.ingredient });
 		openModal();
 		window.history.pushState(
@@ -55,7 +55,7 @@ export const BurgerIngredient = (props: {
 		);
 	};
 
-	const handleIngredientClose = (): void => {
+	const handleIngredientClose = () => {
 		closeModal();
 		dispatch({ type: CLOSE_INGREDIENT });
 		window.history.pushState({}, '', '/');
@@ -65,15 +65,11 @@ export const BurgerIngredient = (props: {
 		if (searchParams.get('openModalIngredientId') === props.ingredient._id) {
 			handleIngredientClick();
 		}
-	}, [searchParams, props.ingredient._id]);
+	}, [searchParams, props.ingredient._id, handleIngredientClick]);
 
 	return (
 		<>
-			<div
-				className={styles.ingredient}
-				onClick={handleIngredientClick}
-				onKeyDown={handleIngredientClick}
-				role='presentation'>
+			<div className={styles.ingredient} onClick={handleIngredientClick}>
 				{count > 0 && (
 					<div className={styles.counter}>
 						<Counter count={count} />

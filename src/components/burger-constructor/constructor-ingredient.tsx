@@ -1,12 +1,12 @@
-import { useDrag, useDrop } from 'react-dnd';
 import {
 	ConstructorElement,
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { IIngredient } from '@utils/types';
 import styles from './burger-constructor.module.css';
-import { IIngredient } from '@interfaces/index';
+import { useDrag, useDrop } from 'react-dnd';
 import { REMOVE_INGREDIENT } from '@services/actions/constructor';
-import { useAppDispatch } from '@hooks/index';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 export const ConstructorIngredient = ({
 	ingredient,
@@ -19,7 +19,7 @@ export const ConstructorIngredient = ({
 }) => {
 	const dispatch = useAppDispatch();
 
-	const removeIngredient = (index: number): void => {
+	const removeIngredient = (index: number) => {
 		dispatch({
 			type: REMOVE_INGREDIENT,
 			index: index,

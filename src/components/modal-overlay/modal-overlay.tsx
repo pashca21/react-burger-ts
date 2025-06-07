@@ -1,17 +1,9 @@
 import styles from './modal-overlay.module.css';
-import { IModalOverlay } from '@interfaces/index';
-import { ReactNode } from 'react';
+import { IModalOverlay } from '@utils/types';
 
-export const ModalOverlay = ({
-	children,
-	onClose,
-}: IModalOverlay): ReactNode => {
+export const ModalOverlay = ({ children, onClose }: IModalOverlay) => {
 	return (
-		<div
-			className={styles.modalOverlay}
-			onClick={onClose}
-			onKeyDown={onClose}
-			role='presentation'>
+		<div className={styles.modalOverlay} onClick={onClose}>
 			{children}
 		</div>
 	);

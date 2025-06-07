@@ -1,5 +1,4 @@
-import { ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
 	Button,
 	Logo,
@@ -9,19 +8,19 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
 
-export const AppHeader = (): ReactNode => {
+export const AppHeader = () => {
 	const navigate = useNavigate();
 
-	const handleHomeLink = (): void => {
+	const handleHomeLink = () => {
 		navigate('/');
 	};
 
-	const handleProfileLink = (): void => {
+	const handleProfileLink = () => {
 		navigate('/profile');
 	};
 
-	const handleOrdersLink = (): void => {
-		navigate('/profile/orders');
+	const handleFeedLink = () => {
+		navigate('/feed');
 	};
 
 	return (
@@ -38,7 +37,7 @@ export const AppHeader = (): ReactNode => {
 				</Button>
 				<Button
 					htmlType='button'
-					onClick={handleOrdersLink}
+					onClick={handleFeedLink}
 					type='secondary'
 					size='medium'
 					extraClass={`${styles.button} mt-5 mb-4`}>
@@ -46,20 +45,18 @@ export const AppHeader = (): ReactNode => {
 					Лента заказов
 				</Button>
 			</div>
-			<div>
+			<Link to='/'>
 				<Logo />
-			</div>
-			<div>
-				<Button
-					htmlType='button'
-					onClick={handleProfileLink}
-					type='secondary'
-					size='medium'
-					extraClass={`${styles.button} mt-5 mb-4`}>
-					<ProfileIcon type='secondary' className={'ml-5 mr-2'} />
-					Личный кабинет
-				</Button>
-			</div>
+			</Link>
+			<Button
+				htmlType='button'
+				onClick={handleProfileLink}
+				type='secondary'
+				size='medium'
+				extraClass={`${styles.button} mt-5 mb-4`}>
+				<ProfileIcon type='secondary' className={'ml-5 mr-2'} />
+				Личный кабинет
+			</Button>
 		</header>
 	);
 };

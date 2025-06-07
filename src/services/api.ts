@@ -1,17 +1,11 @@
 import { request } from '@utils/functions';
 
-interface IResponse {
-	success: boolean;
-	data?: any;
-	message?: any;
-}
-
-export const getIngredientsRequest = async (): Promise<IResponse> => {
+export const getIngredientsRequest = async () => {
 	try {
 		const data = await request('ingredients');
 		return {
 			success: true,
-			data: data.data,
+			ingredients: data.data,
 		};
 	} catch (error) {
 		return {
@@ -22,13 +16,15 @@ export const getIngredientsRequest = async (): Promise<IResponse> => {
 };
 
 export const createOrderRequest = async (
-	ingredients_ids: (string | number | bigint | null | undefined)[]
-): Promise<IResponse> => {
+	ingredients_ids: string[],
+	accessToken: string
+) => {
 	try {
 		const data = await request('orders', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + accessToken,
 			},
 			body: JSON.stringify({
 				ingredients: ingredients_ids,
@@ -37,7 +33,26 @@ export const createOrderRequest = async (
 		return {
 			success: true,
 			data: data,
-			message: '',
+		};
+	} catch (error) {
+		return {
+			success: false,
+			message: error,
+		};
+	}
+};
+
+export const getOrderRequest = async (order_id: string) => {
+	try {
+		const data = await request(`orders/${order_id}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		return {
+			success: true,
+			data: data,
 		};
 	} catch (error) {
 		return {
@@ -51,7 +66,7 @@ export const postRegisterRequest = async (
 	name: string,
 	email: string,
 	password: string
-): Promise<IResponse> => {
+) => {
 	try {
 		const data = await request('auth/register', {
 			method: 'POST',
@@ -76,10 +91,7 @@ export const postRegisterRequest = async (
 	}
 };
 
-export const postLoginRequest = async (
-	email: string,
-	password: string
-): Promise<IResponse> => {
+export const postLoginRequest = async (email: string, password: string) => {
 	try {
 		const data = await request('auth/login', {
 			method: 'POST',
@@ -103,9 +115,7 @@ export const postLoginRequest = async (
 	}
 };
 
-export const postLogoutRequest = async (
-	refreshToken: string
-): Promise<IResponse> => {
+export const postLogoutRequest = async (refreshToken: string) => {
 	try {
 		const data = await request('auth/logout', {
 			method: 'POST',
@@ -128,9 +138,7 @@ export const postLogoutRequest = async (
 	}
 };
 
-export const postUpdateAccessTokenRequest = async (
-	refreshToken: string
-): Promise<IResponse> => {
+export const postUpdateAccessTokenRequest = async (refreshToken: string) => {
 	try {
 		const data = await request('auth/token', {
 			method: 'POST',
@@ -153,9 +161,7 @@ export const postUpdateAccessTokenRequest = async (
 	}
 };
 
-export const postForgotPasswordRequest = async (
-	email: string
-): Promise<IResponse> => {
+export const postForgotPasswordRequest = async (email: string) => {
 	try {
 		const data = await request('password-reset', {
 			method: 'POST',
@@ -181,7 +187,7 @@ export const postForgotPasswordRequest = async (
 export const postResetPasswordRequest = async (
 	password: string,
 	token: string
-): Promise<IResponse> => {
+) => {
 	try {
 		const data = await request('password-reset/reset', {
 			method: 'POST',
@@ -205,9 +211,7 @@ export const postResetPasswordRequest = async (
 	}
 };
 
-export const getUserRequest = async (
-	accessToken: string
-): Promise<IResponse> => {
+export const getUserRequest = async (accessToken: string) => {
 	try {
 		const data = await request('auth/user', {
 			method: 'GET',
@@ -233,7 +237,7 @@ export const patchUserRequest = async (
 	name: string,
 	email: string,
 	password: string
-): Promise<IResponse> => {
+) => {
 	try {
 		const data = await request('auth/user', {
 			method: 'PATCH',

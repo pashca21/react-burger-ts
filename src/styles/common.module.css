@@ -3,3 +3,13 @@
 	justify-content: space-between;
 	align-items: center;
 }
+
+.row_start {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.w_100 {
+	width: 100%;
+}

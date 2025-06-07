@@ -1,12 +1,4 @@
-import { ReactNode, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import styles from './app.module.css';
-import { ProtectedRouteElement } from '@components/protected-route-element';
-import { AppHeader } from '@components/app-header/app-header';
-import { Profile } from '@components/profile/profile';
-import { Orders } from '@components/orders/orders';
 import {
 	ForgotPasswordPage,
 	HomePage,
@@ -17,16 +9,24 @@ import {
 	ProfilePage,
 	IngredientPage,
 	LogoutPage,
+	FeedPage,
 } from '@pages/index';
+import { AppHeader } from '@components/app-header/app-header';
+import styles from './app.module.css';
+import { useEffect } from 'react';
 import { getIngredients } from '@services/actions/ingredients';
-import { useAppDispatch } from '@hooks/index';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { ProtectedRouteElement } from '@components/protected-route-element';
+import { Orders } from '@components/orders/orders';
+import { Profile } from '@components/profile/profile';
+import { OrderPage } from '@pages/order/order';
 
-export const App = (): ReactNode => {
+export const App = () => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
 		dispatch<any>(getIngredients());
 	}, [dispatch]);
 
@@ -39,6 +39,9 @@ export const App = (): ReactNode => {
 						<Routes>
 							<Route path='/' element={<HomePage />} />
 							<Route path='/ingredients/:id' element={<IngredientPage />} />
+							<Route path='/feed/:id' element={<OrderPage />} />
+							<Route path='/feed' element={<FeedPage />} />
+							<Route path='/profile/orders/:id' element={<OrderPage />} />
 							<Route
 								path='/profile'
 								element={<ProtectedRouteElement element={<ProfilePage />} />}>

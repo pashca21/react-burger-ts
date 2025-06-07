@@ -1,20 +1,23 @@
-import React, { ReactNode } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
 import {
 	Input,
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login.module.css';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { login } from '@services/actions/auth';
-import { useAppDispatch, useAppSelector, useForm } from '@hooks/index';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useForm } from '../../hooks/useForm';
+import { TRootState } from '@utils/types';
 
-export const LoginPage = (): ReactNode => {
+export const LoginPage = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const location = useLocation();
 	const from = location.state?.from?.pathname || '/';
 
-	const { isAuth } = useAppSelector((state: any) => state.auth);
+	const { isAuth } = useAppSelector((state: TRootState) => state.auth);
 	if (isAuth) {
 		navigate(from, { replace: true });
 	}
@@ -24,7 +27,7 @@ export const LoginPage = (): ReactNode => {
 		password: '',
 	});
 
-	const onClick = (): void => {
+	const onClick = () => {
 		if (!values.email || !values.password) {
 			return;
 		}

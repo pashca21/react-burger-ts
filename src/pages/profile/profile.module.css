@@ -1,9 +1,9 @@
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
 }
 
 .form {
@@ -19,6 +19,8 @@
 
 .section {
 	flex: 1;
+	height: 75vh;
+	overflow-y: auto;
 }
 
 .active {

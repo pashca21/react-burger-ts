@@ -1,11 +1,10 @@
 import styles from './ingredient-details.module.css';
-import { useAppSelector } from '@hooks/index';
-import { IIngredient } from '@interfaces/index';
-import { ReactNode } from 'react';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { TRootState } from '@utils/types';
 
-export const IngredientDetails = (): ReactNode => {
-	const ingredient: IIngredient = useAppSelector(
-		(state: any) => state.ingredient.ingredient
+export const IngredientDetails = () => {
+	const ingredient = useAppSelector(
+		(state: TRootState) => state.ingredient.ingredient
 	);
 
 	if (!ingredient) {

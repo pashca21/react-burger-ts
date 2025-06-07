@@ -3,28 +3,27 @@ import {
 	Button,
 	Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import stylesCommon from '@styles/common.module.css';
-import React, { ReactNode, useEffect, useState } from 'react';
+import stylesCommon from '../../styles/common.module.css';
+import React, { useEffect, useState } from 'react';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { updateUser } from '@services/actions/auth';
 import Cookies from 'js-cookie';
+import { TRootState } from '@utils/types';
 
-export const Profile = (): ReactNode => {
+export const Profile = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const { user } = useAppSelector((state: any) => state.auth);
-	const { accessToken } = useAppSelector((state: any) => state.auth);
+	const { user, accessToken } = useAppSelector(
+		(state: TRootState) => state.auth
+	);
 
-	const [isDataChanged, setIsDataChanged] = useState<boolean>(false);
+	const [isDataChanged, setIsDataChanged] = useState(false);
 
-	const [form, setValue] = useState<{
-		name: string;
-		email: string;
-		password: string;
-	}>({
-		name: user.name,
-		email: user.email,
+	const [form, setValue] = useState({
+		name: user?.name,
+		email: user?.email,
 		password: '',
 	});
 	const onChange = (e: {
@@ -32,40 +31,54 @@ export const Profile = (): ReactNode => {
 			name: string;
 			value: string;
 		};
-	}): void => {
+	}) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 		if (
-			user.name !== form.name ||
-			user.email !== form.email ||
-			user.password !== form.password
+			user?.name !== form.name ||
+			user?.email !== form.email ||
+			user?.password !== form.password
 		) {
 			setIsDataChanged(true);
 		} else {
 			setIsDataChanged(false);
 		}
 	};
-	const saveUserData = (): void => {
-		const refreshToken: string = Cookies.get('refreshToken') || '';
-		dispatch<any>(
-			updateUser(
-				accessToken,
-				refreshToken,
-				form.name,
-				form.email,
-				form.password
-			)
-		);
+	const saveUserData = () => {
+		const refreshToken = Cookies.get('refreshToken') || '';
+		if (!refreshToken) {
+			navigate('/login');
+			return;
+		}
+		if (accessToken) {
+			dispatch<any>(
+				updateUser(
+					accessToken,
+					refreshToken,
+					form?.name ?? '',
+					form?.email ?? '',
+					form?.password ?? ''
+				)
+			);
+		}
 		navigate('/');
 	};
 
-	const cancelSaveUserData = (): void => {
-		setValue({ name: user.name, email: user.email, password: '' });
+	const cancelSaveUserData = () => {
+		setValue({
+			name: user?.name ?? '',
+			email: user?.email ?? '',
+			password: '',
+		});
 		setIsDataChanged(false);
 	};
 
 	useEffect(() => {
-		setValue({ name: user.name, email: user.email, password: '' });
-	}, [user]);
+		setValue({
+			name: user?.name ?? '',
+			email: user?.email ?? '',
+			password: '',
+		});
+	}, [user?.name, user?.email]);
 
 	return (
 		<div className={`${styles.form}`}>
@@ -74,7 +87,7 @@ export const Profile = (): ReactNode => {
 					type='text'
 					placeholder='Имя'
 					name='name'
-					value={form.name}
+					value={form?.name ?? ''}
 					onChange={onChange}
 					extraClass={'mb-6'}
 					icon={'EditIcon'}
@@ -84,7 +97,7 @@ export const Profile = (): ReactNode => {
 					type='email'
 					placeholder='Логин'
 					name='email'
-					value={form.email}
+					value={form?.email ?? ''}
 					onChange={onChange}
 					extraClass={'mb-6'}
 					icon={'EditIcon'}
