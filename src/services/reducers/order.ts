@@ -5,13 +5,13 @@ import {
 	TOrderActions,
 } from '@services/actions/order';
 
-interface IOrderState {
+export interface IOrderState {
 	name: string;
 	number: number;
 	order?: string;
 }
 
-const orderInitialState: IOrderState = {
+export const orderInitialState: IOrderState = {
 	name: '',
 	number: 0,
 };

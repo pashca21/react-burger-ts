@@ -50,6 +50,8 @@ export const ForgotPasswordPage = () => {
 						errorText={'Введите корректный e-mail'}
 						required={true}
 						autoComplete={'email'}
+						onPointerEnterCapture={undefined}
+						onPointerLeaveCapture={undefined}
 					/>
 					<Button
 						type='primary'

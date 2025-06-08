@@ -19,13 +19,18 @@
 		"allowJs": true /* Allow JavaScript files to be compiled. Useful when migrating from JS to TS */,
 		// "checkJs": true /* Report errors in .js files. Works in tandem with allowJs. */,
 		"plugins": [{ "name": "typescript-plugin-css-modules" }],
+		"baseUrl": "src",
 		"paths": {
-			"@pages/*": ["./src/pages/*"],
-			"@components/*": ["./src/components/*"],
-			"@services/*": ["./src/services/*"],
-			"@utils/*": ["./src/utils/*"]
+			"@pages/*": ["pages/*"],
+			"@components/*": ["components/*"],
+			"@services/*": ["services/*"],
+			"@utils/*": ["utils/*"],
 		}
 	},
 	"outDir": "./dist/",
-	"include": ["src/**/*"]
+	"include": [
+		"src/**/*",
+		"node_modules/cypress/types/mocha/index.d.ts",
+		"node_modules/cypress/types/cypress-expect.d.ts"
+	]
 }

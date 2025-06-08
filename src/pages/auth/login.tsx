@@ -49,6 +49,8 @@ export const LoginPage = () => {
 						extraClass={'mb-6'}
 						required={true}
 						autoComplete={'email'}
+						onPointerEnterCapture={undefined}
+						onPointerLeaveCapture={undefined}
 					/>
 					<Input
 						type='password'
@@ -60,6 +62,8 @@ export const LoginPage = () => {
 						icon={'ShowIcon'}
 						required={true}
 						autoComplete={'current-password'}
+						onPointerEnterCapture={undefined}
+						onPointerLeaveCapture={undefined}
 					/>
 					<Button
 						type='primary'

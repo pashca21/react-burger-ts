@@ -51,6 +51,8 @@ export const ResetPasswordPage = () => {
 						icon={'ShowIcon'}
 						required={true}
 						autoComplete={'new-password'}
+						onPointerEnterCapture={undefined}
+						onPointerLeaveCapture={undefined}
 					/>
 					<Input
 						type='text'
@@ -60,6 +62,8 @@ export const ResetPasswordPage = () => {
 						onChange={onChange}
 						extraClass={'mb-6'}
 						required={true}
+						onPointerEnterCapture={undefined}
+						onPointerLeaveCapture={undefined}
 					/>
 					<Button
 						type='primary'

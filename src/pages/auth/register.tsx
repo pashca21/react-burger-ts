@@ -47,6 +47,8 @@ export const RegisterPage = () => {
 						extraClass={'mb-6'}
 						required={true}
 						autoComplete={'name'}
+						onPointerEnterCapture={undefined}
+						onPointerLeaveCapture={undefined}
 					/>
 					<Input
 						type='email'
@@ -57,6 +59,8 @@ export const RegisterPage = () => {
 						extraClass={'mb-6'}
 						required={true}
 						autoComplete={'email'}
+						onPointerEnterCapture={undefined}
+						onPointerLeaveCapture={undefined}
 					/>
 					<Input
 						type='password'
@@ -68,6 +72,8 @@ export const RegisterPage = () => {
 						icon={'ShowIcon'}
 						required={true}
 						autoComplete={'new-password'}
+						onPointerEnterCapture={undefined}
+						onPointerLeaveCapture={undefined}
 					/>
 					<Button
 						type='primary'

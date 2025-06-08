@@ -16,7 +16,7 @@ const feedOrderInitialState: TFeedOrderState = {
 export const feedOrderReducer = (
 	state: TFeedOrderState = feedOrderInitialState,
 	action: TFeedOrderActions
-) => {
+): TFeedOrderState => {
 	switch (action.type) {
 		case VIEW_FEED_ORDER: {
 			return {

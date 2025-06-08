@@ -92,6 +92,8 @@ export const Profile = () => {
 					extraClass={'mb-6'}
 					icon={'EditIcon'}
 					autoComplete={'name'}
+					onPointerEnterCapture={undefined}
+					onPointerLeaveCapture={undefined}
 				/>
 				<Input
 					type='email'
@@ -102,6 +104,8 @@ export const Profile = () => {
 					extraClass={'mb-6'}
 					icon={'EditIcon'}
 					autoComplete={'email'}
+					onPointerEnterCapture={undefined}
+					onPointerLeaveCapture={undefined}
 				/>
 				<Input
 					type='password'
@@ -112,6 +116,8 @@ export const Profile = () => {
 					extraClass={'mb-6'}
 					icon={'EditIcon'}
 					autoComplete={'current-password'}
+					onPointerEnterCapture={undefined}
+					onPointerLeaveCapture={undefined}
 				/>
 				{isDataChanged && (
 					<div className={stylesCommon.row_between}>

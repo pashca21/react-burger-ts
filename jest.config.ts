@@ -12,4 +12,8 @@ export default {
 	globals: {
 		fetch: global.fetch,
 	},
+	testPathIgnorePatterns: [
+		'/node_modules/',
+		'/cypress/'      // игнорировать все тесты в папке cypress
+	]
 };
