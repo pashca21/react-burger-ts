@@ -47,6 +47,7 @@ export const LoginPage = () => {
 						extraClass={'mb-6'}
 						required={true}
 						autoComplete={'email'}
+						data-test="email-input"
 						onPointerEnterCapture={undefined}
 						onPointerLeaveCapture={undefined}
 					/>
@@ -60,6 +61,7 @@ export const LoginPage = () => {
 						icon={'ShowIcon'}
 						required={true}
 						autoComplete={'current-password'}
+						data-test="password-input"
 						onPointerEnterCapture={undefined}
 						onPointerLeaveCapture={undefined}
 					/>
@@ -68,7 +70,8 @@ export const LoginPage = () => {
 						htmlType='button'
 						onClick={onClick}
 						extraClass={'mb-20'}
-						size='large'>
+						size='large'
+						data-test="login-button">
 						Войти
 					</Button>
 				</form>

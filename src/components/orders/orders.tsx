@@ -33,6 +33,9 @@ export const Orders = () => {
 		return <p>Загрузка заказов...</p>;
 	}
 
+	// sort orders by date in descending order
+	ordersUser.orders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
 	return (
 		<div className={`${styles.form}`}>
 			{ordersUser?.orders.map((order) => (

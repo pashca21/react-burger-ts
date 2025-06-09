@@ -65,6 +65,15 @@ export const BurgerIngredient = (props: { ingredient: IIngredient }) => {
 		}
 	}, [searchParams, props.ingredient._id, handleIngredientClick]);
 
+	let dataTest = '';
+	if (props.ingredient.type === 'bun') {
+		dataTest = 'bun';
+	} else if (props.ingredient.type === 'sauce') {
+		dataTest = 'sauce';
+	} else if (props.ingredient.type === 'main') {
+		dataTest = 'main';
+	}
+
 	return (
 		<>
 			<div className={styles.ingredient} onClick={handleIngredientClick}>
@@ -77,6 +86,7 @@ export const BurgerIngredient = (props: { ingredient: IIngredient }) => {
 					ref={dragRef}
 					src={props.ingredient.image}
 					alt={props.ingredient.name}
+					data-test={dataTest}
 				/>
 				<div className={styles.price}>
 					<p className='text text_type_digits-default'>

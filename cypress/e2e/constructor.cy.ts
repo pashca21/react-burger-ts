@@ -1,14 +1,90 @@
+/// <reference types="cypress" />
+
 describe('Constructor', () => {
-	it('should add a bun', () => {
+
+	it('should open Constructor', () => {
 		cy.visit('/');
+		cy.contains('Соберите бургер');
+		cy.contains('Булки');
+		cy.contains('Соусы');
+		cy.contains('Начинки');
+		cy.contains('булка');
 	});
 
-	it('should add an ingredient', () => {
+	it('should D&D a bun', () => {
+		cy.visit('/');
+		cy.get('[data-test="bun"]').first().trigger('dragstart');
+		cy.get('[data-test="constructor-drop-target"]').trigger('drop');
+		cy.get('[data-test="constructor-bun"]').should('exist');
 	});
 
-	it('should remove an ingredient', () => {
+	it('should create an order', () => {
+		cy.visit('/');
+
+		// @ts-ignore
+		cy.intercept('POST', '/api/auth/login', {
+			statusCode: 200,
+			body: {
+				success: true,
+				accessToken: 'mock-token',
+				refreshToken: 'mock-refresh',
+				user: { email: 'test@example.com', name: 'Test User' },
+			},
+		});
+
+		// @ts-ignore
+		cy.intercept('GET', '/api/auth/user', {
+			statusCode: 200,
+			body: { success: true, user: { email: 'test@example.com', name: 'Test User' } },
+		});
+
+		// @ts-ignore
+		cy.intercept('POST', '/api/auth/token', {
+			statusCode: 200,
+			body: { success: true, accessToken: 'mock-token', refreshToken: 'mock-refresh' },
+		});
+
+		cy.window().then((win: Window) => {
+			win.localStorage.setItem('accessToken', 'mock-token');
+			cy.setCookie('refreshToken', 'mock-refresh');
+		});
+
+		cy.visit('/login');
+		cy.get('[data-test="email-input"]').type('test@example.com');
+		cy.get('[data-test="password-input"]').type('password123');
+		cy.get('[data-test="login-button"]').click();
+
+		cy.visit('/profile');
+		cy.contains('История заказов').should('exist');
+
+		cy.visit('/');
+
+		cy.get('[data-test="bun"]').first().trigger('dragstart');
+		cy.get('[data-test="constructor-drop-target"]').trigger('drop');
+
+		cy.get('[data-test="main"]').first().trigger('dragstart');
+		cy.get('[data-test="constructor-drop-target"]').trigger('drop');
+
+		cy.get('[data-test="sauce"]').first().trigger('dragstart');
+		cy.get('[data-test="constructor-drop-target"]').trigger('drop');
+
+		// @ts-ignore
+		cy.intercept('POST', '/api/orders', {
+			statusCode: 200,
+			body: { success: true, name: 'Бургер', order: { number: 12345 } },
+		});
+
+		cy.contains('Оформить заказ').should('exist');
+
+		cy.get('[data-test="create-order-button"]').click();
+
+		cy.contains('Создаем ваш заказ...').should('exist');
 	});
 
-	it('should move an ingredient', () => {
+	it('should open an ingredient modal', () => {
+		cy.visit('/');
+		cy.get('[data-test="main"]').first().click();
+		cy.contains('Детали ингредиента');
 	});
+
 });
