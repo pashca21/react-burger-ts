@@ -1,15 +1,16 @@
-import { feedOrderReducer } from './feed-order';
-import { VIEW_FEED_ORDER, CLOSE_FEED_ORDER } from '@services/actions/feed-order';
-import type { IOrder } from '@utils/types';
-import type { TFeedOrderState } from './feed-order';
+import {
+	VIEW_FEED_ORDER,
+	CLOSE_FEED_ORDER,
+	TFeedOrderActions
+} from '@services/actions/feed-order';
+import { feedOrderReducer, feedOrderInitialState } from './feed-order';
+import { IOrder } from '@utils/types';
 
 describe('feed order reducer', () => {
-	const initialState: TFeedOrderState = {
-		order: null,
-	};
-
 	it('should return the initial state', () => {
-		expect(feedOrderReducer(undefined, {} as any)).toEqual(initialState);
+		expect(
+			feedOrderReducer(undefined, {} as TFeedOrderActions)
+		).toEqual(feedOrderInitialState);
 	});
 
 	it('should handle VIEW_FEED_ORDER', () => {
@@ -20,7 +21,10 @@ describe('feed order reducer', () => {
 			number: 123,
 			createdAt: new Date().toISOString(),
 			updatedAt: new Date().toISOString(),
-			ingredients: [],
+			ingredients: ['ingredient1', 'ingredient2'],
+		};
+		const initialState = {
+			order: null,
 		};
 		expect(
 			feedOrderReducer(initialState, {

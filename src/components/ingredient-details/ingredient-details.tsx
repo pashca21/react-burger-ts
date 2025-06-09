@@ -1,5 +1,5 @@
 import styles from './ingredient-details.module.css';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppSelector } from '@hooks';
 import { TRootState } from '@utils/types';
 
 export const IngredientDetails = () => {

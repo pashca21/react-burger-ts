@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
 	Input,
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './login.module.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import stylesCommon from '@styles/common.module.css';
+import { useAppDispatch, useAppSelector } from '@hooks';
 import { forgotPassword } from '@services/actions/password';
-import { useAppSelector } from '../../hooks/useAppSelector';
 import { TRootState } from '@utils/types';
 
 export const ForgotPasswordPage = () => {
@@ -34,12 +33,12 @@ export const ForgotPasswordPage = () => {
 	};
 
 	return (
-		<div className={`${styles.container}`}>
-			<div className={`${styles.form}`}>
+		<div className={`${stylesCommon.container}`}>
+			<div className={`${stylesCommon.form}`}>
 				<h1 className={'mb-6 text text_type_main-large'}>
 					Восстановление пароля
 				</h1>
-				<form className={`${styles.form}`}>
+				<form className={`${stylesCommon.form}`}>
 					<Input
 						type='email'
 						placeholder='Укажите e-mail'
@@ -62,7 +61,7 @@ export const ForgotPasswordPage = () => {
 						Восстановить
 					</Button>
 				</form>
-				<div className={`${styles.row}`}>
+				<div className={`${stylesCommon.row}`}>
 					<p className='text text_type_main-default text_color_inactive'>
 						Вспомнили пароль?
 					</p>

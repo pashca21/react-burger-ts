@@ -1,8 +1,7 @@
+import { useEffect } from 'react';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './order-details.module.css';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { useEffect } from 'react';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppDispatch, useAppSelector } from '@hooks';
 import { CLEAR_ORDER } from '@services/actions/order';
 import { TRootState } from '@utils/types';
 

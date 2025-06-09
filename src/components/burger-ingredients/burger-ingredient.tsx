@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { useDrag } from 'react-dnd';
 import {
 	CurrencyIcon,
 	Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredient.module.css';
-import { useModal } from '../../hooks/useModal';
 import { Modal } from '@components/modal/modal';
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { IIngredient, TRootState } from '@utils/types';
@@ -11,11 +13,7 @@ import {
 	CLOSE_INGREDIENT,
 	VIEW_INGREDIENT,
 } from '@services/actions/ingredient';
-import { useDrag } from 'react-dnd';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { useSearchParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector, useModal } from '@hooks';
 
 export const BurgerIngredient = (props: { ingredient: IIngredient }) => {
 	const dispatch = useAppDispatch();

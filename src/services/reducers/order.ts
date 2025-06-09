@@ -1,25 +1,26 @@
 import {
-	CLEAR_ORDER,
 	CREATE_ORDER_SUCCESS,
 	VIEW_ORDER,
+	CLEAR_ORDER,
 	TOrderActions,
 } from '@services/actions/order';
+import { IOrder } from '@utils/types';
 
-export interface IOrderState {
+export type TOrderState = {
 	name: string;
 	number: number;
-	order?: string;
+	order?: IOrder;
 }
 
-export const orderInitialState: IOrderState = {
+export const orderInitialState: TOrderState = {
 	name: '',
 	number: 0,
 };
 
 export const orderReducer = (
-	state: IOrderState = orderInitialState,
+	state: TOrderState = orderInitialState,
 	action: TOrderActions
-) => {
+): TOrderState => {
 	switch (action.type) {
 		case VIEW_ORDER: {
 			return {

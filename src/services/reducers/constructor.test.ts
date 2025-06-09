@@ -1,15 +1,18 @@
-import { constructorReducer } from './constructor';
 import {
 	ADD_BUN,
 	ADD_INGREDIENT,
-	REMOVE_INGREDIENT,
 	MOVE_INGREDIENT,
+	REMOVE_INGREDIENT,
 	CLEAR_CONSTRUCTOR,
-} from '../actions/constructor';
-import { TConstructorState, constructorInitialState } from './constructor';
+	TConstructorActions,
+} from '@services/actions/constructor';
+import {
+	constructorReducer,
+	constructorInitialState,
+} from '@services/reducers/constructor';
 import { IIngredient } from '@utils/types';
 
-describe('constructorReducer', () => {
+describe('constructor reducer', () => {
 	const bun: IIngredient = {
 		_id: '1',
 		name: 'test bun',
@@ -41,7 +44,9 @@ describe('constructorReducer', () => {
 	};
 
 	it('should return the initial state', () => {
-		expect(constructorReducer(undefined, {} as any)).toEqual(
+		expect(
+			constructorReducer(undefined, {} as TConstructorActions)
+		).toEqual(
 			constructorInitialState
 		);
 	});
@@ -79,12 +84,12 @@ describe('constructorReducer', () => {
 	});
 
 	it('should remove an ingredient', () => {
-		const state = {
+		const initialState = {
 			...constructorInitialState,
-			ingredients: [{ ingredient, uniqueId: '' }],
+			ingredients: [{ ...ingredient, uniqueId: '' }],
 		};
 		expect(
-			constructorReducer(constructorInitialState, {
+			constructorReducer(initialState, {
 				type: REMOVE_INGREDIENT,
 				index: 0,
 			})
@@ -92,7 +97,7 @@ describe('constructorReducer', () => {
 	});
 
 	it('should move ingredients', () => {
-		const state = {
+		const initialState = {
 			...constructorInitialState,
 			ingredients: [
 				ingredient,
@@ -100,7 +105,7 @@ describe('constructorReducer', () => {
 			],
 		};
 		expect(
-			constructorReducer(state, {
+			constructorReducer(initialState, {
 				type: MOVE_INGREDIENT,
 				dragIndex: 0,
 				hoverIndex: 1,
@@ -108,20 +113,20 @@ describe('constructorReducer', () => {
 		).toEqual({
 			...constructorInitialState,
 			ingredients: [
-				ingredient,
 				bun,
+				ingredient,
 			],
 		});
 	});
 
 	it('should clear the constructor', () => {
-		const state = {
+		const initialState = {
 			...constructorInitialState,
 			bun: bun,
-			ingredients: [{ ingredient: ingredient, uniqueId: '' }],
+			ingredients: [{ ...ingredient, uniqueId: '' }],
 		};
 		expect(
-			constructorReducer(state, {
+			constructorReducer(initialState, {
 				type: CLEAR_CONSTRUCTOR,
 			})
 		).toEqual(constructorInitialState);

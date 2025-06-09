@@ -6,7 +6,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IIngredient, TRootState } from '@utils/types';
 import styles from './burger-constructor.module.css';
-import { useModal } from '../../hooks/useModal';
+import { useAppDispatch, useAppSelector, useModal } from '@hooks';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDrop } from 'react-dnd';
 import {
 	ADD_BUN,
@@ -17,9 +18,6 @@ import { createOrder, VIEW_ORDER } from '@services/actions/order';
 import { ConstructorBunTop } from '@components/burger-constructor/constructor-bun-top';
 import { ConstructorBunBottom } from '@components/burger-constructor/constructor-bun-bottom';
 import { ConstructorIngredient } from '@components/burger-constructor/constructor-ingredient';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor = () => {
 	const dispatch = useAppDispatch();

@@ -7,14 +7,14 @@ import {
 } from '@services/actions/websocket';
 import type { IOrders, TWSActions } from '@utils/types';
 
-type TWSState = {
+export type TWSState = {
 	wsConnected: boolean;
 	ordersAll?: IOrders;
 	ordersUser?: IOrders;
 	error?: Event;
 };
 
-const websocketInitialState: TWSState = {
+export const websocketInitialState: TWSState = {
 	wsConnected: false,
 	ordersAll: undefined,
 	ordersUser: undefined,
@@ -24,7 +24,7 @@ const websocketInitialState: TWSState = {
 export const websocketReducer = (
 	state: TWSState = websocketInitialState,
 	action: TWSActions
-) => {
+): TWSState => {
 	switch (action.type) {
 		case WS_CONNECTION_SUCCESS:
 			return {

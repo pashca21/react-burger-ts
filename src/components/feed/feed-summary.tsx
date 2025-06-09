@@ -1,6 +1,6 @@
-import styles from './feed-summary.module.css';
 import React from 'react';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import styles from './feed-summary.module.css';
+import { useAppSelector } from '@hooks';
 import { IOrder, TRootState } from '@utils/types';
 
 export const FeedSummary = () => {

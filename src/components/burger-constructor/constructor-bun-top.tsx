@@ -1,5 +1,5 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppSelector } from '@hooks';
 import { TRootState } from '@utils/types';
 
 export const ConstructorBunTop = () => {

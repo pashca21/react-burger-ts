@@ -1,7 +1,6 @@
-import { createOrderRequest } from '../api';
+import { createOrderRequest } from '@services/api';
 import { CLEAR_CONSTRUCTOR } from '@services/actions/constructor';
-import { AppDispatch } from '../../index';
-import { AppThunk, IOrder } from '@utils/types';
+import { TAppDispatch, TAppThunk, IOrder } from '@utils/types';
 
 export const VIEW_ORDER = 'VIEW_ORDER' as const;
 export const CREATE_ORDER_REQUEST = 'CREATE_ORDER_REQUEST' as const;
@@ -44,8 +43,8 @@ export type TOrderActions =
 export const createOrder = (
 	ingredients_ids: string[],
 	accessToken: string
-): AppThunk => {
-	return function (dispatch: AppDispatch) {
+): TAppThunk => {
+	return function (dispatch: TAppDispatch) {
 		dispatch({
 			type: CREATE_ORDER_REQUEST,
 		});

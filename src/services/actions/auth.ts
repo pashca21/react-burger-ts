@@ -7,9 +7,7 @@ import {
 	postUpdateAccessTokenRequest,
 } from '@services/api';
 import Cookies from 'js-cookie';
-
-import { AppDispatch } from '../../index';
-import { AppThunk } from '@utils/types';
+import { TAppDispatch, TAppThunk } from '@utils/types';
 
 export const REGISTER_REQUEST = 'REGISTER_REQUEST' as const;
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS' as const;
@@ -148,8 +146,8 @@ export const register = (
 	name: string,
 	email: string,
 	password: string
-): AppThunk => {
-	return function (dispatch: AppDispatch) {
+): TAppThunk => {
+	return function (dispatch: TAppDispatch) {
 		dispatch({
 			type: REGISTER_REQUEST,
 		});
@@ -178,8 +176,8 @@ export const register = (
 	};
 };
 
-export const login = (email: string, password: string): AppThunk => {
-	return function (dispatch: AppDispatch) {
+export const login = (email: string, password: string): TAppThunk => {
+	return function (dispatch: TAppDispatch) {
 		dispatch({
 			type: LOGIN_REQUEST,
 		});
@@ -213,8 +211,8 @@ export const login = (email: string, password: string): AppThunk => {
 	};
 };
 
-export const logout = (refreshToken: string): AppThunk => {
-	return function (dispatch: AppDispatch) {
+export const logout = (refreshToken: string): TAppThunk => {
+	return function (dispatch: TAppDispatch) {
 		dispatch({
 			type: LOGOUT_REQUEST,
 		});
@@ -242,8 +240,8 @@ export const logout = (refreshToken: string): AppThunk => {
 
 export const updateAccessToken = (
 	refreshToken: string
-): ((dispatch: AppDispatch) => void) => {
-	return function (dispatch: AppDispatch) {
+): ((dispatch: TAppDispatch) => void) => {
+	return function (dispatch: TAppDispatch) {
 		dispatch({
 			type: UPDATE_ACCESS_TOKEN_REQUEST,
 		});
@@ -277,8 +275,8 @@ export const updateAccessToken = (
 export const getUser = (
 	accessToken: string,
 	refreshToken: string
-): AppThunk => {
-	return function (dispatch: AppDispatch) {
+): TAppThunk => {
+	return function (dispatch: TAppDispatch) {
 		dispatch({
 			type: GET_USER_REQUEST,
 		});
@@ -318,8 +316,8 @@ export const updateUser = (
 	name: string,
 	email: string,
 	password: string
-): AppThunk => {
-	return function (dispatch: AppDispatch) {
+): TAppThunk => {
+	return function (dispatch: TAppDispatch) {
 		dispatch({
 			type: UPDATE_USER_REQUEST,
 		});

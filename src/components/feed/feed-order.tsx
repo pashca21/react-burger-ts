@@ -1,23 +1,21 @@
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './feed.module.css';
-import stylesCommon from '../../styles/common.module.css';
+import stylesCommon from '@styles/common.module.css';
 import { IOrder, TRootState } from '@utils/types';
 import {
 	getOrderPrice,
 	getOrderStatusText,
 	modifyDateTimeToReadable,
 } from '@utils/functions';
-import { useAppSelector } from '../../hooks/useAppSelector';
 import {
 	VIEW_FEED_ORDER,
 	CLOSE_FEED_ORDER,
 } from '@services/actions/feed-order';
 import { Modal } from '@components/modal/modal';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useModal } from '../../hooks/useModal';
+import { useAppDispatch, useAppSelector, useModal } from '@hooks';
 import { FeedOrderDetails } from '@components/feed-order/feed-order';
-import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
 
 export const FeedOrder = (props: { order: IOrder }) => {
 	const dispatch = useAppDispatch();

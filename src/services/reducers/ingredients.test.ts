@@ -2,13 +2,15 @@ import {
 	GET_INGREDIENTS_REQUEST,
 	GET_INGREDIENTS_SUCCESS,
 	GET_INGREDIENTS_FAILED,
+	TIngredientsActions,
 } from '@services/actions/ingredients';
 import { ingredientsReducer, ingredientsInitialState } from './ingredients';
 import { IIngredient } from '@utils/types';
 
 describe('ingredients reducer', () => {
 	it('should return the initial state', () => {
-		expect(ingredientsReducer(undefined, {} as any)).toEqual(
+		expect(ingredientsReducer(undefined, {} as TIngredientsActions)
+		).toEqual(
 			ingredientsInitialState
 		);
 	});

@@ -2,9 +2,9 @@ import {
 	GET_INGREDIENTS_REQUEST,
 	GET_INGREDIENTS_SUCCESS,
 	GET_INGREDIENTS_FAILED,
+	TIngredientsActions,
 } from '@services/actions/ingredients';
 import type { IIngredient } from '@utils/types';
-import type { TIngredientsActions } from '@services/actions/ingredients';
 
 export type TIngredientsState = {
 	ingredients: Array<IIngredient>;

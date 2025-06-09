@@ -9,7 +9,7 @@ export type TFeedOrderState = {
 	order: IOrder | null;
 };
 
-const feedOrderInitialState: TFeedOrderState = {
+export  const feedOrderInitialState: TFeedOrderState = {
 	order: null,
 };
 

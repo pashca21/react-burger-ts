@@ -23,7 +23,7 @@ export const constructorInitialState: TConstructorState = {
 export const constructorReducer = (
 	state: TConstructorState = constructorInitialState,
 	action: TConstructorActions
-) => {
+): TConstructorState => {
 	switch (action.type) {
 		case ADD_BUN: {
 			return {

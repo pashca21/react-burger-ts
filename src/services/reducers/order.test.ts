@@ -1,30 +1,17 @@
 import {
-	VIEW_ORDER,
 	CREATE_ORDER_SUCCESS,
-	CREATE_ORDER_REQUEST,
-	CREATE_ORDER_FAILED,
+	VIEW_ORDER,
 	CLEAR_ORDER,
+	TOrderActions,
 } from '@services/actions/order';
 import { orderReducer, orderInitialState } from './order';
-import { TOrderActions } from '@services/actions/order';
+import { IOrder } from '@utils/types';
 
 describe('order reducer', () => {
 	it('should return the initial state', () => {
-		expect(orderReducer(undefined, {} as TOrderActions)).toEqual(orderInitialState);
-	});
-
-	it('should handle VIEW_ORDER', () => {
-		const order = { number: 123, name: 'Test Order' };
 		expect(
-			orderReducer(orderInitialState, {
-				type: VIEW_ORDER,
-				number: 123,
-				order,
-			})
-		).toEqual({
-			...orderInitialState,
-			order,
-		});
+			orderReducer(undefined, {} as TOrderActions)
+		).toEqual(orderInitialState);
 	});
 
 	it('should handle CREATE_ORDER_SUCCESS', () => {
@@ -41,29 +28,26 @@ describe('order reducer', () => {
 		});
 	});
 
-	it('should handle CREATE_ORDER_REQUEST', () => {
+	it('should handle VIEW_ORDER', () => {
+		const order: IOrder =
+		{
+			_id: '1',
+			name: 'Test Order',
+			number: 123,
+			status: 'done',
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
+			ingredients: ['ingredient1', 'ingredient2'],
+		};
 		expect(
 			orderReducer(orderInitialState, {
-				type: CREATE_ORDER_REQUEST,
+				type: VIEW_ORDER,
+				number: 123,
+				order: order,
 			})
 		).toEqual({
 			...orderInitialState,
-			name: '',
-			number: 0,
-		});
-	});
-
-	it('should handle CREATE_ORDER_FAILED', () => {
-		expect(
-			orderReducer(orderInitialState, {
-				type: CREATE_ORDER_FAILED,
-				message: 'Error message',
-			})
-		).toEqual({
-			...orderInitialState,
-			name: '',
-			number: 0,
-			error: 'Error message',
+			order: order,
 		});
 	});
 

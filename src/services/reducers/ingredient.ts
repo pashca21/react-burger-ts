@@ -1,9 +1,9 @@
 import {
 	VIEW_INGREDIENT,
 	CLOSE_INGREDIENT,
+	TIngredientActions,
 } from '@services/actions/ingredient';
 import type { IIngredient } from '@utils/types';
-import type { TIngredientActions } from '@services/actions/ingredient';
 
 export type TIngredientState = {
 	ingredient: IIngredient | null;

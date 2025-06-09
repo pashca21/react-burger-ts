@@ -47,7 +47,7 @@ const enhancer = composeEnhancers(
 	)
 );
 
-const store = createStore(rootReducer, enhancer);
+export const store = createStore(rootReducer, enhancer);
 
 const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
@@ -58,5 +58,3 @@ root.render(
 	</Provider>
 	// </StrictMode>
 );
-
-export type AppDispatch = typeof store.dispatch;

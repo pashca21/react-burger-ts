@@ -6,7 +6,7 @@ import { IIngredient } from '@utils/types';
 import styles from './burger-constructor.module.css';
 import { useDrag, useDrop } from 'react-dnd';
 import { REMOVE_INGREDIENT } from '@services/actions/constructor';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppDispatch } from '@hooks';
 
 export const ConstructorIngredient = ({
 	ingredient,

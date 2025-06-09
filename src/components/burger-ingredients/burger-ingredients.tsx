@@ -3,7 +3,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerIngredient } from '@components/burger-ingredients/burger-ingredient';
 import { IIngredient, TRootState } from '@utils/types';
 import styles from './burger-ingredients.module.css';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppSelector } from '@hooks';
 
 export const BurgerIngredients = () => {
 	const IngredientTypeBun = 'bun';

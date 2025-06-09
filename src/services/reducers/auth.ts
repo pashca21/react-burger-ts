@@ -17,11 +17,11 @@ import {
 	UPDATE_USER_REQUEST,
 	UPDATE_USER_SUCCESS,
 	UPDATE_USER_FAILED,
+	TAuthActions,
 } from '@services/actions/auth';
-import type { TAuthActions } from '@services/actions/auth';
 import { decodeTokenAndGetExp } from '@utils/functions';
 
-type TAuthState = {
+export type TAuthState = {
 	isAuthChecked: boolean;
 	isAuth: boolean;
 	isLoading: boolean;
@@ -35,7 +35,7 @@ type TAuthState = {
 	accessTokenExpiresAt: number;
 };
 
-const authInitialState: TAuthState = {
+export const authInitialState: TAuthState = {
 	isAuthChecked: false,
 	isAuth: false,
 	isLoading: false,
@@ -52,7 +52,7 @@ const authInitialState: TAuthState = {
 export const authReducer = (
 	state: TAuthState = authInitialState,
 	action: TAuthActions
-) => {
+): TAuthState => {
 	switch (action.type) {
 		case REGISTER_REQUEST: {
 			return {

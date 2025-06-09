@@ -2,8 +2,7 @@ import {
 	postForgotPasswordRequest,
 	postResetPasswordRequest,
 } from '@services/api';
-import { AppDispatch } from '../../index';
-import { AppThunk } from '@utils/types';
+import { TAppDispatch, TAppThunk } from '@utils/types';
 
 export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST' as const;
 export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS' as const;
@@ -58,8 +57,8 @@ export type TPasswordActions =
 	| IClearForgotPasswordAction
 	| IClearResetPasswordAction;
 
-export const forgotPassword = (email: string): AppThunk => {
-	return function (dispatch: AppDispatch) {
+export const forgotPassword = (email: string): TAppThunk => {
+	return function (dispatch: TAppDispatch) {
 		dispatch({
 			type: FORGOT_PASSWORD_REQUEST,
 		});
@@ -89,8 +88,8 @@ export const forgotPassword = (email: string): AppThunk => {
 	};
 };
 
-export const resetPassword = (password: string, token: string): AppThunk => {
-	return function (dispatch: AppDispatch) {
+export const resetPassword = (password: string, token: string): TAppThunk => {
+	return function (dispatch: TAppDispatch) {
 		dispatch({
 			type: RESET_PASSWORD_REQUEST,
 		});
