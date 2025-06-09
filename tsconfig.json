@@ -65,12 +65,6 @@
 		"types": [
 			"cypress",
 			"node",
-			"cypress-real-events",
-			"cypress-file-upload",
-			"cypress-axe",
-			"cypress-plugin-tab",
-			"cypress-localstorage-commands",
-			"cypress-mochawesome-reporter"
 		]
 		/* Type declaration files to be included in compilation. */,
 	},
