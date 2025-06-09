@@ -85,6 +85,8 @@ describe('Constructor', () => {
 		cy.visit('/');
 		cy.get('[data-test="main"]').first().click();
 		cy.contains('Детали ингредиента');
+		cy.get('[data-test="modal-close-icon"]').click();
+		cy.get('[data-test="modal"]').should('not.exist');
 	});
 
 });
