@@ -54,9 +54,19 @@ describe('Constructor', () => {
 		cy.get('[data-test="password-input"]').type('password123');
 		cy.get('[data-test="login-button"]').click();
 
+		// @ts-ignore
+		cy.intercept('GET', '/api/auth/user', {
+			statusCode: 200,
+			body: { success: true, user: { email: 'test@example.com', name: 'Test User' } },
+		});
 		cy.visit('/profile');
 		cy.contains('История заказов').should('exist');
 
+		// @ts-ignore
+		cy.intercept('GET', '/api/auth/user', {
+			statusCode: 200,
+			body: { success: true, user: { email: 'test@example.com', name: 'Test User' } },
+		});
 		cy.visit('/');
 
 		cy.get('[data-test="bun"]').first().trigger('dragstart');
@@ -68,17 +78,16 @@ describe('Constructor', () => {
 		cy.get('[data-test="sauce"]').first().trigger('dragstart');
 		cy.get('[data-test="constructor-drop-target"]').trigger('drop');
 
+		cy.contains('Оформить заказ').should('exist');
+
 		// @ts-ignore
 		cy.intercept('POST', '/api/orders', {
 			statusCode: 200,
 			body: { success: true, name: 'Бургер', order: { number: 12345 } },
 		});
-
-		cy.contains('Оформить заказ').should('exist');
-
 		cy.get('[data-test="create-order-button"]').click();
 
-		cy.contains('Создаем ваш заказ...').should('exist');
+		cy.contains('Детали заказа').should('exist');
 	});
 
 	it('should open an ingredient modal', () => {
