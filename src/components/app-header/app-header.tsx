@@ -27,6 +27,7 @@ export const AppHeader = () => {
 		<header className={styles.header}>
 			<div className={styles.left_buttons}>
 				<Button
+					data-test="header-constructor-button"
 					htmlType='button'
 					onClick={handleHomeLink}
 					type='secondary'
