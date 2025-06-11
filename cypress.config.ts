@@ -1,12 +1,12 @@
 import { defineConfig } from "cypress";
 
 export default defineConfig({
-	projectId: "react-burger",
-
 	e2e: {
 		baseUrl: 'http://localhost:3000',
 		setupNodeEvents(on, config) {
 			// implement node event listeners here
 		},
 	},
+
+	projectId: 'r5cuiq',
 });
