@@ -1,14 +1,12 @@
 import React from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
 	Input,
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './login.module.css';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { login } from '@services/actions/auth';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useForm } from '../../hooks/useForm';
+import stylesCommon from '@styles/common.module.css';
+import { useAppSelector, useAppDispatch, useForm } from '@hooks';
+import { login } from '@services/actions/auth'
 import { TRootState } from '@utils/types';
 
 export const LoginPage = () => {
@@ -36,10 +34,10 @@ export const LoginPage = () => {
 	};
 
 	return (
-		<div className={`${styles.container}`}>
-			<div className={`${styles.form}`}>
+		<div className={`${stylesCommon.container}`}>
+			<div className={`${stylesCommon.form}`}>
 				<h1 className={'mb-6 text text_type_main-large'}>Вход</h1>
-				<form className={`${styles.form}`}>
+				<form className={`${stylesCommon.form}`}>
 					<Input
 						type='email'
 						placeholder='E-mail'
@@ -49,6 +47,9 @@ export const LoginPage = () => {
 						extraClass={'mb-6'}
 						required={true}
 						autoComplete={'email'}
+						data-test="email-input"
+						onPointerEnterCapture={undefined}
+						onPointerLeaveCapture={undefined}
 					/>
 					<Input
 						type='password'
@@ -60,17 +61,21 @@ export const LoginPage = () => {
 						icon={'ShowIcon'}
 						required={true}
 						autoComplete={'current-password'}
+						data-test="password-input"
+						onPointerEnterCapture={undefined}
+						onPointerLeaveCapture={undefined}
 					/>
 					<Button
 						type='primary'
 						htmlType='button'
 						onClick={onClick}
 						extraClass={'mb-20'}
-						size='large'>
+						size='large'
+						data-test="login-button">
 						Войти
 					</Button>
 				</form>
-				<div className={`${styles.row} mb-4`}>
+				<div className={`${stylesCommon.row} mb-4`}>
 					<p className='text text_type_main-default text_color_inactive'>
 						Вы - новый пользователь?
 					</p>
@@ -78,7 +83,7 @@ export const LoginPage = () => {
 						Зарегистрироваться
 					</Link>
 				</div>
-				<div className={`${styles.row}`}>
+				<div className={`${stylesCommon.row}`}>
 					<p className='text text_type_main-default text_color_inactive'>
 						Забыли пароль?
 					</p>

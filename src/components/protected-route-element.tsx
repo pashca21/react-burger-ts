@@ -1,8 +1,7 @@
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '../hooks/useAppSelector';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { useAppDispatch } from '../hooks/useAppDispatch';
+import { useAppDispatch, useAppSelector } from '@hooks';
 import { getUser, updateAccessToken } from '@services/actions/auth';
 import { TRootState } from '@utils/types';
 

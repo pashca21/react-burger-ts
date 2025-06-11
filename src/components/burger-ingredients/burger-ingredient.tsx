@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { useDrag } from 'react-dnd';
 import {
 	CurrencyIcon,
 	Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredient.module.css';
-import { useModal } from '../../hooks/useModal';
 import { Modal } from '@components/modal/modal';
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { IIngredient, TRootState } from '@utils/types';
@@ -11,11 +13,7 @@ import {
 	CLOSE_INGREDIENT,
 	VIEW_INGREDIENT,
 } from '@services/actions/ingredient';
-import { useDrag } from 'react-dnd';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { useSearchParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector, useModal } from '@hooks';
 
 export const BurgerIngredient = (props: { ingredient: IIngredient }) => {
 	const dispatch = useAppDispatch();
@@ -67,6 +65,15 @@ export const BurgerIngredient = (props: { ingredient: IIngredient }) => {
 		}
 	}, [searchParams, props.ingredient._id, handleIngredientClick]);
 
+	let dataTest = '';
+	if (props.ingredient.type === 'bun') {
+		dataTest = 'bun';
+	} else if (props.ingredient.type === 'sauce') {
+		dataTest = 'sauce';
+	} else if (props.ingredient.type === 'main') {
+		dataTest = 'main';
+	}
+
 	return (
 		<>
 			<div className={styles.ingredient} onClick={handleIngredientClick}>
@@ -79,6 +86,7 @@ export const BurgerIngredient = (props: { ingredient: IIngredient }) => {
 					ref={dragRef}
 					src={props.ingredient.image}
 					alt={props.ingredient.name}
+					data-test={dataTest}
 				/>
 				<div className={styles.price}>
 					<p className='text text_type_digits-default'>

@@ -1,13 +1,12 @@
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '@pages/profile/profile.module.css';
 import {
 	Button,
 	Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import stylesCommon from '../../styles/common.module.css';
-import React, { useEffect, useState } from 'react';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import stylesCommon from '@styles/common.module.css';
+import { useAppDispatch, useAppSelector } from '@hooks';
 import { updateUser } from '@services/actions/auth';
 import Cookies from 'js-cookie';
 import { TRootState } from '@utils/types';
@@ -92,6 +91,8 @@ export const Profile = () => {
 					extraClass={'mb-6'}
 					icon={'EditIcon'}
 					autoComplete={'name'}
+					onPointerEnterCapture={undefined}
+					onPointerLeaveCapture={undefined}
 				/>
 				<Input
 					type='email'
@@ -102,6 +103,8 @@ export const Profile = () => {
 					extraClass={'mb-6'}
 					icon={'EditIcon'}
 					autoComplete={'email'}
+					onPointerEnterCapture={undefined}
+					onPointerLeaveCapture={undefined}
 				/>
 				<Input
 					type='password'
@@ -112,6 +115,8 @@ export const Profile = () => {
 					extraClass={'mb-6'}
 					icon={'EditIcon'}
 					autoComplete={'current-password'}
+					onPointerEnterCapture={undefined}
+					onPointerLeaveCapture={undefined}
 				/>
 				{isDataChanged && (
 					<div className={stylesCommon.row_between}>

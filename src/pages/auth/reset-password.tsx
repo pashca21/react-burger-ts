@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
 	Input,
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './login.module.css';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import stylesCommon from '@styles/common.module.css';
+import { useAppDispatch, useAppSelector } from '@hooks';
 import { resetPassword } from '@services/actions/password';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useAppSelector } from '../../hooks/useAppSelector';
 import { TRootState } from '@utils/types';
 
 export const ResetPasswordPage = () => {
@@ -35,12 +34,12 @@ export const ResetPasswordPage = () => {
 	};
 
 	return (
-		<div className={`${styles.container}`}>
-			<div className={`${styles.form}`}>
+		<div className={`${stylesCommon.container}`}>
+			<div className={`${stylesCommon.form}`}>
 				<h1 className={'mb-6 text text_type_main-large'}>
 					Восстановление пароля
 				</h1>
-				<form className={`${styles.form}`}>
+				<form className={`${stylesCommon.form}`}>
 					<Input
 						type='password'
 						placeholder='Введите новый пароль'
@@ -51,6 +50,8 @@ export const ResetPasswordPage = () => {
 						icon={'ShowIcon'}
 						required={true}
 						autoComplete={'new-password'}
+						onPointerEnterCapture={undefined}
+						onPointerLeaveCapture={undefined}
 					/>
 					<Input
 						type='text'
@@ -60,6 +61,8 @@ export const ResetPasswordPage = () => {
 						onChange={onChange}
 						extraClass={'mb-6'}
 						required={true}
+						onPointerEnterCapture={undefined}
+						onPointerLeaveCapture={undefined}
 					/>
 					<Button
 						type='primary'
@@ -70,7 +73,7 @@ export const ResetPasswordPage = () => {
 						Сохранить
 					</Button>
 				</form>
-				<div className={`${styles.row}`}>
+				<div className={`${stylesCommon.row}`}>
 					<p className='text text_type_main-default text_color_inactive'>
 						Вспомнили пароль?
 					</p>

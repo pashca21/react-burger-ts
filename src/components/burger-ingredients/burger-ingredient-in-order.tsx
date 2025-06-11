@@ -1,6 +1,6 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredient.module.css';
-import stylesCommon from '../../styles/common.module.css';
+import stylesCommon from '@styles/common.module.css';
 import { IIngredient } from '@utils/types';
 
 export const BurgerIngredientInOrder = (props: {

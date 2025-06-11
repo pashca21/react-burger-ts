@@ -1,9 +1,8 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { logout } from '@services/actions/auth';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@hooks';
 import { TRootState } from '@utils/types';
 
 export const LogoutPage = () => {

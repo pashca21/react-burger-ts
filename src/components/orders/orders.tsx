@@ -1,13 +1,12 @@
-import styles from '@pages/profile/profile.module.css';
 import React, { useEffect } from 'react';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
 import {
 	WS_CONNECTION_CLOSED,
 	WS_CONNECTION_START,
 } from '@services/actions/websocket';
+import styles from '@pages/profile/profile.module.css';
 import { WEBSOCKET_URL } from '@utils/constants';
 import { TRootState } from '@utils/types';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch, useAppSelector } from '@hooks';
 import { FeedOrder } from '@components/feed/feed-order';
 
 export const Orders = () => {
@@ -33,6 +32,9 @@ export const Orders = () => {
 	if (!ordersUser) {
 		return <p>Загрузка заказов...</p>;
 	}
+
+	// sort orders by date in descending order
+	ordersUser.orders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
 	return (
 		<div className={`${styles.form}`}>

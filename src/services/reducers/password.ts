@@ -8,14 +8,14 @@ export type TPasswordState = {
 	isSent: boolean;
 };
 
-const passwordInitialState = {
+export const passwordInitialState: TPasswordState = {
 	isSent: false,
 };
 
 export const passwordReducer = (
 	state: TPasswordState = passwordInitialState,
 	action: TPasswordActions
-) => {
+): TPasswordState => {
 	switch (action.type) {
 		case FORGOT_PASSWORD_SUCCESS: {
 			return {

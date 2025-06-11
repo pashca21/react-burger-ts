@@ -10,6 +10,10 @@ export default {
 		'^@utils/(.*)$': '<rootDir>/src/utils/$1',
 	},
 	globals: {
-		fetch: global.fetch,
+		fetch: globalThis.fetch,
 	},
+	testPathIgnorePatterns: [
+		'/node_modules/',
+		'/cypress/'      // игнорировать все тесты в папке cypress
+	]
 };

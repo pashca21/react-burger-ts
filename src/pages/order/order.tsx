@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import styles from '../auth/login.module.css';
-import { VIEW_INGREDIENT } from '@services/actions/ingredient';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import stylesCommon from '@styles/common.module.css';
+import { VIEW_INGREDIENT } from '@services/actions/ingredient';
+import { useAppDispatch, useAppSelector } from '@hooks';
 import { IIngredient, TRootState } from '@utils/types';
 import {
 	WS_CONNECTION_CLOSED,
@@ -82,8 +81,8 @@ export const OrderPage = () => {
 	}
 
 	return (
-		<div className={`${styles.container}`}>
-			<div className={`${styles.form}`}>
+		<div className={`${stylesCommon.container}`}>
+			<div className={`${stylesCommon.form}`}>
 				<h1 className={'mb-6 text text_type_main-large'}>
 					Информация о заказе
 				</h1>

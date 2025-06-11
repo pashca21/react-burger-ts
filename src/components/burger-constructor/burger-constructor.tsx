@@ -6,7 +6,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IIngredient, TRootState } from '@utils/types';
 import styles from './burger-constructor.module.css';
-import { useModal } from '../../hooks/useModal';
+import { useAppDispatch, useAppSelector, useModal } from '@hooks';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDrop } from 'react-dnd';
 import {
 	ADD_BUN,
@@ -17,15 +18,12 @@ import { createOrder, VIEW_ORDER } from '@services/actions/order';
 import { ConstructorBunTop } from '@components/burger-constructor/constructor-bun-top';
 import { ConstructorBunBottom } from '@components/burger-constructor/constructor-bun-bottom';
 import { ConstructorIngredient } from '@components/burger-constructor/constructor-ingredient';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { isAuth, accessToken } = useAppSelector(
+	const { accessToken } = useAppSelector(
 		(state: TRootState) => state.auth
 	);
 	const { isModalOpen, openModal, closeModal } = useModal();
@@ -72,7 +70,7 @@ export const BurgerConstructor = () => {
 	}
 
 	const handleCreateOrder = () => {
-		if (!isAuth) {
+		if (!accessToken) {
 			navigate('/login', { state: { from: location } });
 		}
 		const ingredientsIds = constructorIngredients
@@ -81,9 +79,7 @@ export const BurgerConstructor = () => {
 		if (constructorBun && constructorBun._id) {
 			ingredientsIds.unshift(constructorBun._id);
 		}
-		if (accessToken) {
-			dispatch<any>(createOrder(ingredientsIds, accessToken));
-		}
+		dispatch<any>(createOrder(ingredientsIds, accessToken));
 		dispatch({
 			type: VIEW_ORDER,
 			number: 0,
@@ -119,10 +115,14 @@ export const BurgerConstructor = () => {
 
 	return (
 		<div className='pl-4 pr-4'>
-			<div ref={dropTarget} className={`${styles.ingredients} mt-25`}>
-				<ConstructorBunTop />
+			<div ref={dropTarget} className={`${styles.ingredients} mt-25`} data-test="constructor-drop-target">
+				{constructorBun && (
+					<div data-test="constructor-bun"><ConstructorBunTop /></div>
+				)}
 				<div className={styles.ingredient_middle}>{renderIngredients()}</div>
-				<ConstructorBunBottom />
+				{constructorBun && (
+					<div data-test="constructor-bun"><ConstructorBunBottom /></div>
+				)}
 			</div>
 			<div className={`${styles.total} mt-10 mr-8 mb-10`}>
 				<p className='text text_type_digits-medium'>{totalPrice}</p>
@@ -134,7 +134,9 @@ export const BurgerConstructor = () => {
 							type='primary'
 							size='large'
 							htmlType={'button'}
-							onClick={handleCreateOrder}>
+							onClick={handleCreateOrder}
+							data-test="create-order-button"
+						>
 							Оформить заказ
 						</Button>
 					)}

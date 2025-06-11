@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import styles from './feed.module.css';
 import { FeedOrder } from '@components/feed/feed-order';
 import { IOrders, TRootState } from '@utils/types';
-import { useAppSelector } from '../../hooks/useAppSelector';
 import {
 	WS_CONNECTION_START,
 	WS_CONNECTION_CLOSED,
 } from '@services/actions/websocket';
 import { WEBSOCKET_URL } from '@utils/constants';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppDispatch, useAppSelector } from '@hooks';
 import { FeedSummary } from '@components/feed/feed-summary';
-import { useLocation } from 'react-router-dom';
 
 export const FeedPage = () => {
 	const dispatch = useAppDispatch();

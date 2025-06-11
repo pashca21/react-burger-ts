@@ -1,12 +1,12 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './feed-order.module.css';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import stylesCommon from '../../styles/common.module.css';
+import stylesCommon from '@styles/common.module.css';
 import {
 	getOrderPrice,
 	getOrderStatusText,
 	modifyDateTimeToReadable,
 } from '@utils/functions';
+import { useAppSelector } from '@hooks';
 import { IIngredient, IOrder, TRootState } from '@utils/types';
 import { BurgerIngredientInOrder } from '@components/burger-ingredients/burger-ingredient-in-order';
 

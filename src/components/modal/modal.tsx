@@ -24,7 +24,9 @@ export const Modal = ({ children, onClose, title }: IModal) => {
 			<div className={styles.modal} onClick={(e) => e.stopPropagation()}>
 				<div className={styles.modalHeader}>
 					<p className='text text_type_main-medium'>{title}</p>
-					<CloseIcon type='primary' onClick={onClose} />
+					<div data-test="modal-close-icon">
+						<CloseIcon type='primary' onClick={onClose} />
+					</div>
 				</div>
 				{children}
 			</div>

@@ -15,7 +15,7 @@ export type TConstructorState = {
 	ingredients: ReadonlyArray<IIngredient>;
 };
 
-const constructorInitialState: TConstructorState = {
+export const constructorInitialState: TConstructorState = {
 	bun: null,
 	ingredients: [] as IIngredient[],
 };
@@ -23,7 +23,7 @@ const constructorInitialState: TConstructorState = {
 export const constructorReducer = (
 	state: TConstructorState = constructorInitialState,
 	action: TConstructorActions
-) => {
+): TConstructorState => {
 	switch (action.type) {
 		case ADD_BUN: {
 			return {

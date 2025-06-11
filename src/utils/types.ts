@@ -16,6 +16,7 @@ import { TFeedOrderActions } from '@services/actions/feed-order';
 import { TIngredientActions } from '@services/actions/ingredient';
 import { TOrderActions } from '@services/actions/order';
 import { TPasswordActions } from '@services/actions/password';
+import { store } from '../index';
 
 export type TRootState = ReturnType<typeof rootReducer>;
 
@@ -47,7 +48,7 @@ export interface IModalOverlay {
 }
 
 export interface IOrders {
-	success: boolean;
+	success?: boolean;
 	orders: IOrder[];
 	total: number;
 	totalToday: number;
@@ -118,7 +119,9 @@ export type TApplicationActions =
 	| TOrderActions
 	| TPasswordActions;
 
-export type AppThunk<ReturnType = void> = ThunkAction<
+export type TAppDispatch = typeof store.dispatch;
+
+export type TAppThunk<ReturnType = void> = ThunkAction<
 	ReturnType,
 	TRootState,
 	unknown,

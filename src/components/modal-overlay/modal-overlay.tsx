@@ -3,7 +3,7 @@ import { IModalOverlay } from '@utils/types';
 
 export const ModalOverlay = ({ children, onClose }: IModalOverlay) => {
 	return (
-		<div className={styles.modalOverlay} onClick={onClose}>
+		<div data-test="modal" className={styles.modalOverlay} onClick={onClose}>
 			{children}
 		</div>
 	);
